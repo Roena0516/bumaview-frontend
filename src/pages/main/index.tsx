@@ -111,6 +111,11 @@ export const MainPage = () => {
     navigateToPage('signup');
   };
 
+  const handleQuestionClick = (questionId: string | number) => {
+    console.log('질문 클릭:', questionId);
+    navigateToPage('question-answers');
+  };
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.mainContent}>
@@ -208,7 +213,11 @@ export const MainPage = () => {
 
               {/* Questions List */}
               {mockQuestions.map((question) => (
-                <div key={question.id} className={styles.questionItem}>
+                <div
+                  key={question.id}
+                  className={styles.questionItem}
+                  onClick={() => handleQuestionClick(question.id)}
+                >
                   <div className={styles.questionContent}>
                     <div className={styles.questionText}>
                       {question.content}

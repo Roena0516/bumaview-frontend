@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
-type Page = 'main' | 'login' | 'signup' | 'interview-setup' | 'interview' | 'interview-complete';
+type Page = 'main' | 'login' | 'signup' | 'interview-setup' | 'interview' | 'interview-complete' | 'question-answers';
 
 interface NavigationContextType {
   currentPage: Page;

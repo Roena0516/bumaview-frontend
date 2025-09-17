@@ -4,6 +4,7 @@ import { SignupPage } from './pages/signup';
 import { InterviewSetupPage } from './pages/interview-setup';
 import { InterviewPage } from './pages/interview';
 import { InterviewCompletePage } from './pages/interview-complete';
+import { QuestionAnswersPage } from './pages/question-answers';
 import { NavigationProvider, useNavigation } from './shared/context/NavigationContext';
 
 function AppContent() {
@@ -21,6 +22,8 @@ function AppContent() {
         return <InterviewPage />;
       case 'interview-complete':
         return <InterviewCompletePage />;
+      case 'question-answers':
+        return <QuestionAnswersPage />;
       case 'main':
       default:
         return <MainPage />;
