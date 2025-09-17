@@ -116,13 +116,17 @@ export const MainPage = () => {
     navigateToPage('question-answers');
   };
 
+  const handleLogoClick = () => {
+    navigateToPage('main');
+  };
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.mainContent}>
         {/* Header */}
         <div className={styles.header}>
           <div className={styles.headerContent}>
-            <div className={styles.logo}>
+            <div className={styles.logo} onClick={handleLogoClick}>
               <div className={styles.logoText}>
                 <span className="logo-bu">부마</span>
                 <span className="logo-ma">뷰</span>

@@ -38,6 +38,11 @@ export const logo = css`
   gap: 10px;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 export const logoText = css`

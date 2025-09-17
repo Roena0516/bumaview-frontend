@@ -23,6 +23,11 @@ export const logo = css`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 export const logoText = css`
@@ -71,32 +76,20 @@ export const questionSection = css`
 
 export const pageTitleSection = css`
   display: flex;
+  gap: 10px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 100%;
   padding: 4px 0;
 `;
 
-export const backButton = css`
+// 뒤로가기 버튼 컨테이너 (메인 페이지 heroButton과 동일한 스타일)
+export const backButtonContainer = css`
   display: flex;
+  gap: 10px;
+  height: 100%;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  cursor: pointer;
-  color: #1a1515;
-  font-family: 'Pretendard', sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 10px 16px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255, 203, 207, 0.8);
-  height: 40px;
-  transition: all 0.2s ease;
-
-  &:hover {
-    opacity: 0.9;
-  }
+  justify-content: flex-end;
 `;
 
 export const questionInfo = css`
@@ -131,6 +124,7 @@ export const mainContent = css`
 `;
 
 export const pageTitle = css`
+  flex: 1;
   font-family: 'Pretendard', sans-serif;
   font-size: 40px;
   font-weight: 500;
