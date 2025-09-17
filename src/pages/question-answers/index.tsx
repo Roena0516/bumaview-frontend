@@ -1,4 +1,5 @@
 import { useNavigation } from '../../shared/context/NavigationContext';
+import { BackIcon } from '../../shared/components/BackIcon';
 import * as styles from './style';
 
 interface Answer {
@@ -70,6 +71,10 @@ export const QuestionAnswersPage = ({
     navigateToPage('signup');
   };
 
+  const handleBackClick = () => {
+    navigateToPage('main');
+  };
+
   return (
     <div className={styles.questionAnswersContainer}>
       {/* 헤더 */}
@@ -104,7 +109,13 @@ export const QuestionAnswersPage = ({
 
       {/* 메인 콘텐츠 */}
       <div className={styles.mainContent}>
-        <div className={styles.pageTitle}>답변 리스트</div>
+        <div className={styles.pageTitleSection}>
+          <div className={styles.pageTitle}>답변 리스트</div>
+          <div className={styles.backButton} onClick={handleBackClick}>
+            <BackIcon />
+            <span>뒤로가기</span>
+          </div>
+        </div>
 
         <div className={styles.answersContainer}>
           <div className={styles.answersSection}>

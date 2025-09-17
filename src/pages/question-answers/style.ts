@@ -69,6 +69,36 @@ export const questionSection = css`
   justify-content: flex-start;
 `;
 
+export const pageTitleSection = css`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 4px 0;
+`;
+
+export const backButton = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #1a1515;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 203, 207, 0.8);
+  height: 40px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+`;
+
 export const questionInfo = css`
   display: flex;
   flex-direction: column;
@@ -162,7 +192,7 @@ export const scoreHeader = css`
 `;
 
 export const answerItem = css`
-  width: 1040px;
+  width: 100%;
   padding: 16px 24px;
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -170,6 +200,7 @@ export const answerItem = css`
   gap: 16px;
   align-items: center;
   justify-content: space-between;
+  box-sizing: border-box;
 `;
 
 export const answerContent = css`
