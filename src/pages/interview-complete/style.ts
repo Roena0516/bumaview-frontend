@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 
-export const interviewSetupContainer = css`
+export const interviewCompleteContainer = css`
   background: white;
   width: 100vw;
   height: 100vh;
@@ -49,6 +49,10 @@ export const timer = css`
   text-align: center;
 `;
 
+export const spacer = css`
+  flex: 1;
+`;
+
 export const mainContent = css`
   display: flex;
   align-items: center;
@@ -59,80 +63,44 @@ export const mainContent = css`
   box-sizing: border-box;
 `;
 
-export const modal = css`
+export const completionCard = css`
   background: white;
   border-radius: 16px;
-  width: 780px;
+  width: 800px;
+  padding: 16px 10px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 30px;
 `;
 
-export const formFields = css`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-
-export const fieldGroup = css`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 8px 16px;
-  width: 780px;
-  box-sizing: border-box;
-`;
-
-export const fieldLabel = css`
+export const questionCount = css`
   font-family: 'Pretendard', sans-serif;
   font-size: 20px;
   font-weight: 400;
-  color: #1a1515;
+  color: #868686;
   line-height: normal;
 `;
 
-export const fieldInput = css`
-  width: 100%;
-  height: 45px;
-`;
-
-export const buttonSection = css`
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-  padding: 8px 16px;
-  width: 100%;
-  box-sizing: border-box;
-`;
-
-export const cancelButton = css`
-  background: rgba(197, 197, 197, 0.8);
-  border-radius: 8px;
-  width: 120px;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 10px;
-  box-sizing: border-box;
-
-  &:hover {
-    opacity: 0.8;
-  }
-`;
-
-export const cancelButtonText = css`
+export const completionTitle = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: 32px;
   font-weight: 500;
   color: #1a1515;
   line-height: normal;
-  text-align: center;
-  flex: 1;
 `;
 
-export const startButton = css`
+export const footer = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+`;
+
+export const completeButton = css`
   background: rgba(255, 203, 207, 0.8);
   border-radius: 8px;
   width: 120px;
@@ -143,37 +111,18 @@ export const startButton = css`
   cursor: pointer;
   padding: 10px;
   box-sizing: border-box;
+  border: none;
 
   &:hover {
     opacity: 0.8;
   }
 `;
 
-export const startButtonText = css`
+export const completeButtonText = css`
   font-family: 'Pretendard', sans-serif;
   font-size: 20px;
   font-weight: 500;
   color: #1a1515;
   line-height: normal;
   text-align: center;
-  flex: 1;
-`;
-
-export const fieldRow = css`
-  display: flex;
-  gap: 10px;
-  width: 100%;
-`;
-
-export const halfFieldGroup = css`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 8px 16px;
-  width: 385px;
-  box-sizing: border-box;
-`;
-
-export const spacer = css`
-  flex: 1;
 `;

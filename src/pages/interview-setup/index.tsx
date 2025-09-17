@@ -52,8 +52,13 @@ export const InterviewSetupPage = () => {
   };
 
   const handleStartClick = () => {
+    if (!questionCount || !companyName || !field || !year) {
+      alert('모든 필드를 입력해 주세요.');
+      return;
+    }
+
     console.log('면접 시작', { questionCount, companyName, field, year });
-    // TODO: 면접 시작 로직 구현
+    navigateToPage('interview');
   };
 
   return (
@@ -65,6 +70,7 @@ export const InterviewSetupPage = () => {
           <span className={styles.backText}>면접 종료</span>
         </div>
         <div className={styles.timer}>0:00</div>
+        <div className={styles.spacer}></div>
       </div>
 
       {/* 메인 콘텐츠 */}
@@ -98,29 +104,29 @@ export const InterviewSetupPage = () => {
               </div>
             </div>
 
-            {/* 분야 */}
-            <div className={styles.fieldGroup}>
-              <div className={styles.fieldLabel}>분야</div>
-              <div className={styles.fieldInput}>
-                <Dropdown
-                  placeholder="분야를 선택해주세요"
-                  options={fieldOptions}
-                  value={field}
-                  onChange={handleFieldChange}
-                />
+            {/* 분야 & 학년도 */}
+            <div className={styles.fieldRow}>
+              <div className={styles.halfFieldGroup}>
+                <div className={styles.fieldLabel}>분야</div>
+                <div className={styles.fieldInput}>
+                  <Dropdown
+                    placeholder="분야를 선택해주세요"
+                    options={fieldOptions}
+                    value={field}
+                    onChange={handleFieldChange}
+                  />
+                </div>
               </div>
-            </div>
-
-            {/* 학년도 */}
-            <div className={styles.fieldGroup}>
-              <div className={styles.fieldLabel}>학년도</div>
-              <div className={styles.fieldInput}>
-                <Dropdown
-                  placeholder="학년도를 선택해주세요"
-                  options={yearOptions}
-                  value={year}
-                  onChange={handleYearChange}
-                />
+              <div className={styles.halfFieldGroup}>
+                <div className={styles.fieldLabel}>학년도</div>
+                <div className={styles.fieldInput}>
+                  <Dropdown
+                    placeholder="학년도를 선택해주세요"
+                    options={yearOptions}
+                    value={year}
+                    onChange={handleYearChange}
+                  />
+                </div>
               </div>
             </div>
           </div>

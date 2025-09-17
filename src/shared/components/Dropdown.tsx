@@ -2,10 +2,15 @@ import { useState } from 'react';
 import { css } from '@emotion/css';
 import { DropdownIcon } from './DropdownIcon';
 
+interface DropdownOption {
+  label: string;
+  value: string;
+}
+
 interface DropdownProps {
   value?: string;
   placeholder?: string;
-  options?: string[];
+  options?: (string | DropdownOption)[];
   onChange?: (value: string) => void;
 }
 
@@ -89,12 +94,30 @@ export const Dropdown = ({
     setIsOpen(!isOpen);
   };
 
-  const handleSelect = (option: string) => {
-    onChange?.(option);
+  const handleSelect = (option: string | DropdownOption) => {
+    const optionValue = typeof option === 'string' ? option : option.value;
+    onChange?.(optionValue);
     setIsOpen(false);
   };
 
-  const displayValue = value || placeholder;
+  const getDisplayValue = () => {
+    if (!value) return placeholder;
+
+    const selectedOption = options.find(option => {
+      if (typeof option === 'string') {
+        return option === value;
+      }
+      return option.value === value;
+    });
+
+    if (selectedOption) {
+      return typeof selectedOption === 'string' ? selectedOption : selectedOption.label;
+    }
+
+    return value;
+  };
+
+  const displayValue = getDisplayValue();
   const isPlaceholder = !value;
 
   return (
@@ -114,15 +137,20 @@ export const Dropdown = ({
 
       {isOpen && (
         <div className={dropdownListStyle}>
-          {options.map((option, index) => (
-            <div
-              key={index}
-              className={dropdownItemStyle}
-              onClick={() => handleSelect(option)}
-            >
-              {option}
-            </div>
-          ))}
+          {options.map((option, index) => {
+            const optionLabel = typeof option === 'string' ? option : option.label;
+            const optionKey = typeof option === 'string' ? option : option.value;
+
+            return (
+              <div
+                key={optionKey}
+                className={dropdownItemStyle}
+                onClick={() => handleSelect(option)}
+              >
+                {optionLabel}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
