@@ -1,6 +1,7 @@
 import { MainPage } from './pages/main';
 import { LoginPage } from './pages/login';
 import { SignupPage } from './pages/signup';
+import { InterviewSetupPage } from './pages/interview-setup';
 import { NavigationProvider, useNavigation } from './shared/context/NavigationContext';
 
 function AppContent() {
@@ -12,6 +13,8 @@ function AppContent() {
         return <LoginPage />;
       case 'signup':
         return <SignupPage />;
+      case 'interview-setup':
+        return <InterviewSetupPage />;
       case 'main':
       default:
         return <MainPage />;

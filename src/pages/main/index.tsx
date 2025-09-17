@@ -100,7 +100,7 @@ export const MainPage = () => {
   };
 
   const handleInterviewClick = () => {
-    console.log('면접 보기 clicked');
+    navigateToPage('interview-setup');
   };
 
   const handleLoginClick = () => {

@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
-type Page = 'main' | 'login' | 'signup';
+type Page = 'main' | 'login' | 'signup' | 'interview-setup';
 
 interface NavigationContextType {
   currentPage: Page;
