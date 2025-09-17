@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 
-export const loginContainer = css`
+export const signupContainer = css`
   background: white;
   width: 100vw;
   height: 100vh;
@@ -133,7 +133,23 @@ export const fieldInput = css`
   height: 45px;
 `;
 
-export const loginButton = css`
+export const passwordFields = css`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+`;
+
+export const passwordInput = css`
+  background: white;
+  border-radius: 8px;
+  width: 456px;
+  height: 41px;
+`;
+
+export const signupButton = css`
   background: rgba(255, 203, 207, 0.8);
   border-radius: 8px;
   height: 45px;
@@ -146,7 +162,7 @@ export const loginButton = css`
   box-sizing: border-box;
 `;
 
-export const signupSection = css`
+export const loginSection = css`
   display: flex;
   gap: 10px;
   align-items: center;
@@ -155,7 +171,7 @@ export const signupSection = css`
   box-sizing: border-box;
 `;
 
-export const signupLink = css`
+export const loginLink = css`
   font-family: 'Pretendard', sans-serif;
   font-size: 18px;
   font-weight: 400;

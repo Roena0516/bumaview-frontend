@@ -1,5 +1,6 @@
 import { MainPage } from './pages/main';
 import { LoginPage } from './pages/login';
+import { SignupPage } from './pages/signup';
 import { NavigationProvider, useNavigation } from './shared/context/NavigationContext';
 
 function AppContent() {
@@ -9,6 +10,8 @@ function AppContent() {
     switch (currentPage) {
       case 'login':
         return <LoginPage />;
+      case 'signup':
+        return <SignupPage />;
       case 'main':
       default:
         return <MainPage />;
