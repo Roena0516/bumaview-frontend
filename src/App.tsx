@@ -5,7 +5,10 @@ import { InterviewSetupPage } from './pages/interview-setup';
 import { InterviewPage } from './pages/interview';
 import { InterviewCompletePage } from './pages/interview-complete';
 import { QuestionAnswersPage } from './pages/question-answers';
+import { AnswerDetailPage } from './pages/answer-detail';
+import { MyPage } from './pages/mypage';
 import { NavigationProvider, useNavigation } from './shared/context/NavigationContext';
+import { AuthProvider } from './shared/context/AuthContext';
 
 function AppContent() {
   const { currentPage } = useNavigation();
@@ -24,6 +27,10 @@ function AppContent() {
         return <InterviewCompletePage />;
       case 'question-answers':
         return <QuestionAnswersPage />;
+      case 'answer-detail':
+        return <AnswerDetailPage />;
+      case 'mypage':
+        return <MyPage />;
       case 'main':
       default:
         return <MainPage />;
@@ -35,9 +42,11 @@ function AppContent() {
 
 function App() {
   return (
-    <NavigationProvider>
-      <AppContent />
-    </NavigationProvider>
+    <AuthProvider>
+      <NavigationProvider>
+        <AppContent />
+      </NavigationProvider>
+    </AuthProvider>
   );
 }
 

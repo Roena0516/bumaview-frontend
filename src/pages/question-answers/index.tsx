@@ -1,4 +1,5 @@
 import { useNavigation } from "../../shared/context/NavigationContext";
+import { useAuth } from "../../shared/context/AuthContext";
 import { Button } from "../../shared/components";
 import * as styles from "./style";
 
@@ -66,6 +67,7 @@ export const QuestionAnswersPage = ({
   year = "2023",
 }: QuestionAnswersPageProps) => {
   const { navigateToPage } = useNavigation();
+  const { isLoggedIn, user } = useAuth();
 
   const handleLoginClick = () => {
     navigateToPage("login");
@@ -83,6 +85,14 @@ export const QuestionAnswersPage = ({
     navigateToPage("main");
   };
 
+  const handleAnswerClick = (answer: Answer) => {
+    navigateToPage("answer-detail");
+  };
+
+  const handleNicknameClick = () => {
+    navigateToPage("mypage");
+  };
+
   return (
     <div className={styles.questionAnswersContainer}>
       {/* 헤더 */}
@@ -94,12 +104,20 @@ export const QuestionAnswersPage = ({
           </div>
         </div>
         <div className={styles.authSection}>
-          <div className={styles.authLink} onClick={handleLoginClick}>
-            로그인
-          </div>
-          <div className={styles.authLink} onClick={handleSignupClick}>
-            회원가입
-          </div>
+          {isLoggedIn && user ? (
+            <div className={styles.authLink} onClick={handleNicknameClick}>
+              {user.nickname}
+            </div>
+          ) : (
+            <>
+              <div className={styles.authLink} onClick={handleLoginClick}>
+                로그인
+              </div>
+              <div className={styles.authLink} onClick={handleSignupClick}>
+                회원가입
+              </div>
+            </>
+          )}
         </div>
       </div>
 
@@ -111,21 +129,21 @@ export const QuestionAnswersPage = ({
             {company} / {field} / {year}
           </div>
         </div>
+        <div className={styles.backButtonContainer}>
+          <Button
+            variant="primary"
+            size="large"
+            onClick={handleBackClick}
+          >
+            뒤로가기
+          </Button>
+        </div>
       </div>
 
       {/* 메인 콘텐츠 */}
       <div className={styles.mainContent}>
         <div className={styles.pageTitleSection}>
           <div className={styles.pageTitle}>답변 리스트</div>
-          <div className={styles.backButtonContainer}>
-            <Button
-              variant="primary"
-              size="large"
-              onClick={handleBackClick}
-            >
-              뒤로가기
-            </Button>
-          </div>
         </div>
 
         <div className={styles.answersContainer}>
@@ -146,6 +164,7 @@ export const QuestionAnswersPage = ({
                 key={answer.id}
                 className={styles.answerItem}
                 style={{ backgroundColor: styles.getScoreColor(answer.score) }}
+                onClick={() => handleAnswerClick(answer)}
               >
                 <div className={styles.answerContent}>{answer.content}</div>
                 <div className={styles.answerDetails}>

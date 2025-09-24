@@ -1,6 +1,41 @@
 # CLAUDE.md
 
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 이 서비스는 면접에 대비하여 연습하는 서비스로, 각 회사의 질문들을 조회하고 답변을 하는 서비스다. 답변은 모든 사람들이 조회할 수 있으며, 평가내릴 수 있다.
+
+# Common Commands
+
+## Development
+- `npm run dev` - Start development server with Vite
+- `npm run build` - Build for production (runs TypeScript check + Vite build)
+- `npm run lint` - Run ESLint on the codebase
+- `npm run preview` - Preview the production build
+
+## Linting and Type Checking
+- Always run `npm run lint` after making changes to ensure code quality
+- The build command includes TypeScript compilation check via `tsc -b`
+- No separate typecheck command exists - use `npm run build` to verify TypeScript errors
+
+# Architecture Overview
+
+## Navigation System
+The app uses a custom navigation context (`NavigationContext`) instead of React Router:
+- All pages are managed through the `NavigationProvider` in `App.tsx`
+- Use `useNavigation()` hook to navigate between pages: `navigateToPage('page-name')`
+- Available pages: main, login, signup, interview-setup, interview, interview-complete, question-answers, answer-detail
+- Pages are conditionally rendered in `App.tsx` based on `currentPage` state
+
+## Page Structure Pattern
+Each page follows a consistent structure in `src/pages/[page-name]/`:
+- `index.tsx` - Main component export and UI logic
+- `style.ts` - Emotion CSS styles using `css` template literals
+- `types.ts` - TypeScript interfaces specific to the page (when needed)
+
+## Shared Components
+- All reusable components are in `src/shared/components/`
+- Export components through `src/shared/components/index.ts`
+- Components include: Button, Input, Dropdown, FilterModal, BackIcon, SearchIcon, DropdownIcon
 
 # MCP Servers
 
@@ -11,42 +46,63 @@
 - IMPORTANT: DO NOT import/add new icon packages, all the assets should be in the Figma payload
 - IMPORTANT: do NOT use or create placeholders if a localhost source is provided
 
-# Tech Spec
+# Tech Stack
 
-Please Check dependencies in ./package.json file.
-
-- **Development**: TypeScript, React.js
-- **Styling**: @emotion/css
-- **API Request**: axios, @tanstack/react-query
-- **Animation** : motion
+- **Framework**: React 19 with TypeScript
+- **Build Tool**: Vite
+- **Styling**: @emotion/css with CSS-in-JS pattern
+- **State Management**: React Context (NavigationContext)
+- **HTTP Client**: axios
+- **Data Fetching**: @tanstack/react-query (available but not widely used yet)
+- **Animation**: motion library
 
 # Directory Architecture
 
+```
 bumaview/
-├── public/ /_ statical assets e.g. png, jpg, ... _/
+├── public/                     # Static assets (png, jpg, etc.)
 ├── src/
-│ ├── api/ /_ API 연결 코드 _/
-│ │ │ └── /_ 파일 이름은 [함수이름].tsx로 작성 _/
-│ ├── pages/ /_ 실제 페이지들 _/
-│ │ │ └── /_ 페이지 이름의 폴더를 만들고, 그 속에 index.tsx(퍼블리싱 코드)와 style.ts(emotion 스타일 컴포넌트)를 작성 _/
-│ ├── shared/
-│ │ ├── components/ /_ 여러 페이지에서 공유하는 컴포넌트들 _/
-│ │ └── hooks/ /_ 여러 페이지에서 공유하는 훅들 _/
+│   ├── api/                    # API connection code
+│   │   └── [functionName].tsx  # API functions named by their purpose
+│   ├── pages/                  # Application pages
+│   │   └── [page-name]/        # Each page has its own directory
+│   │       ├── index.tsx       # Main component logic
+│   │       ├── style.ts        # Emotion CSS styles
+│   │       └── types.ts        # Page-specific TypeScript types
+│   ├── shared/
+│   │   ├── components/         # Reusable components across pages
+│   │   ├── context/           # React contexts (NavigationContext)
+│   │   └── hooks/             # Shared custom hooks
+│   ├── App.tsx                # Main app with navigation logic
+│   └── main.tsx               # App entry point
+```
 
-# Implement
+# Implementation Guidelines
 
-- Each page is managed via [pageName] directory in `src/pages`.
-- If you need implement some page, follow Directory Architecture rules.
-- You should declare model and api when you need implement some page. see the figma design and judgment what data is necessary.
-- If you think it is a frequently used component, such as a button or input, please implement it flexibly in shared so that the component can be commonly used.
+- Each page is managed via [pageName] directory in `src/pages`
+- Follow the Directory Architecture rules when creating new pages
+- Create page-specific types in `[page-name]/types.ts` and export them
+- For frequently used components, implement them in `shared/components/` for reusability
+- Use the NavigationContext for page transitions instead of URL-based routing
 
-# Avoid Pattern
+# Code Style Rules
 
-- Do not use any type. If need some interface or type, you can write [feature page name]/types.ts and export it.
-- You can use gap or empty `h-{} div` instead of margin and padding. Please avoid margin/padding styling pattern as you can.
-- If a component file has more than 150 lines of code, please separate the hooks or components into modules.
-- Do not use `React.[module]` pattern. please just import and use it.
-- Do not use inline function. please make a handler function and use it. you can naming function with this rule via `'handle'{target}{eventName}` e.g. handleCTAButtonClick, handleAgeInputChange, etc.
-- Do not use inline style css.
-- If you need assets, use can copy as SVG code in figma. do not implement yourself asset file, just use svg and convert to svg component.
-- Please avoid publish with `relative`, `absolute`. you can use flex and grid tailwindcss keyword.
+## Prohibited Patterns
+- Do not use `any` type - create proper interfaces in `[page-name]/types.ts`
+- Do not use `React.[module]` pattern - import directly (e.g., `import { useState }` not `React.useState`)
+- Do not use inline functions in JSX - create named handler functions with pattern: `handle{Target}{EventName}` (e.g., `handleCTAButtonClick`)
+- Do not use inline CSS styles - use emotion CSS-in-JS in `style.ts` files
+- Do not use `margin`/`padding` - prefer `gap` and empty spacing divs
+- Do not use `position: relative/absolute` - use flexbox and grid layouts
+
+## Required Patterns
+- Component files over 150 lines must be split into separate modules
+- Use SVG assets from Figma directly - do not create custom asset files
+- Import shared components from `src/shared/components`
+- Use proper TypeScript interfaces for all data structures
+
+# important-instruction-reminders
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.

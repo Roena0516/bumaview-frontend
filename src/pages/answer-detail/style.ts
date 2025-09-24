@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 
-export const questionAnswersContainer = css`
+export const answerDetailContainer = css`
   background: white;
   width: 100vw;
   height: 100vh;
@@ -63,97 +63,217 @@ export const authLink = css`
   }
 `;
 
-export const questionSection = css`
-  background: rgba(255, 203, 207, 0.8);
+export const content = css`
+  flex: 1;
   width: 100%;
-  height: 190px;
-  padding: 14px 120px;
+  padding: 32px 250px;
   box-sizing: border-box;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-export const pageTitleSection = css`
-  display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 50px;
   align-items: center;
   justify-content: flex-start;
-  width: 100%;
-  padding: 4px 0;
+  overflow-y: auto;
 `;
 
-// 뒤로가기 버튼 컨테이너 (메인 페이지 heroButton과 동일한 스타일)
-export const backButtonContainer = css`
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const questionInfo = css`
+export const answerSection = css`
+  width: 780px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  color: #1a1515;
+  gap: 51px;
+  align-items: flex-start;
+  justify-content: flex-start;
 `;
 
-export const questionTitle = css`
+export const answerHeader = css`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
   font-family: 'Pretendard', sans-serif;
-  font-size: 40px;
-  font-weight: 500;
-  line-height: normal;
+  color: #868686;
 `;
 
-export const questionDetail = css`
-  font-family: 'Pretendard', sans-serif;
-  font-size: 32px;
+export const userName = css`
+  font-size: 20px;
   font-weight: 400;
   line-height: normal;
 `;
 
-export const mainContent = css`
-  flex: 1;
-  width: 100%;
-  padding: 30px 72px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
-
-export const pageTitle = css`
-  flex: 1;
-  font-family: 'Pretendard', sans-serif;
-  font-size: 40px;
-  font-weight: 500;
-  color: #1a1515;
+export const time = css`
+  font-size: 16px;
+  font-weight: 400;
   line-height: normal;
-  padding: 4px 0;
 `;
 
-export const answersContainer = css`
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-`;
-
-export const answersSection = css`
-  background: rgba(255, 203, 207, 0.8);
-  border-radius: 8px;
-  padding: 18px 30px 24px 30px;
+export const questionAndAnswer = css`
+  width: 100%;
+  padding: 4px 10px;
   box-sizing: border-box;
-  min-height: 300px;
   display: flex;
   flex-direction: column;
   gap: 12px;
 `;
 
-export const answersHeader = css`
+export const questionSection = css`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const questionTitle = css`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 36px;
+  font-weight: 500;
+  color: #1a1515;
+  line-height: normal;
+`;
+
+export const questionDetail = css`
+  width: 100%;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #868686;
+  line-height: normal;
+`;
+
+export const answerBox = css`
+  background: white;
+  width: 100%;
+  height: 300px;
+  border: 1px solid #c47e7e;
+  border-radius: 8px;
+  padding: 16px 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
+export const answerContent = css`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #1a1515;
+  line-height: normal;
+  white-space: pre-line;
+`;
+
+export const evaluationSection = css`
+  background: rgba(255, 203, 207, 0.8);
+  width: 100%;
+  padding: 50px 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+export const evaluationInput = css`
+  width: 780px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const starsContainer = css`
+  width: 780px;
+  height: 34px;
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+export const starIcon = css`
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
+export const inputContainer = css`
+  width: 780px;
+  padding: 0 10px;
+  box-sizing: border-box;
+`;
+
+export const inputField = css`
+  background: white;
+  width: 100%;
+  height: 41px;
+  border: 1px solid #c47e7e;
+  border-radius: 8px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #1a1515;
+
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.25);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #c47e7e;
+  }
+`;
+
+export const submitButton = css`
+  background: rgba(255, 255, 255, 0.8);
+  width: 120px;
+  height: 45px;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  box-sizing: border-box;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #1a1515;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
+export const evaluationsContainer = css`
+  background: rgba(255, 255, 255, 0.8);
+  width: 780px;
+  min-height: 300px;
+  border-radius: 8px;
+  padding: 18px 30px 24px 30px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+export const evaluationsHeader = css`
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
+  box-sizing: border-box;
   font-family: 'Pretendard', sans-serif;
   font-size: 20px;
   font-weight: 400;
@@ -184,26 +304,19 @@ export const scoreHeader = css`
   text-align: right;
 `;
 
-export const answerItem = css`
+export const evaluationItem = css`
   width: 100%;
   padding: 16px 24px;
+  box-sizing: border-box;
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   gap: 16px;
   align-items: center;
   justify-content: space-between;
-  box-sizing: border-box;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
-  }
 `;
 
-export const answerContent = css`
+export const evaluationContent = css`
   flex: 1;
   font-family: 'Pretendard', sans-serif;
   font-size: 20px;
@@ -215,7 +328,7 @@ export const answerContent = css`
   text-overflow: ellipsis;
 `;
 
-export const answerDetails = css`
+export const evaluationDetails = css`
   display: flex;
   gap: 10px;
   align-items: center;
@@ -225,15 +338,15 @@ export const answerDetails = css`
   color: #868686;
 `;
 
-export const answerName = css`
+export const evaluationName = css`
   width: 100px;
 `;
 
-export const answerTime = css`
+export const evaluationTime = css`
   width: 70px;
 `;
 
-export const answerScore = css`
+export const evaluationScore = css`
   width: 48px;
   text-align: right;
 `;

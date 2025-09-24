@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { Input, Button } from '../../shared/components';
 import { BackIcon } from '../../shared/components/BackIcon';
 import { useNavigation } from '../../shared/context/NavigationContext';
+import { useAuth } from '../../shared/context/AuthContext';
 import * as styles from './style';
 
 export const LoginPage = () => {
   const { navigateToPage } = useNavigation();
+  const { login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -22,10 +24,19 @@ export const LoginPage = () => {
   };
 
   const handleLoginClick = () => {
-    console.log('로그인 clicked', { username, password });
-    // TODO: 로그인 API 호출
-    // 성공 시 메인 페이지로 이동
-    // navigateToPage('main');
+    if (username.trim() && password.trim()) {
+      // Mock 로그인 - 실제 구현에서는 API 호출
+      const mockUser = {
+        id: username,
+        nickname: "NickName",
+        answerCount: 293,
+        averageScore: 4.25,
+        evaluationCount: 354,
+      };
+
+      login(mockUser);
+      navigateToPage('main');
+    }
   };
 
   const handleSignupClick = () => {

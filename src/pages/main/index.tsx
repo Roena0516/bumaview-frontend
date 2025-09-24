@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Input, Button, FilterModal } from '../../shared/components';
 import { useNavigation } from '../../shared/context/NavigationContext';
+import { useAuth } from '../../shared/context/AuthContext';
 import type { InterviewQuestion } from './types';
 import type { FilterData } from '../../shared/components';
 import * as styles from './style';
@@ -73,6 +74,7 @@ const mockQuestions: InterviewQuestion[] = [
 
 export const MainPage = () => {
   const { navigateToPage } = useNavigation();
+  const { isLoggedIn, user } = useAuth();
   const [searchValue, setSearchValue] = useState('');
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filters, setFilters] = useState<FilterData>({
@@ -120,6 +122,10 @@ export const MainPage = () => {
     navigateToPage('main');
   };
 
+  const handleNicknameClick = () => {
+    navigateToPage('mypage');
+  };
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.mainContent}>
@@ -133,12 +139,20 @@ export const MainPage = () => {
               </div>
             </div>
             <div className={styles.navigation}>
-              <div onClick={handleLoginClick} style={{ cursor: 'pointer' }}>
-                로그인
-              </div>
-              <div onClick={handleSignupClick} style={{ cursor: 'pointer' }}>
-                회원가입
-              </div>
+              {isLoggedIn && user ? (
+                <div onClick={handleNicknameClick} style={{ cursor: 'pointer' }}>
+                  {user.nickname}
+                </div>
+              ) : (
+                <>
+                  <div onClick={handleLoginClick} style={{ cursor: 'pointer' }}>
+                    로그인
+                  </div>
+                  <div onClick={handleSignupClick} style={{ cursor: 'pointer' }}>
+                    회원가입
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
