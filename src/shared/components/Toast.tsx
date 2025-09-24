@@ -6,34 +6,31 @@ interface ToastProps {
   type?: 'error' | 'success' | 'info';
   onClose: () => void;
   duration?: number;
+  isClosing?: boolean;
+  stackIndex?: number;
 }
 
-const slideIn = keyframes`
+const slideUp = keyframes`
   from {
-    transform: translateX(100%);
+    transform: translateY(100%);
     opacity: 0;
   }
   to {
-    transform: translateX(0);
+    transform: translateY(0);
     opacity: 1;
   }
 `;
 
-const slideOut = keyframes`
+const fadeOut = keyframes`
   from {
-    transform: translateX(0);
     opacity: 1;
   }
   to {
-    transform: translateX(100%);
     opacity: 0;
   }
 `;
 
 const toastStyle = css`
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
   background: white;
   border-radius: 8px;
   padding: 16px 20px;
@@ -42,12 +39,11 @@ const toastStyle = css`
   font-size: 16px;
   font-weight: 400;
   color: #1a1515;
-  z-index: 2000;
   max-width: 350px;
-  animation: ${slideIn} 0.3s ease-out;
+  animation: ${slideUp} 0.3s ease-out;
 
   &.closing {
-    animation: ${slideOut} 0.2s ease-in;
+    animation: ${fadeOut} 0.2s ease-out;
   }
 `;
 
@@ -63,14 +59,23 @@ const infoStyle = css`
   border-left: 4px solid rgba(255, 203, 207, 0.8);
 `;
 
-export const Toast = ({ message, type = 'info', onClose, duration = 3000 }: ToastProps) => {
+export const Toast = ({
+  message,
+  type = 'info',
+  onClose,
+  duration = 3000,
+  isClosing = false,
+  stackIndex = 0
+}: ToastProps) => {
   useEffect(() => {
+    if (isClosing) return;
+
     const timer = setTimeout(() => {
       onClose();
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [onClose, duration]);
+  }, [onClose, duration, isClosing]);
 
   const getTypeStyle = () => {
     switch (type) {
@@ -84,7 +89,7 @@ export const Toast = ({ message, type = 'info', onClose, duration = 3000 }: Toas
   };
 
   return (
-    <div className={`${toastStyle} ${getTypeStyle()}`}>
+    <div className={`${toastStyle} ${getTypeStyle()} ${isClosing ? 'closing' : ''}`}>
       {message}
     </div>
   );

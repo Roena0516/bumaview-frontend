@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { Input, Dropdown } from '../../shared/components';
 import { BackIcon } from '../../shared/components/BackIcon';
 import { useNavigation } from '../../shared/context/NavigationContext';
+import { useToast } from '../../shared/context/ToastContext';
 import { getUniqueCompanies, getUniqueFields, getUniqueYears } from '../../shared/data/mockQuestions';
 import * as styles from './style';
 
 export const InterviewSetupPage = () => {
   const { navigateToPage } = useNavigation();
+  const { showToast } = useToast();
   const [questionCount, setQuestionCount] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [field, setField] = useState('');
@@ -43,7 +45,7 @@ export const InterviewSetupPage = () => {
 
   const handleStartClick = () => {
     if (!questionCount || !companyName || !field || !year) {
-      alert('모든 필드를 입력해 주세요.');
+      showToast('모든 필드를 입력해 주세요.', 'error');
       return;
     }
 

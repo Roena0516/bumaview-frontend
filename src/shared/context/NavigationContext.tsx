@@ -4,6 +4,7 @@ type Page = 'main' | 'login' | 'signup' | 'interview-setup' | 'interview-loading
 
 interface NavigationContextType {
   currentPage: Page;
+  isTransitioning: boolean;
   navigateToPage: (page: Page) => void;
 }
 
@@ -23,13 +24,26 @@ interface NavigationProviderProps {
 
 export const NavigationProvider = ({ children }: NavigationProviderProps) => {
   const [currentPage, setCurrentPage] = useState<Page>('main');
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const navigateToPage = (page: Page) => {
-    setCurrentPage(page);
+    if (page === currentPage) return;
+
+    setIsTransitioning(true);
+
+    // 페이드 아웃 후 페이지 변경
+    setTimeout(() => {
+      setCurrentPage(page);
+
+      // 페이드 인 완료 후 전환 상태 해제
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 150);
+    }, 150);
   };
 
   return (
-    <NavigationContext.Provider value={{ currentPage, navigateToPage }}>
+    <NavigationContext.Provider value={{ currentPage, isTransitioning, navigateToPage }}>
       {children}
     </NavigationContext.Provider>
   );

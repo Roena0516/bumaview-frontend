@@ -1,4 +1,4 @@
-import { css } from '@emotion/css';
+import { css, keyframes } from '@emotion/css';
 
 export const interviewContainer = css`
   background: white;
@@ -80,6 +80,28 @@ export const questionCount = css`
   line-height: normal;
 `;
 
+const slideOutLeft = keyframes`
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+`;
+
+const slideInRight = keyframes`
+  from {
+    transform: translateX(50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`;
+
 export const questionSection = css`
   display: flex;
   flex-direction: column;
@@ -88,6 +110,36 @@ export const questionSection = css`
   flex: 1;
   width: 100%;
   box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+`;
+
+export const questionContentWrapper = css`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+export const questionAnswerContainer = css`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &.sliding-out {
+    animation: ${slideOutLeft} 0.3s ease-in-out;
+  }
+
+  &.sliding-in {
+    animation: ${slideInRight} 0.3s ease-in-out;
+  }
 `;
 
 export const questionArea = css`
@@ -147,6 +199,24 @@ export const footer = css`
   width: 100%;
 `;
 
+export const skipButton = css`
+  background: rgba(197, 197, 197, 0.8);
+  border-radius: 8px;
+  width: 120px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 10px;
+  box-sizing: border-box;
+  border: none;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
 export const confirmButton = css`
   background: rgba(255, 203, 207, 0.8);
   border-radius: 8px;
@@ -163,6 +233,15 @@ export const confirmButton = css`
   &:hover {
     opacity: 0.8;
   }
+`;
+
+export const skipButtonText = css`
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #1a1515;
+  line-height: normal;
+  text-align: center;
 `;
 
 export const confirmButtonText = css`
@@ -202,6 +281,36 @@ export const successCheck = css`
   animation: checkAppear 0.3s ease-out;
 
   @keyframes checkAppear {
+    0% {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+`;
+
+export const skipMark = css`
+  background: #ff6969;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  color: white;
+  font-weight: 500;
+  font-family: 'Pretendard', sans-serif;
+  animation: skipAppear 0.3s ease-out;
+
+  @keyframes skipAppear {
     0% {
       opacity: 0;
       transform: scale(0.3);

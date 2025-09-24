@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { BackIcon } from '../../shared/components/BackIcon';
+import { ConfirmModal } from '../../shared/components';
 import { useNavigation } from '../../shared/context/NavigationContext';
+import { useToast } from '../../shared/context/ToastContext';
 import * as styles from './style';
 
 interface InterviewQuestion {
@@ -37,11 +39,16 @@ const mockQuestions: InterviewQuestion[] = [
 
 export const InterviewPage = () => {
   const { navigateToPage } = useNavigation();
+  const { showToast } = useToast();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answer, setAnswer] = useState('');
   const [answers, setAnswers] = useState<string[]>([]);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [showSuccessCheck, setShowSuccessCheck] = useState(false);
+  const [showSkipMark, setShowSkipMark] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [prevQuestionIndex, setPrevQuestionIndex] = useState(-1);
 
   const totalQuestions = mockQuestions.length;
   const currentQuestion = mockQuestions[currentQuestionIndex];
@@ -61,19 +68,59 @@ export const InterviewPage = () => {
   };
 
   const handleBackClick = () => {
-    const shouldExit = window.confirm('면접을 종료하시겠습니까?');
-    if (shouldExit) {
-      navigateToPage('main');
-    }
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmExit = () => {
+    setShowConfirmModal(false);
+    navigateToPage('main');
+  };
+
+  const handleCancelExit = () => {
+    setShowConfirmModal(false);
   };
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setAnswer(e.target.value);
   };
 
+  const handleSkipClick = () => {
+    const newAnswers = [...answers];
+    newAnswers[currentQuestionIndex] = ''; // 스킵 시 빈 답변으로 저장
+
+    setAnswers(newAnswers);
+
+    // X 표시 보여주기
+    setShowSkipMark(true);
+
+    // 1초 후 다음 동작 실행
+    setTimeout(() => {
+      setShowSkipMark(false);
+
+      if (currentQuestionIndex < totalQuestions - 1) {
+        // 트랜지션 시작
+        setIsTransitioning(true);
+        setPrevQuestionIndex(currentQuestionIndex);
+
+        // 즉시 다음 질문으로 변경
+        setCurrentQuestionIndex(prev => prev + 1);
+        setAnswer(newAnswers[currentQuestionIndex + 1] || '');
+
+        // 트랜지션 완료 후 정리
+        setTimeout(() => {
+          setIsTransitioning(false);
+          setPrevQuestionIndex(-1);
+        }, 300);
+      } else {
+        const finalTime = formatTime(timeElapsed);
+        navigateToPage('interview-complete');
+      }
+    }, 1000);
+  };
+
   const handleConfirmClick = () => {
     if (!answer.trim()) {
-      alert('답변을 입력해 주세요.');
+      showToast('답변을 입력해 주세요.', 'error');
       return;
     }
 
@@ -89,8 +136,19 @@ export const InterviewPage = () => {
       setShowSuccessCheck(false);
 
       if (currentQuestionIndex < totalQuestions - 1) {
+        // 트랜지션 시작
+        setIsTransitioning(true);
+        setPrevQuestionIndex(currentQuestionIndex);
+
+        // 즉시 다음 질문으로 변경
         setCurrentQuestionIndex(prev => prev + 1);
         setAnswer(newAnswers[currentQuestionIndex + 1] || '');
+
+        // 트랜지션 완료 후 정리
+        setTimeout(() => {
+          setIsTransitioning(false);
+          setPrevQuestionIndex(-1);
+        }, 300);
       } else {
         const finalTime = formatTime(timeElapsed);
         navigateToPage('interview-complete');
@@ -121,29 +179,56 @@ export const InterviewPage = () => {
 
         {/* 질문 섹션 */}
         <div className={styles.questionSection}>
-          {/* 질문 영역 */}
-          <div className={styles.questionArea}>
-            <div className={styles.questionText}>
-              {currentQuestion.question}
-            </div>
-            <div className={styles.questionDetail}>
-              <span>{currentQuestion.company}</span>
-              <span>{currentQuestion.field}</span>
-              <span>{currentQuestion.year}</span>
+          <div className={styles.questionContentWrapper}>
+            {/* 이전 질문 (슬라이딩 아웃) */}
+            {isTransitioning && prevQuestionIndex >= 0 && (
+              <div className={`${styles.questionAnswerContainer} sliding-out`}>
+                <div className={styles.questionArea}>
+                  <div className={styles.questionText}>
+                    {mockQuestions[prevQuestionIndex].question}
+                  </div>
+                  <div className={styles.questionDetail}>
+                    <span>{mockQuestions[prevQuestionIndex].company}</span>
+                    <span>{mockQuestions[prevQuestionIndex].field}</span>
+                    <span>{mockQuestions[prevQuestionIndex].year}</span>
+                  </div>
+                </div>
+                <textarea
+                  className={styles.answerArea}
+                  placeholder="답변을 작성해 주세요."
+                  value={answers[prevQuestionIndex] || ''}
+                  readOnly
+                />
+              </div>
+            )}
+
+            {/* 현재 질문 (슬라이딩 인) */}
+            <div className={`${styles.questionAnswerContainer} ${isTransitioning ? 'sliding-in' : ''}`}>
+              <div className={styles.questionArea}>
+                <div className={styles.questionText}>
+                  {currentQuestion.question}
+                </div>
+                <div className={styles.questionDetail}>
+                  <span>{currentQuestion.company}</span>
+                  <span>{currentQuestion.field}</span>
+                  <span>{currentQuestion.year}</span>
+                </div>
+              </div>
+              <textarea
+                className={styles.answerArea}
+                placeholder="답변을 작성해 주세요."
+                value={answer}
+                onChange={handleAnswerChange}
+              />
             </div>
           </div>
-
-          {/* 답변 영역 */}
-          <textarea
-            className={styles.answerArea}
-            placeholder="답변을 작성해 주세요."
-            value={answer}
-            onChange={handleAnswerChange}
-          />
         </div>
 
         {/* 푸터 */}
         <div className={styles.footer}>
+          <button className={styles.skipButton} onClick={handleSkipClick}>
+            <span className={styles.skipButtonText}>스킵</span>
+          </button>
           <button className={styles.confirmButton} onClick={handleConfirmClick}>
             <span className={styles.confirmButtonText}>
               {currentQuestionIndex < totalQuestions - 1 ? '다음' : '완료'}
@@ -160,6 +245,26 @@ export const InterviewPage = () => {
           </div>
         </div>
       )}
+
+      {/* 스킵 X 표시 */}
+      {showSkipMark && (
+        <div className={styles.successOverlay}>
+          <div className={styles.skipMark}>
+            ✗
+          </div>
+        </div>
+      )}
+
+      {/* 종료 확인 모달 */}
+      <ConfirmModal
+        isOpen={showConfirmModal}
+        title="면접 종료"
+        message="면접을 종료하시겠습니까?"
+        onConfirm={handleConfirmExit}
+        onCancel={handleCancelExit}
+        confirmText="예"
+        cancelText="아니오"
+      />
     </div>
   );
 };

@@ -10,9 +10,10 @@ import { AnswerDetailPage } from './pages/answer-detail';
 import { MyPage } from './pages/mypage';
 import { NavigationProvider, useNavigation } from './shared/context/NavigationContext';
 import { AuthProvider } from './shared/context/AuthContext';
+import { ToastProvider } from './shared/context/ToastContext';
 
 function AppContent() {
-  const { currentPage } = useNavigation();
+  const { currentPage, isTransitioning } = useNavigation();
 
   const renderPage = () => {
     switch (currentPage) {
@@ -40,14 +41,25 @@ function AppContent() {
     }
   };
 
-  return renderPage();
+  const pageStyle = {
+    opacity: isTransitioning ? 0 : 1,
+    transition: 'opacity 0.15s ease-in-out'
+  };
+
+  return (
+    <div style={pageStyle}>
+      {renderPage()}
+    </div>
+  );
 }
 
 function App() {
   return (
     <AuthProvider>
       <NavigationProvider>
-        <AppContent />
+        <ToastProvider>
+          <AppContent />
+        </ToastProvider>
       </NavigationProvider>
     </AuthProvider>
   );

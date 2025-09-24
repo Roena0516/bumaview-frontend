@@ -1,4 +1,4 @@
-import { css } from '@emotion/css';
+import { css, keyframes } from '@emotion/css';
 
 export const questionAnswersContainer = css`
   background: white;
@@ -184,6 +184,17 @@ export const scoreHeader = css`
   text-align: right;
 `;
 
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
 export const answerItem = css`
   width: 100%;
   padding: 16px 24px;
@@ -196,11 +207,29 @@ export const answerItem = css`
   box-sizing: border-box;
   cursor: pointer;
   transition: all 0.2s ease;
+  opacity: 0;
+  animation: ${fadeInUp} 0.5s ease-out forwards;
 
   &:hover {
     transform: translateY(-1px);
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
   }
+
+  &:nth-child(2) { animation-delay: 0.1s; }
+  &:nth-child(3) { animation-delay: 0.15s; }
+  &:nth-child(4) { animation-delay: 0.2s; }
+  &:nth-child(5) { animation-delay: 0.25s; }
+  &:nth-child(6) { animation-delay: 0.3s; }
+  &:nth-child(7) { animation-delay: 0.35s; }
+  &:nth-child(8) { animation-delay: 0.4s; }
+  &:nth-child(9) { animation-delay: 0.45s; }
+  &:nth-child(10) { animation-delay: 0.5s; }
+  &:nth-child(11) { animation-delay: 0.55s; }
+  &:nth-child(12) { animation-delay: 0.6s; }
+  &:nth-child(13) { animation-delay: 0.65s; }
+  &:nth-child(14) { animation-delay: 0.7s; }
+  &:nth-child(15) { animation-delay: 0.75s; }
+  &:nth-child(16) { animation-delay: 0.8s; }
 `;
 
 export const answerContent = css`
