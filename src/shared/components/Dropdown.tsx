@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { css } from '@emotion/css';
+import { css, keyframes } from '@emotion/css';
 import { DropdownIcon } from './DropdownIcon';
 
 interface DropdownOption {
@@ -48,6 +48,24 @@ const iconContainerStyle = css`
   width: 18px;
   height: 18px;
   color: #666;
+  transition: transform 0.2s ease-out;
+
+  &.open {
+    transform: rotate(180deg);
+  }
+`;
+
+const slideDown = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 200px;
+  }
 `;
 
 const dropdownListStyle = css`
@@ -63,6 +81,8 @@ const dropdownListStyle = css`
   max-height: 200px;
   overflow-y: auto;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  animation: ${slideDown} 0.2s ease-out;
+  transform-origin: top;
 `;
 
 const dropdownItemStyle = css`
@@ -130,7 +150,7 @@ export const Dropdown = ({
         <span className={isPlaceholder ? placeholderStyle : ''}>
           {displayValue}
         </span>
-        <div className={iconContainerStyle}>
+        <div className={`${iconContainerStyle} ${isOpen ? 'open' : ''}`}>
           <DropdownIcon />
         </div>
       </button>

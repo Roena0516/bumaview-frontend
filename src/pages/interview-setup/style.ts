@@ -1,20 +1,10 @@
-import { css, keyframes } from '@emotion/css';
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
+import { css } from '@emotion/css';
 
 export const interviewSetupContainer = css`
   background: white;
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;
-  animation: ${fadeIn} 0.15s ease-out;
 `;
 
 export const header = css`

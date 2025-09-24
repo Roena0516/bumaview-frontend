@@ -9,7 +9,7 @@ import * as styles from './style';
 
 
 export const MainPage = () => {
-  const { navigateToPage } = useNavigation();
+  const { navigateToPage, isTransitioning, isPartialTransition } = useNavigation();
   const { isLoggedIn, user } = useAuth();
   const [searchValue, setSearchValue] = useState('');
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -115,7 +115,13 @@ export const MainPage = () => {
         </div>
 
         {/* Content Section */}
-        <div className={styles.contentSection}>
+        <div
+          className={styles.contentSection}
+          style={{
+            opacity: (isTransitioning && isPartialTransition) ? 0 : 1,
+            transition: 'opacity 0.1s ease-in-out'
+          }}
+        >
           <div className={styles.contentTitle}>
             <div className={styles.contentTitleText}>
               면접 질문 리스트

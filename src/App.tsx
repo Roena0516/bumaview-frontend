@@ -13,7 +13,7 @@ import { AuthProvider } from './shared/context/AuthContext';
 import { ToastProvider } from './shared/context/ToastContext';
 
 function AppContent() {
-  const { currentPage, isTransitioning } = useNavigation();
+  const { currentPage, isTransitioning, isPartialTransition } = useNavigation();
 
   const renderPage = () => {
     switch (currentPage) {
@@ -42,8 +42,8 @@ function AppContent() {
   };
 
   const pageStyle = {
-    opacity: isTransitioning ? 0 : 1,
-    transition: 'opacity 0.15s ease-in-out'
+    opacity: (isTransitioning && !isPartialTransition) ? 0 : 1,
+    transition: 'opacity 0.1s ease-in-out'
   };
 
   return (
