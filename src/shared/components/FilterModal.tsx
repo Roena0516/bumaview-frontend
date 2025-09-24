@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { css } from '@emotion/css';
+import { css, keyframes } from '@emotion/css';
 import { Input } from './Input';
 import { Dropdown } from './Dropdown';
 import { Button } from './Button';
+import { getUniqueCompanies, getUniqueFields, getUniqueYears } from '../data/mockQuestions';
 
 interface FilterModalProps {
   isOpen: boolean;
@@ -16,6 +17,26 @@ export interface FilterData {
   year: string;
 }
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const slideUp = keyframes`
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
 const overlayStyle = css`
   position: fixed;
   top: 0;
@@ -27,6 +48,7 @@ const overlayStyle = css`
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  animation: ${fadeIn} 0.2s ease-out;
 `;
 
 const modalStyle = css`
@@ -41,6 +63,7 @@ const modalStyle = css`
   box-sizing: border-box;
   overflow: visible;
   position: relative;
+  animation: ${slideUp} 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 `;
 
 const contentsStyle = css`
@@ -149,6 +172,11 @@ export const FilterModal = ({ isOpen, onClose, onApply }: FilterModalProps) => {
 
   if (!isOpen) return null;
 
+  // 동적으로 옵션 생성
+  const companyOptions = ['전부', ...getUniqueCompanies()];
+  const fieldOptions = ['전부', ...getUniqueFields()];
+  const yearOptions = ['전부', ...getUniqueYears().map(y => y.toString())];
+
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -187,10 +215,10 @@ export const FilterModal = ({ isOpen, onClose, onApply }: FilterModalProps) => {
           <div className={fieldGroupStyle}>
             <div className={fieldLabelStyle}>회사 이름</div>
             <div className={inputStyle}>
-              <Input
-                variant="default"
-                placeholder="회사 이름을 입력해주세요."
+              <Dropdown
                 value={company}
+                placeholder="전부"
+                options={companyOptions}
                 onChange={handleCompanyChange}
               />
             </div>
@@ -204,7 +232,7 @@ export const FilterModal = ({ isOpen, onClose, onApply }: FilterModalProps) => {
                 <Dropdown
                   value={field}
                   placeholder="전부"
-                  options={["전부", "백엔드", "프론트엔드", "AI", "DevOps"]}
+                  options={fieldOptions}
                   onChange={handleFieldChange}
                 />
               </div>
@@ -215,7 +243,7 @@ export const FilterModal = ({ isOpen, onClose, onApply }: FilterModalProps) => {
                 <Dropdown
                   value={year}
                   placeholder="전부"
-                  options={["전부", "2023", "2024", "2025"]}
+                  options={yearOptions}
                   onChange={handleYearChange}
                 />
               </div>

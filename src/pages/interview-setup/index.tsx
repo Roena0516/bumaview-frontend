@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Input, Dropdown } from '../../shared/components';
 import { BackIcon } from '../../shared/components/BackIcon';
 import { useNavigation } from '../../shared/context/NavigationContext';
+import { getUniqueCompanies, getUniqueFields, getUniqueYears } from '../../shared/data/mockQuestions';
 import * as styles from './style';
 
 export const InterviewSetupPage = () => {
@@ -11,21 +12,10 @@ export const InterviewSetupPage = () => {
   const [field, setField] = useState('');
   const [year, setYear] = useState('');
 
-  const fieldOptions = [
-    { label: '전체', value: 'all' },
-    { label: '개발', value: 'development' },
-    { label: '디자인', value: 'design' },
-    { label: '기획', value: 'planning' },
-    { label: '마케팅', value: 'marketing' }
-  ];
-
-  const yearOptions = [
-    { label: '전체', value: 'all' },
-    { label: '2024', value: '2024' },
-    { label: '2023', value: '2023' },
-    { label: '2022', value: '2022' },
-    { label: '2021', value: '2021' }
-  ];
+  // 동적으로 옵션 생성
+  const companyOptions = ['전부', ...getUniqueCompanies()];
+  const fieldOptions = ['전부', ...getUniqueFields()];
+  const yearOptions = ['전부', ...getUniqueYears().map(y => y.toString())];
 
   const handleBackClick = () => {
     navigateToPage('main');
@@ -58,7 +48,7 @@ export const InterviewSetupPage = () => {
     }
 
     console.log('면접 시작', { questionCount, companyName, field, year });
-    navigateToPage('interview');
+    navigateToPage('interview-loading');
   };
 
   return (
@@ -95,9 +85,9 @@ export const InterviewSetupPage = () => {
             <div className={styles.fieldGroup}>
               <div className={styles.fieldLabel}>회사 이름</div>
               <div className={styles.fieldInput}>
-                <Input
-                  variant="default"
-                  placeholder="회사 이름을 입력해주세요"
+                <Dropdown
+                  placeholder="회사를 선택해주세요"
+                  options={companyOptions}
                   value={companyName}
                   onChange={handleCompanyNameChange}
                 />

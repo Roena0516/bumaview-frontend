@@ -2,6 +2,7 @@ import { MainPage } from './pages/main';
 import { LoginPage } from './pages/login';
 import { SignupPage } from './pages/signup';
 import { InterviewSetupPage } from './pages/interview-setup';
+import { InterviewLoadingPage } from './pages/interview-loading';
 import { InterviewPage } from './pages/interview';
 import { InterviewCompletePage } from './pages/interview-complete';
 import { QuestionAnswersPage } from './pages/question-answers';
@@ -21,6 +22,8 @@ function AppContent() {
         return <SignupPage />;
       case 'interview-setup':
         return <InterviewSetupPage />;
+      case 'interview-loading':
+        return <InterviewLoadingPage />;
       case 'interview':
         return <InterviewPage />;
       case 'interview-complete':

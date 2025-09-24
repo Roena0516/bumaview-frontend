@@ -2,75 +2,11 @@ import { useState } from 'react';
 import { Input, Button, FilterModal } from '../../shared/components';
 import { useNavigation } from '../../shared/context/NavigationContext';
 import { useAuth } from '../../shared/context/AuthContext';
-import type { InterviewQuestion } from './types';
+import { mockQuestions, getUniqueCompanies, getUniqueFields, getUniqueYears } from '../../shared/data/mockQuestions';
+import type { InterviewQuestion } from '../../shared/data/mockQuestions';
 import type { FilterData } from '../../shared/components';
 import * as styles from './style';
 
-const mockQuestions: InterviewQuestion[] = [
-  {
-    id: '1',
-    content: '간단한 자기소개 부탁드립니다.',
-    company: '마이다스IT',
-    field: '백엔드',
-    year: 2023
-  },
-  {
-    id: '2',
-    content: '프로젝트를 하면서 가장 중요하게 생각하는 것이 무엇인가요?',
-    company: '마이다스IT',
-    field: '백엔드',
-    year: 2023
-  },
-  {
-    id: '3',
-    content: '우리 회사에 왜 지원하게 되었나요?',
-    company: '모비어스',
-    field: '백엔드',
-    year: 2024
-  },
-  {
-    id: '4',
-    content: '요즘 무슨 책 읽고 계신가요?',
-    company: 'U2SR',
-    field: 'AI',
-    year: 2025
-  },
-  {
-    id: '5',
-    content: '우리 회사에 왜 지원하게 되었나요?',
-    company: '모비어스',
-    field: '백엔드',
-    year: 2024
-  },
-  {
-    id: '6',
-    content: '우리 회사에 왜 지원하게 되었나요?',
-    company: '모비어스',
-    field: '백엔드',
-    year: 2024
-  },
-  {
-    id: '7',
-    content: '우리 회사에 왜 지원하게 되었나요?',
-    company: '모비어스',
-    field: '백엔드',
-    year: 2024
-  },
-  {
-    id: '8',
-    content: '우리 회사에 왜 지원하게 되었나요?',
-    company: '모비어스',
-    field: '백엔드',
-    year: 2024
-  },
-  {
-    id: '9',
-    content: '우리 회사에 왜 지원하게 되었나요?',
-    company: '모비어스',
-    field: '백엔드',
-    year: 2024
-  }
-];
 
 export const MainPage = () => {
   const { navigateToPage } = useNavigation();

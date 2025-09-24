@@ -1,10 +1,20 @@
-import { css } from '@emotion/css';
+import { css, keyframes } from '@emotion/css';
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 export const mainContainer = css`
   background: white;
   width: 100vw;
   min-height: 100vh;
   overflow-x: hidden;
+  animation: ${fadeIn} 0.2s ease-out;
 `;
 
 export const mainContent = css`
@@ -292,7 +302,7 @@ export const detailColumn = css`
   }
 
   &.field {
-    width: 70px;
+    width: 100px;
   }
 
   &.year {
