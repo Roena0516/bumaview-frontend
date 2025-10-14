@@ -63,7 +63,13 @@ export const LoginPage = () => {
 
       login(user);
       showToast('로그인되었습니다!', 'success');
-      navigateToPage('main');
+
+      // admin 아이디로 로그인하면 관리자 페이지로 이동
+      if (username === 'admin') {
+        navigateToPage('admin');
+      } else {
+        navigateToPage('main');
+      }
     } catch (error) {
       // 에러 처리
       let errorMessage = '로그인 중 오류가 발생했습니다.';

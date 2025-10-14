@@ -1,23 +1,61 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Input, Button, FilterModal } from '../../shared/components';
 import { useNavigation } from '../../shared/context/NavigationContext';
 import { useAuth } from '../../shared/context/AuthContext';
-import { mockQuestions, getUniqueCompanies, getUniqueFields, getUniqueYears } from '../../shared/data/mockQuestions';
-import type { InterviewQuestion } from '../../shared/data/mockQuestions';
+import { useToast } from '../../shared/context/ToastContext';
+import { getQuestions, type Question } from '../../api/questions';
 import type { FilterData } from '../../shared/components';
 import * as styles from './style';
 
 
 export const MainPage = () => {
-  const { navigateToPage, isTransitioning, isPartialTransition } = useNavigation();
+  const { navigateToPage, isTransitioning, isPartialTransition, setSelectedQuestionId } = useNavigation();
   const { isLoggedIn, user } = useAuth();
+  const { showToast } = useToast();
   const [searchValue, setSearchValue] = useState('');
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState<FilterData>({
     company: '',
-    field: '',
-    year: ''
+    category: '',
+    question_at: ''
   });
+
+  // 질문 목록 가져오기
+  const fetchQuestions = async () => {
+    setIsLoading(true);
+    try {
+      const filterParams = {
+        ...(filters.company && { company: filters.company }),
+        ...(filters.category && { category: filters.category }),
+        ...(filters.question_at && { question_at: filters.question_at }),
+        ...(searchValue.trim() && { query: searchValue.trim() })
+      };
+
+      const response = await getQuestions(filterParams);
+      console.log('API 응답:', response); // 디버깅용
+      setQuestions(response);
+    } catch (error) {
+      console.error('API 에러:', error); // 디버깅용
+      let errorMessage = '질문을 불러오는 중 오류가 발생했습니다.';
+      if (error && typeof error === 'object' && 'response' in error) {
+        const response = (error as { response?: { data?: { message?: string } } }).response;
+        if (response?.data?.message) {
+          errorMessage = response.data.message;
+        }
+      }
+      showToast(errorMessage, 'error');
+      setQuestions([]); // 에러 시 빈 배열로 설정
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // 컴포넌트 마운트 시 또는 필터/검색어 변경 시 질문 목록 가져오기
+  useEffect(() => {
+    fetchQuestions();
+  }, [filters, searchValue]);
 
   const handleSearchChange = (value: string) => {
     setSearchValue(value);
@@ -33,8 +71,6 @@ export const MainPage = () => {
 
   const handleFilterApply = (newFilters: FilterData) => {
     setFilters(newFilters);
-    console.log('Applied filters:', newFilters);
-    // TODO: 실제 필터링 로직 구현
   };
 
   const handleInterviewClick = () => {
@@ -51,6 +87,7 @@ export const MainPage = () => {
 
   const handleQuestionClick = (questionId: string | number) => {
     console.log('질문 클릭:', questionId);
+    setSelectedQuestionId(typeof questionId === 'string' ? parseInt(questionId) : questionId);
     navigateToPage('question-answers');
   };
 
@@ -172,30 +209,40 @@ export const MainPage = () => {
               </div>
 
               {/* Questions List */}
-              {mockQuestions.map((question) => (
-                <div
-                  key={question.id}
-                  className={styles.questionItem}
-                  onClick={() => handleQuestionClick(question.id)}
-                >
-                  <div className={styles.questionContent}>
-                    <div className={styles.questionText}>
-                      {question.content}
-                    </div>
-                  </div>
-                  <div className={styles.questionDetail}>
-                    <div className={`${styles.detailColumn} company`}>
-                      {question.company}
-                    </div>
-                    <div className={`${styles.detailColumn} field`}>
-                      {question.field}
-                    </div>
-                    <div className={`${styles.detailColumn} year`}>
-                      {question.year}
-                    </div>
-                  </div>
+              {isLoading ? (
+                <div className={styles.loadingContainer}>
+                  질문을 불러오는 중...
                 </div>
-              ))}
+              ) : !questions || questions.length === 0 ? (
+                <div className={styles.emptyContainer}>
+                  질문이 없습니다.
+                </div>
+              ) : (
+                questions.map((question) => (
+                  <div
+                    key={question.id}
+                    className={styles.questionItem}
+                    onClick={() => handleQuestionClick(question.id)}
+                  >
+                    <div className={styles.questionContent}>
+                      <div className={styles.questionText}>
+                        {question.content}
+                      </div>
+                    </div>
+                    <div className={styles.questionDetail}>
+                      <div className={`${styles.detailColumn} company`}>
+                        {question.company}
+                      </div>
+                      <div className={`${styles.detailColumn} field`}>
+                        {question.category}
+                      </div>
+                      <div className={`${styles.detailColumn} year`}>
+                        {question.questionAt}
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>

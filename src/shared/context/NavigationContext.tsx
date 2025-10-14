@@ -1,12 +1,25 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
-type Page = 'main' | 'login' | 'signup' | 'interview-setup' | 'interview-loading' | 'interview' | 'interview-complete' | 'question-answers' | 'answer-detail' | 'mypage';
+type Page = 'main' | 'login' | 'signup' | 'interview-setup' | 'interview-loading' | 'interview' | 'interview-complete' | 'question-answers' | 'answer-detail' | 'mypage' | 'admin';
+
+interface InterviewSettings {
+  category?: string;
+  company?: string;
+  questionAt?: string;
+  amount: number;
+}
 
 interface NavigationContextType {
   currentPage: Page;
   isTransitioning: boolean;
   isPartialTransition: boolean;
+  selectedQuestionId: number | null;
+  selectedAnswerId: number | null;
+  interviewSettings: InterviewSettings | null;
   navigateToPage: (page: Page) => void;
+  setSelectedQuestionId: (id: number | null) => void;
+  setSelectedAnswerId: (id: number | null) => void;
+  setInterviewSettings: (settings: InterviewSettings) => void;
 }
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
@@ -27,6 +40,9 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
   const [currentPage, setCurrentPage] = useState<Page>('main');
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isPartialTransition, setIsPartialTransition] = useState(false);
+  const [selectedQuestionId, setSelectedQuestionId] = useState<number | null>(null);
+  const [selectedAnswerId, setSelectedAnswerId] = useState<number | null>(null);
+  const [interviewSettings, setInterviewSettings] = useState<InterviewSettings | null>(null);
 
   const navigateToPage = (page: Page) => {
     if (page === currentPage) return;
@@ -60,8 +76,10 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
   };
 
   return (
-    <NavigationContext.Provider value={{ currentPage, isTransitioning, isPartialTransition, navigateToPage }}>
+    <NavigationContext.Provider value={{ currentPage, isTransitioning, isPartialTransition, selectedQuestionId, selectedAnswerId, interviewSettings, navigateToPage, setSelectedQuestionId, setSelectedAnswerId, setInterviewSettings }}>
       {children}
     </NavigationContext.Provider>
   );
 };
+
+export type { InterviewSettings };

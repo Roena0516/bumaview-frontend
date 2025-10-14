@@ -1,6 +1,10 @@
+import { useState, useEffect } from "react";
 import { useNavigation } from "../../shared/context/NavigationContext";
 import { useAuth } from "../../shared/context/AuthContext";
+import { useToast } from "../../shared/context/ToastContext";
 import { Button } from "../../shared/components";
+import { getQuestionById } from "../../api/getQuestionById";
+import type { QuestionDetail, Answer as ApiAnswer } from "../../api/getQuestionById";
 import * as styles from "./style";
 
 interface Answer {
@@ -11,63 +15,45 @@ interface Answer {
   score: number;
 }
 
-interface QuestionAnswersPageProps {
-  questionTitle?: string;
-  company?: string;
-  field?: string;
-  year?: string;
-}
-
-const mockAnswers: Answer[] = [
-  {
-    id: 1,
-    content:
-      "저는 대단한 개발자입니다. 저를 뽑지 않으면 큰 후회를 하게 될 것입니다.",
-    userName: "박동현",
-    time: "1:23",
-    score: 0.21,
-  },
-  {
-    id: 2,
-    content: "넹",
-    userName: "박소은",
-    time: "0:03",
-    score: 1.23,
-  },
-  {
-    id: 3,
-    content:
-      "저는 프론트를 중심적으로 공부하고 개발하는 개발자입니다. 저를 뽑아주신다면 정말 열심히 하겠습니다.",
-    userName: "류승찬",
-    time: "1:54",
-    score: 2.43,
-  },
-  {
-    id: 4,
-    content:
-      "저는 백엔드를 중심으로 개발하지만, 다양한 분야를 커버할 수 있습니다. 알지 못하는 분야라도 열심히 공부하여 빠르게 적응할 자신이 있습니다.",
-    userName: "박동현",
-    time: "5:45",
-    score: 3.85,
-  },
-  {
-    id: 5,
-    content:
-      "저는 백엔드를 좋아하는 개발자입니다. 하지만 백엔드 외에도 프론트엔드, 디자인과 같이 다른 분야도 관심이 많습니다. 다양한 분야를 경험해보고 싶습니다.",
-    userName: "김유찬",
-    time: "2:43",
-    score: 4.54,
-  },
-];
-
-export const QuestionAnswersPage = ({
-  questionTitle = "간단한 자기소개 부탁드립니다.",
-  company = "마이다스IT",
-  field = "백엔드",
-  year = "2023",
-}: QuestionAnswersPageProps) => {
-  const { navigateToPage } = useNavigation();
+export const QuestionAnswersPage = () => {
+  const { navigateToPage, selectedQuestionId, setSelectedAnswerId } = useNavigation();
   const { isLoggedIn, user } = useAuth();
+  const { showToast } = useToast();
+
+  const [questionData, setQuestionData] = useState<QuestionDetail | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // 질문 데이터 가져오기
+  useEffect(() => {
+    const fetchQuestion = async () => {
+      if (!selectedQuestionId) {
+        showToast('질문을 선택해주세요.', 'error');
+        navigateToPage('main');
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const data = await getQuestionById(selectedQuestionId);
+        console.log('Question API Response:', data);
+        setQuestionData(data);
+      } catch (error) {
+        let errorMessage = '질문을 불러오는 중 오류가 발생했습니다.';
+        if (error && typeof error === 'object' && 'response' in error) {
+          const response = (error as { response?: { data?: { message?: string } } }).response;
+          if (response?.data?.message) {
+            errorMessage = response.data.message;
+          }
+        }
+        showToast(errorMessage, 'error');
+        navigateToPage('main');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchQuestion();
+  }, [selectedQuestionId]);
 
   const handleLoginClick = () => {
     navigateToPage("login");
@@ -85,13 +71,28 @@ export const QuestionAnswersPage = ({
     navigateToPage("main");
   };
 
-  const handleAnswerClick = (answer: Answer) => {
+  const handleAnswerClick = (answerId: number) => {
+    setSelectedAnswerId(answerId);
     navigateToPage("answer-detail");
   };
 
   const handleNicknameClick = () => {
     navigateToPage("mypage");
   };
+
+  if (isLoading) {
+    return (
+      <div className={styles.questionAnswersContainer}>
+        <div style={{ padding: '40px', textAlign: 'center', fontFamily: 'Pretendard, sans-serif', fontSize: '18px', color: '#868686' }}>
+          로딩 중...
+        </div>
+      </div>
+    );
+  }
+
+  if (!questionData) {
+    return null;
+  }
 
   return (
     <div className={styles.questionAnswersContainer}>
@@ -124,9 +125,9 @@ export const QuestionAnswersPage = ({
       {/* 질문 섹션 */}
       <div className={styles.questionSection}>
         <div className={styles.questionInfo}>
-          <div className={styles.questionTitle}>{questionTitle}</div>
+          <div className={styles.questionTitle}>{questionData.content}</div>
           <div className={styles.questionDetail}>
-            {company} / {field} / {year}
+            {questionData.company} / {questionData.category} / {questionData.questionAt}
           </div>
         </div>
         <div className={styles.backButtonContainer}>
@@ -159,21 +160,41 @@ export const QuestionAnswersPage = ({
             </div>
 
             {/* 답변 리스트 */}
-            {mockAnswers.map((answer) => (
-              <div
-                key={answer.id}
-                className={styles.answerItem}
-                style={{ backgroundColor: styles.getScoreColor(answer.score) }}
-                onClick={() => handleAnswerClick(answer)}
-              >
-                <div className={styles.answerContent}>{answer.content}</div>
-                <div className={styles.answerDetails}>
-                  <div className={styles.answerName}>{answer.userName}</div>
-                  <div className={styles.answerTime}>{answer.time}</div>
-                  <div className={styles.answerScore}>{answer.score}</div>
-                </div>
+            {questionData.answers.length === 0 ? (
+              <div style={{ padding: '40px', textAlign: 'center', fontFamily: 'Pretendard, sans-serif', fontSize: '18px', color: '#868686' }}>
+                답변이 없습니다.
               </div>
-            ))}
+            ) : (
+              questionData.answers.map((answer) => {
+                const backgroundColor = answer.averageScore !== null
+                  ? styles.getScoreColor(answer.averageScore)
+                  : '#ffffff';
+
+                const formatTime = (seconds: number): string => {
+                  const minutes = Math.floor(seconds / 60);
+                  const remainingSeconds = seconds % 60;
+                  return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+                };
+
+                return (
+                  <div
+                    key={answer.id}
+                    className={styles.answerItem}
+                    style={{ backgroundColor }}
+                    onClick={() => handleAnswerClick(answer.id)}
+                  >
+                    <div className={styles.answerContent}>{answer.content}</div>
+                    <div className={styles.answerDetails}>
+                      <div className={styles.answerName}>{answer.userId}</div>
+                      <div className={styles.answerTime}>{formatTime(answer.time)}</div>
+                      <div className={styles.answerScore}>
+                        {answer.averageScore !== null ? answer.averageScore.toFixed(2) : '-'}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ import { getUniqueCompanies, getUniqueFields, getUniqueYears } from '../../share
 import * as styles from './style';
 
 export const InterviewSetupPage = () => {
-  const { navigateToPage } = useNavigation();
+  const { navigateToPage, setInterviewSettings } = useNavigation();
   const { showToast } = useToast();
   const [questionCount, setQuestionCount] = useState('');
   const [companyName, setCompanyName] = useState('');
@@ -44,12 +44,26 @@ export const InterviewSetupPage = () => {
   };
 
   const handleStartClick = () => {
-    if (!questionCount || !companyName || !field || !year) {
-      showToast('모든 필드를 입력해 주세요.', 'error');
+    if (!questionCount) {
+      showToast('질문 개수를 입력해 주세요.', 'error');
       return;
     }
 
-    console.log('면접 시작', { questionCount, companyName, field, year });
+    const count = parseInt(questionCount);
+    if (isNaN(count) || count <= 0) {
+      showToast('유효한 질문 개수를 입력해 주세요.', 'error');
+      return;
+    }
+
+    // 면접 설정 저장
+    setInterviewSettings({
+      amount: count,
+      company: companyName && companyName !== '전부' ? companyName : undefined,
+      category: field && field !== '전부' ? field : undefined,
+      questionAt: year && year !== '전부' ? year : undefined
+    });
+
+    console.log('면접 시작', { questionCount: count, companyName, field, year });
     navigateToPage('interview-loading');
   };
 

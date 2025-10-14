@@ -3,46 +3,20 @@ import { BackIcon } from '../../shared/components/BackIcon';
 import { ConfirmModal } from '../../shared/components';
 import { useNavigation } from '../../shared/context/NavigationContext';
 import { useToast } from '../../shared/context/ToastContext';
+import { getRandomQuestions } from '../../api/getRandomQuestions';
+import { submitAnswer } from '../../api/submitAnswer';
+import type { RandomQuestion } from '../../api/getRandomQuestions';
 import * as styles from './style';
 
-interface InterviewQuestion {
-  id: number;
-  question: string;
-  company: string;
-  field: string;
-  year: string;
-}
-
-const mockQuestions: InterviewQuestion[] = [
-  {
-    id: 1,
-    question: "간단한 자기소개 부탁드립니다.",
-    company: "마이다스IT",
-    field: "백엔드",
-    year: "2023"
-  },
-  {
-    id: 2,
-    question: "프로젝트 경험에 대해 말씀해 주세요.",
-    company: "마이다스IT",
-    field: "백엔드",
-    year: "2023"
-  },
-  {
-    id: 3,
-    question: "팀워크 경험은 어떠하신가요?",
-    company: "마이다스IT",
-    field: "백엔드",
-    year: "2023"
-  }
-];
-
 export const InterviewPage = () => {
-  const { navigateToPage } = useNavigation();
+  const { navigateToPage, interviewSettings } = useNavigation();
   const { showToast } = useToast();
+  const [questions, setQuestions] = useState<RandomQuestion[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answer, setAnswer] = useState('');
   const [answers, setAnswers] = useState<string[]>([]);
+  const [questionStartTimes, setQuestionStartTimes] = useState<number[]>([]);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [showSuccessCheck, setShowSuccessCheck] = useState(false);
   const [showSkipMark, setShowSkipMark] = useState(false);
@@ -50,9 +24,60 @@ export const InterviewPage = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [prevQuestionIndex, setPrevQuestionIndex] = useState(-1);
 
-  const totalQuestions = mockQuestions.length;
-  const currentQuestion = mockQuestions[currentQuestionIndex];
+  const totalQuestions = questions.length;
+  const currentQuestion = questions[currentQuestionIndex];
 
+  // 랜덤 질문 가져오기
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      if (!interviewSettings) {
+        showToast('면접 설정이 없습니다.', 'error');
+        navigateToPage('interview-setup');
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const fetchedQuestions = await getRandomQuestions({
+          amount: interviewSettings.amount,
+          category: interviewSettings.category,
+          company: interviewSettings.company,
+          question_at: interviewSettings.questionAt
+        });
+
+        if (fetchedQuestions.length === 0) {
+          showToast('조건에 맞는 질문이 없습니다.', 'error');
+          navigateToPage('interview-setup');
+          return;
+        }
+
+        setQuestions(fetchedQuestions);
+        setAnswers(new Array(fetchedQuestions.length).fill(''));
+        setQuestionStartTimes(new Array(fetchedQuestions.length).fill(0));
+        setQuestionStartTimes(prev => {
+          const newTimes = [...prev];
+          newTimes[0] = Date.now();
+          return newTimes;
+        });
+      } catch (error) {
+        let errorMessage = '질문을 불러오는 중 오류가 발생했습니다.';
+        if (error && typeof error === 'object' && 'response' in error) {
+          const response = (error as { response?: { data?: { message?: string } } }).response;
+          if (response?.data?.message) {
+            errorMessage = response.data.message;
+          }
+        }
+        showToast(errorMessage, 'error');
+        navigateToPage('interview-setup');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchQuestions();
+  }, []);
+
+  // 타이머
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeElapsed(prev => prev + 1);
@@ -102,9 +127,14 @@ export const InterviewPage = () => {
         setIsTransitioning(true);
         setPrevQuestionIndex(currentQuestionIndex);
 
+        // 다음 질문 시작 시간 기록
+        const newStartTimes = [...questionStartTimes];
+        newStartTimes[currentQuestionIndex + 1] = Date.now();
+        setQuestionStartTimes(newStartTimes);
+
         // 즉시 다음 질문으로 변경
         setCurrentQuestionIndex(prev => prev + 1);
-        setAnswer(newAnswers[currentQuestionIndex + 1] || '');
+        setAnswer(''); // 다음 질문으로 이동 시 답변 초기화
 
         // 트랜지션 완료 후 정리
         setTimeout(() => {
@@ -112,13 +142,12 @@ export const InterviewPage = () => {
           setPrevQuestionIndex(-1);
         }, 300);
       } else {
-        const finalTime = formatTime(timeElapsed);
         navigateToPage('interview-complete');
       }
     }, 1000);
   };
 
-  const handleConfirmClick = () => {
+  const handleConfirmClick = async () => {
     if (!answer.trim()) {
       showToast('답변을 입력해 주세요.', 'error');
       return;
@@ -128,8 +157,25 @@ export const InterviewPage = () => {
     newAnswers[currentQuestionIndex] = answer;
     setAnswers(newAnswers);
 
+    // 답변 시간 계산 (초 단위)
+    const startTime = questionStartTimes[currentQuestionIndex];
+    const endTime = Date.now();
+    const timeTaken = Math.floor((endTime - startTime) / 1000);
+
     // 체크 표시 보여주기
     setShowSuccessCheck(true);
+
+    // API로 답변 제출
+    try {
+      await submitAnswer({
+        questionId: currentQuestion.id,
+        answer: answer.trim(),
+        time: timeTaken
+      });
+    } catch (error) {
+      console.error('답변 제출 실패:', error);
+      // 에러가 나도 계속 진행 (사용자 경험을 위해)
+    }
 
     // 1초 후 다음 동작 실행
     setTimeout(() => {
@@ -140,9 +186,14 @@ export const InterviewPage = () => {
         setIsTransitioning(true);
         setPrevQuestionIndex(currentQuestionIndex);
 
+        // 다음 질문 시작 시간 기록
+        const newStartTimes = [...questionStartTimes];
+        newStartTimes[currentQuestionIndex + 1] = Date.now();
+        setQuestionStartTimes(newStartTimes);
+
         // 즉시 다음 질문으로 변경
         setCurrentQuestionIndex(prev => prev + 1);
-        setAnswer(newAnswers[currentQuestionIndex + 1] || '');
+        setAnswer(''); // 다음 질문으로 이동 시 답변 초기화
 
         // 트랜지션 완료 후 정리
         setTimeout(() => {
@@ -150,11 +201,20 @@ export const InterviewPage = () => {
           setPrevQuestionIndex(-1);
         }, 300);
       } else {
-        const finalTime = formatTime(timeElapsed);
         navigateToPage('interview-complete');
       }
     }, 1000);
   };
+
+  if (isLoading || !currentQuestion) {
+    return (
+      <div className={styles.interviewContainer}>
+        <div style={{ padding: '40px', textAlign: 'center', fontFamily: 'Pretendard, sans-serif', fontSize: '18px', color: '#868686' }}>
+          {isLoading ? '질문을 불러오는 중...' : '질문이 없습니다.'}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.interviewContainer}>
@@ -181,16 +241,11 @@ export const InterviewPage = () => {
         <div className={styles.questionSection}>
           <div className={styles.questionContentWrapper}>
             {/* 이전 질문 (슬라이딩 아웃) */}
-            {isTransitioning && prevQuestionIndex >= 0 && (
+            {isTransitioning && prevQuestionIndex >= 0 && questions[prevQuestionIndex] && (
               <div className={`${styles.questionAnswerContainer} sliding-out`}>
                 <div className={styles.questionArea}>
                   <div className={styles.questionText}>
-                    {mockQuestions[prevQuestionIndex].question}
-                  </div>
-                  <div className={styles.questionDetail}>
-                    <span>{mockQuestions[prevQuestionIndex].company}</span>
-                    <span>{mockQuestions[prevQuestionIndex].field}</span>
-                    <span>{mockQuestions[prevQuestionIndex].year}</span>
+                    {questions[prevQuestionIndex].content}
                   </div>
                 </div>
                 <textarea
@@ -206,12 +261,7 @@ export const InterviewPage = () => {
             <div className={`${styles.questionAnswerContainer} ${isTransitioning ? 'sliding-in' : ''}`}>
               <div className={styles.questionArea}>
                 <div className={styles.questionText}>
-                  {currentQuestion.question}
-                </div>
-                <div className={styles.questionDetail}>
-                  <span>{currentQuestion.company}</span>
-                  <span>{currentQuestion.field}</span>
-                  <span>{currentQuestion.year}</span>
+                  {currentQuestion.content}
                 </div>
               </div>
               <textarea

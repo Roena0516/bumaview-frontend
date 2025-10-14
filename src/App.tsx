@@ -8,6 +8,7 @@ import { InterviewCompletePage } from './pages/interview-complete';
 import { QuestionAnswersPage } from './pages/question-answers';
 import { AnswerDetailPage } from './pages/answer-detail';
 import { MyPage } from './pages/mypage';
+import { AdminPage } from './pages/admin';
 import { NavigationProvider, useNavigation } from './shared/context/NavigationContext';
 import { AuthProvider } from './shared/context/AuthContext';
 import { ToastProvider } from './shared/context/ToastContext';
@@ -35,6 +36,8 @@ function AppContent() {
         return <AnswerDetailPage />;
       case 'mypage':
         return <MyPage />;
+      case 'admin':
+        return <AdminPage />;
       case 'main':
       default:
         return <MainPage />;

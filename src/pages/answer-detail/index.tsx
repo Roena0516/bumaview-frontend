@@ -1,55 +1,54 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigation } from '../../shared/context/NavigationContext';
 import { useAuth } from '../../shared/context/AuthContext';
+import { useToast } from '../../shared/context/ToastContext';
+import { getAnswerById } from '../../api/getAnswerById';
+import type { AnswerDetail } from '../../api/getAnswerById';
 import * as styles from './style';
 import type { AnswerDetailPageProps, AnswerEvaluation } from './types';
 
 const imgStars = "http://localhost:3845/assets/31fa271100de921ae7c60118d038319415893c26.svg";
 
-const mockEvaluations: AnswerEvaluation[] = [
-  {
-    id: 1,
-    content: "답변 이렇게 하시면 안됩니다...",
-    userName: "김유찬",
-    time: "1:23",
-    score: 0.5,
-  },
-  {
-    id: 2,
-    content: "장난으로 쓴건가요??",
-    userName: "박소은",
-    time: "0:03",
-    score: 1,
-  },
-  {
-    id: 3,
-    content: "자신감 넘치는 모습이 보기 좋네요.",
-    userName: "류승찬",
-    time: "1:54",
-    score: 2.5,
-  },
-];
-
-export const AnswerDetailPage = ({
-  answer = {
-    id: 1,
-    content: "저는 대단한 개발자입니다.\n저를 뽑지 않으면 큰 후회를 하게 될 것입니다.",
-    userName: "Nickname",
-    time: "1:23",
-    score: 2.5,
-  },
-  questionInfo = {
-    title: "간단한 자기소개 부탁드립니다.",
-    company: "마이다스IT",
-    field: "백엔드",
-    year: "2023",
-  },
-  evaluations = mockEvaluations,
-}: AnswerDetailPageProps) => {
-  const { navigateToPage } = useNavigation();
+export const AnswerDetailPage = () => {
+  const { navigateToPage, selectedAnswerId } = useNavigation();
   const { isLoggedIn, user } = useAuth();
+  const { showToast } = useToast();
+  const [answerData, setAnswerData] = useState<AnswerDetail | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentRating, setCurrentRating] = useState(0);
   const [evaluationText, setEvaluationText] = useState('');
+
+  // 답변 데이터 가져오기
+  useEffect(() => {
+    const fetchAnswer = async () => {
+      if (!selectedAnswerId) {
+        showToast('답변을 선택해주세요.', 'error');
+        navigateToPage('main');
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const data = await getAnswerById(selectedAnswerId);
+        console.log('Answer API Response:', data);
+        setAnswerData(data);
+      } catch (error) {
+        let errorMessage = '답변을 불러오는 중 오류가 발생했습니다.';
+        if (error && typeof error === 'object' && 'response' in error) {
+          const response = (error as { response?: { data?: { message?: string } } }).response;
+          if (response?.data?.message) {
+            errorMessage = response.data.message;
+          }
+        }
+        showToast(errorMessage, 'error');
+        navigateToPage('main');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAnswer();
+  }, [selectedAnswerId]);
 
   const handleLogoClick = () => {
     navigateToPage('main');
@@ -82,6 +81,22 @@ export const AnswerDetailPage = ({
     navigateToPage('mypage');
   };
 
+  const formatTime = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
+  if (isLoading || !answerData) {
+    return (
+      <div className={styles.answerDetailContainer}>
+        <div style={{ padding: '40px', textAlign: 'center', fontFamily: 'Pretendard, sans-serif', fontSize: '18px', color: '#868686' }}>
+          {isLoading ? '로딩 중...' : '답변이 없습니다.'}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.answerDetailContainer}>
       {/* 헤더 */}
@@ -109,22 +124,22 @@ export const AnswerDetailPage = ({
       <div className={styles.content}>
         <div className={styles.answerSection}>
           <div className={styles.answerHeader}>
-            <div className={styles.userName}>{answer.userName}</div>
-            <div className={styles.time}>{answer.time}</div>
+            <div className={styles.userName}>{answerData.userId}</div>
+            <div className={styles.time}>{formatTime(answerData.time)}</div>
           </div>
 
           <div className={styles.questionAndAnswer}>
             <div className={styles.questionSection}>
-              <div className={styles.questionTitle}>{questionInfo.title}</div>
+              <div className={styles.questionTitle}>{answerData.question.content}</div>
               <div className={styles.questionDetail}>
-                <div>{questionInfo.company}</div>
-                <div>{questionInfo.field}</div>
-                <div>{questionInfo.year}</div>
+                <div>{answerData.question.company}</div>
+                <div>{answerData.question.category}</div>
+                <div>{answerData.question.questionAt}</div>
               </div>
             </div>
 
             <div className={styles.answerBox}>
-              <div className={styles.answerContent}>{answer.content}</div>
+              <div className={styles.answerContent}>{answerData.content}</div>
             </div>
           </div>
         </div>
@@ -187,20 +202,30 @@ export const AnswerDetailPage = ({
               </div>
             </div>
 
-            {evaluations.map((evaluation) => (
-              <div
-                key={evaluation.id}
-                className={styles.evaluationItem}
-                style={{ backgroundColor: styles.getScoreColor(evaluation.score) }}
-              >
-                <div className={styles.evaluationContent}>{evaluation.content}</div>
-                <div className={styles.evaluationDetails}>
-                  <div className={styles.evaluationName}>{evaluation.userName}</div>
-                  <div className={styles.evaluationTime}>{evaluation.time}</div>
-                  <div className={styles.evaluationScore}>{evaluation.score}</div>
-                </div>
+            {answerData.evaluations.length === 0 ? (
+              <div style={{ padding: '40px', textAlign: 'center', fontFamily: 'Pretendard, sans-serif', fontSize: '18px', color: '#868686' }}>
+                평가가 없습니다.
               </div>
-            ))}
+            ) : (
+              answerData.evaluations.map((evaluation) => {
+                const backgroundColor = styles.getScoreColor(evaluation.score);
+
+                return (
+                  <div
+                    key={evaluation.id}
+                    className={styles.evaluationItem}
+                    style={{ backgroundColor }}
+                  >
+                    <div className={styles.evaluationContent}>{evaluation.content}</div>
+                    <div className={styles.evaluationDetails}>
+                      <div className={styles.evaluationName}>{evaluation.userId}</div>
+                      <div className={styles.evaluationTime}>-</div>
+                      <div className={styles.evaluationScore}>{evaluation.score.toFixed(2)}</div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
       </div>

@@ -7,6 +7,7 @@ interface InputProps {
   onChange?: (value: string) => void;
   variant?: "default" | "search";
   type?: "text" | "password" | "email";
+  disabled?: boolean;
 }
 
 const searchContainerStyle = css`
@@ -85,7 +86,8 @@ export const Input = ({
   value,
   onChange,
   variant = "search",
-  type = "text"
+  type = "text",
+  disabled = false
 }: InputProps) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.(e.target.value);
@@ -102,6 +104,7 @@ export const Input = ({
               onChange={handleInputChange}
               placeholder={placeholder}
               className={searchInputStyle}
+              disabled={disabled}
             />
             <div className={iconContainerStyle}>
               <SearchIcon />
@@ -120,6 +123,7 @@ export const Input = ({
         onChange={handleInputChange}
         placeholder={placeholder}
         className={defaultInputStyle}
+        disabled={disabled}
       />
     </div>
   );
