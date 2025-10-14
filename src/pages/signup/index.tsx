@@ -151,6 +151,7 @@ export const SignupPage = () => {
                 <div className={styles.passwordInput}>
                   <Input
                     variant="default"
+                    type="password"
                     placeholder="비밀번호를 입력해주세요"
                     value={password}
                     onChange={handlePasswordChange}
@@ -159,6 +160,7 @@ export const SignupPage = () => {
                 <div className={styles.passwordInput}>
                   <Input
                     variant="default"
+                    type="password"
                     placeholder="비밀번호를 다시 입력해주세요"
                     value={confirmPassword}
                     onChange={handleConfirmPasswordChange}

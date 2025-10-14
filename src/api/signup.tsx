@@ -1,4 +1,4 @@
-import axios from 'axios';
+import apiClient from './config';
 
 interface SignupRequest {
   id: string;
@@ -12,6 +12,6 @@ interface SignupResponse {
 }
 
 export const signup = async (userData: SignupRequest): Promise<SignupResponse> => {
-  const response = await axios.post<SignupResponse>('/auth/signup', userData);
+  const response = await apiClient.post<SignupResponse>('/auth/signup', userData);
   return response.data;
 };

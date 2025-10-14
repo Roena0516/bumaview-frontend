@@ -3,13 +3,17 @@ import { Input, Button } from '../../shared/components';
 import { BackIcon } from '../../shared/components/BackIcon';
 import { useNavigation } from '../../shared/context/NavigationContext';
 import { useAuth } from '../../shared/context/AuthContext';
+import { useToast } from '../../shared/context/ToastContext';
+import { login as loginAPI } from '../../api/login';
 import * as styles from './style';
 
 export const LoginPage = () => {
   const { navigateToPage } = useNavigation();
   const { login } = useAuth();
+  const { showToast } = useToast();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleUsernameChange = (value: string) => {
     setUsername(value);
@@ -23,19 +27,55 @@ export const LoginPage = () => {
     navigateToPage('main');
   };
 
-  const handleLoginClick = () => {
-    if (username.trim() && password.trim()) {
-      // Mock 로그인 - 실제 구현에서는 API 호출
-      const mockUser = {
+  const handleLoginClick = async () => {
+    // 입력값 검증
+    if (!username.trim()) {
+      showToast('아이디를 입력해주세요.', 'error');
+      return;
+    }
+
+    if (!password.trim()) {
+      showToast('비밀번호를 입력해주세요.', 'error');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await loginAPI({
         id: username,
-        nickname: "NickName",
-        answerCount: 293,
-        averageScore: 4.25,
-        evaluationCount: 354,
+        password
+      });
+
+      // 토큰 저장
+      localStorage.setItem('accessToken', response.accessToken);
+      localStorage.setItem('refreshToken', response.refreshToken);
+
+      // TODO: 사용자 정보를 별도 API로 가져와야 할 수도 있음
+      // 현재는 로그인 응답에 사용자 정보가 없으므로 임시로 설정
+      const user = {
+        id: username,
+        nickname: username, // 실제로는 API에서 받아와야 함
+        answerCount: 0,
+        averageScore: 0,
+        evaluationCount: 0,
       };
 
-      login(mockUser);
+      login(user);
+      showToast('로그인되었습니다!', 'success');
       navigateToPage('main');
+    } catch (error) {
+      // 에러 처리
+      let errorMessage = '로그인 중 오류가 발생했습니다.';
+      if (error && typeof error === 'object' && 'response' in error) {
+        const response = (error as { response?: { data?: { message?: string } } }).response;
+        if (response?.data?.message) {
+          errorMessage = response.data.message;
+        }
+      }
+      showToast(errorMessage, 'error');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -86,6 +126,7 @@ export const LoginPage = () => {
               <div className={styles.fieldInput}>
                 <Input
                   variant="default"
+                  type="password"
                   placeholder="비밀번호를 입력해주세요"
                   value={password}
                   onChange={handlePasswordChange}
@@ -100,8 +141,9 @@ export const LoginPage = () => {
               variant="filter"
               size="medium"
               onClick={handleLoginClick}
+              disabled={isLoading}
             >
-              로그인
+              {isLoading ? '로그인 중...' : '로그인'}
             </Button>
           </div>
         </div>
