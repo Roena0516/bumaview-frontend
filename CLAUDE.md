@@ -23,8 +23,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 The app uses a custom navigation context (`NavigationContext`) instead of React Router:
 - All pages are managed through the `NavigationProvider` in `App.tsx`
 - Use `useNavigation()` hook to navigate between pages: `navigateToPage('page-name')`
-- Available pages: main, login, signup, interview-setup, interview, interview-complete, question-answers, answer-detail
+- Available pages: main, login, signup, interview-setup, interview-loading, interview, interview-complete, question-answers, answer-detail, mypage
 - Pages are conditionally rendered in `App.tsx` based on `currentPage` state
+- Special transition logic: Interview flow pages (setup→loading→interview→complete) have no fade transitions, main→question-answers uses partial transitions
 
 ## Page Structure Pattern
 Each page follows a consistent structure in `src/pages/[page-name]/`:
@@ -32,10 +33,16 @@ Each page follows a consistent structure in `src/pages/[page-name]/`:
 - `style.ts` - Emotion CSS styles using `css` template literals
 - `types.ts` - TypeScript interfaces specific to the page (when needed)
 
+## State Management
+The app uses React Context for global state management:
+- `NavigationContext` - Page routing and transition states
+- `AuthContext` - User authentication and profile data
+- `ToastContext` - Global toast notification system
+
 ## Shared Components
 - All reusable components are in `src/shared/components/`
 - Export components through `src/shared/components/index.ts`
-- Components include: Button, Input, Dropdown, FilterModal, BackIcon, SearchIcon, DropdownIcon
+- Components include: Button, Input, Dropdown, FilterModal, BackIcon, SearchIcon, DropdownIcon, Toast, ConfirmModal
 
 # MCP Servers
 

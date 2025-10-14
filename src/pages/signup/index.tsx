@@ -2,14 +2,18 @@ import { useState } from 'react';
 import { Input, Button } from '../../shared/components';
 import { BackIcon } from '../../shared/components/BackIcon';
 import { useNavigation } from '../../shared/context/NavigationContext';
+import { useToast } from '../../shared/context/ToastContext';
+import { signup } from '../../api/signup';
 import * as styles from './style';
 
 export const SignupPage = () => {
   const { navigateToPage } = useNavigation();
+  const { showToast } = useToast();
   const [username, setUsername] = useState('');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleUsernameChange = (value: string) => {
     setUsername(value);
@@ -31,11 +35,59 @@ export const SignupPage = () => {
     navigateToPage('main');
   };
 
-  const handleSignupClick = () => {
-    console.log('회원가입 clicked', { username, nickname, password, confirmPassword });
-    // TODO: 회원가입 API 호출
-    // 성공 시 로그인 페이지로 이동
-    // navigateToPage('login');
+  const handleSignupClick = async () => {
+    // 입력값 검증
+    if (!username.trim()) {
+      showToast('아이디를 입력해주세요.', 'error');
+      return;
+    }
+
+    if (!nickname.trim()) {
+      showToast('닉네임을 입력해주세요.', 'error');
+      return;
+    }
+
+    if (!password.trim()) {
+      showToast('비밀번호를 입력해주세요.', 'error');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      showToast('비밀번호가 일치하지 않습니다.', 'error');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await signup({
+        id: username,
+        nickname,
+        password
+      });
+
+      // 회원가입 성공
+      showToast('회원가입이 완료되었습니다!', 'success');
+
+      // 토큰 저장 (선택적)
+      localStorage.setItem('accessToken', response.accessToken);
+      localStorage.setItem('refreshToken', response.refreshToken);
+
+      // 로그인 페이지로 이동
+      navigateToPage('login');
+    } catch (error) {
+      // 에러 처리
+      let errorMessage = '회원가입 중 오류가 발생했습니다.';
+      if (error && typeof error === 'object' && 'response' in error) {
+        const response = (error as { response?: { data?: { message?: string } } }).response;
+        if (response?.data?.message) {
+          errorMessage = response.data.message;
+        }
+      }
+      showToast(errorMessage, 'error');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleLoginClick = () => {
@@ -122,8 +174,9 @@ export const SignupPage = () => {
               variant="filter"
               size="medium"
               onClick={handleSignupClick}
+              disabled={isLoading}
             >
-              회원가입
+              {isLoading ? '회원가입 중...' : '회원가입'}
             </Button>
           </div>
         </div>

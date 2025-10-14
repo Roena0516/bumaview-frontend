@@ -5,9 +5,10 @@ interface ButtonProps {
   onClick?: () => void;
   variant?: "primary" | "secondary" | "filter";
   size?: "medium" | "large";
+  disabled?: boolean;
 }
 
-const getButtonStyle = (variant: string, size: string) => {
+const getButtonStyle = (variant: string, size: string, disabled: boolean = false) => {
   const baseStyle = css`
     display: flex;
     align-items: center;
@@ -17,11 +18,12 @@ const getButtonStyle = (variant: string, size: string) => {
     font-family: 'Pretendard', sans-serif;
     font-weight: 500;
     line-height: normal;
-    cursor: pointer;
+    cursor: ${disabled ? 'not-allowed' : 'pointer'};
     transition: all 0.2s ease;
+    opacity: ${disabled ? 0.5 : 1};
 
     &:hover {
-      opacity: 0.9;
+      opacity: ${disabled ? 0.5 : 0.9};
     }
   `;
 
@@ -63,16 +65,20 @@ export const Button = ({
   children,
   onClick,
   variant = "primary",
-  size = "medium"
+  size = "medium",
+  disabled = false
 }: ButtonProps) => {
   const handleClick = () => {
-    onClick?.();
+    if (!disabled) {
+      onClick?.();
+    }
   };
 
   return (
     <button
       onClick={handleClick}
-      className={getButtonStyle(variant, size)}
+      disabled={disabled}
+      className={getButtonStyle(variant, size, disabled)}
     >
       {children}
     </button>
