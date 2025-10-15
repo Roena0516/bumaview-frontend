@@ -1,31 +1,42 @@
-import { css } from '@emotion/css';
+import { css, keyframes } from '@emotion/css';
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 export const adminContainer = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  min-height: 100vh;
   background: white;
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  animation: ${fadeIn} 0.2s ease-out;
 `;
 
 export const mainContent = css`
   display: flex;
   flex-direction: column;
-  width: 1280px;
+  width: 100%;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: flex-start;
 `;
 
-// Header
 export const header = css`
+  background: white;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: white;
   padding: 20px 40px;
+  width: 100%;
   box-sizing: border-box;
 `;
 
-export const headerInner = css`
+export const headerContent = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -37,14 +48,18 @@ export const logo = css`
   gap: 10px;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 export const logoText = css`
   font-family: 'Pretendard', sans-serif;
   font-size: 30px;
   color: #1a1515;
-  font-weight: 300;
-  white-space: pre;
+  line-height: normal;
 
   .logo-bu {
     font-weight: 300;
@@ -56,160 +71,166 @@ export const logoText = css`
   }
 `;
 
-export const adminLabel = css`
+export const navigation = css`
   display: flex;
   gap: 35px;
   align-items: center;
-`;
-
-export const adminText = css`
   font-family: 'Pretendard', sans-serif;
   font-size: 20px;
-  font-weight: 400;
   color: #1a1515;
-  white-space: pre;
+  font-weight: 400;
+  cursor: pointer;
+
+  > div:hover {
+    opacity: 0.7;
+  }
 `;
 
-// Section (Pink banner)
-export const section = css`
+export const heroSection = css`
+  background: rgba(255, 203, 207, 0.8);
   display: flex;
   gap: 10px;
-  align-items: center;
-  background: rgba(255, 203, 207, 0.8);
-  padding: 14px 120px;
-  box-sizing: border-box;
   height: 190px;
+  padding: 14px 120px;
   width: 100%;
+  align-items: flex-start;
+  justify-content: flex-start;
+  box-sizing: border-box;
 `;
 
-export const titleContainer = css`
+export const heroTitle = css`
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  height: 100%;
   align-items: flex-start;
   justify-content: center;
-  flex: 1;
-  height: 100%;
   color: #1a1515;
-  white-space: pre;
 `;
 
-export const titleMain = css`
+export const heroMainTitle = css`
   font-family: 'Pretendard', sans-serif;
   font-size: 40px;
   font-weight: 500;
+  line-height: normal;
 `;
 
-export const titleSub = css`
+export const heroSubTitle = css`
   font-family: 'Pretendard', sans-serif;
   font-size: 32px;
   font-weight: 400;
+  line-height: normal;
 `;
 
-export const addButtonContainer = css`
+export const heroButton = css`
   display: flex;
+  gap: 10px;
+  height: 100%;
   align-items: center;
   justify-content: flex-end;
-  height: 100%;
 `;
 
-export const addButton = css`
+export const contentSection = css`
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px;
+  padding: 30px 72px;
+  width: 100%;
   align-items: center;
-  justify-content: center;
-  background: white;
-  height: 70px;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 2px 4px 8px 0px rgba(0, 0, 0, 0.25);
+  justify-content: flex-start;
   box-sizing: border-box;
-  cursor: pointer;
-  transition: transform 0.1s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
 `;
 
-export const addButtonText = css`
+export const contentTitle = css`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4px 0;
+  width: 100%;
+`;
+
+export const contentTitleText = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 26px;
+  font-size: 40px;
   font-weight: 500;
   color: #1a1515;
-  white-space: pre;
+  line-height: normal;
 `;
 
-// Content
-export const content = css`
+export const searchArea = css`
   display: flex;
   flex-direction: column;
   gap: 15px;
   align-items: center;
-  padding: 30px 92px;
-  box-sizing: border-box;
+  justify-content: flex-start;
   width: 100%;
 `;
 
-export const contentInner = css`
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: center;
-`;
-
-export const topSection = css`
+export const searchTop = css`
   display: flex;
   gap: 10px;
   align-items: center;
+  justify-content: flex-start;
   width: 100%;
 `;
 
-export const searchContainer = css`
+export const searchInputContainer = css`
   flex: 1;
-  max-width: 970px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 0;
+  min-width: 0;
 `;
 
-export const filterButtonContainer = css`
+export const searchInput = css`
+  background: white;
+  border-radius: 8px;
+  width: 100%;
+  height: 45px;
+`;
+
+export const filterButton = css`
   width: 120px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
 `;
 
-// Questions section
 export const questionsContainer = css`
+  background: rgba(255, 203, 207, 0.8);
   display: flex;
   flex-direction: column;
   gap: 12px;
-  align-items: center;
-  background: rgba(255, 203, 207, 0.8);
   padding: 18px 30px 24px;
   border-radius: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
   box-sizing: border-box;
 `;
 
-export const questionsTop = css`
+export const questionsHeader = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
   padding: 0 24px;
-  box-sizing: border-box;
+  width: 100%;
 `;
 
-export const questionsTopContent = css`
+export const questionsHeaderContent = css`
+  flex: 1;
   font-family: 'Pretendard', sans-serif;
   font-size: 20px;
   font-weight: 400;
   color: #868686;
   text-align: center;
-  flex: 1;
+  line-height: normal;
 `;
 
-export const questionsTopDetail = css`
+export const questionsHeaderDetail = css`
   display: flex;
   gap: 10px;
   align-items: center;
@@ -218,64 +239,74 @@ export const questionsTopDetail = css`
   font-size: 20px;
   font-weight: 400;
   color: #868686;
+  line-height: normal;
 `;
 
-export const questionsTopDetailItem = css`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-export const questionsTopCompany = css`
-  width: 100px;
-`;
-
-export const questionsTopField = css`
-  width: 70px;
-`;
-
-export const questionsTopYear = css`
-  width: 48px;
-`;
-
-// Question item
-export const questionItem = css`
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  padding: 16px 24px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
-  width: 1040px;
-  box-sizing: border-box;
-  cursor: pointer;
-  transition: transform 0.1s ease;
-
-  &:hover {
-    transform: translateY(-2px);
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-
-  &:active {
+  to {
+    opacity: 1;
     transform: translateY(0);
   }
 `;
 
+export const questionItem = css`
+  background: white;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  opacity: 0;
+  animation: ${fadeInUp} 0.5s ease-out forwards;
+
+  &:hover {
+    background: #f8f8f8;
+    transform: translateY(-1px);
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15);
+  }
+
+  &:nth-child(2) { animation-delay: 0.1s; }
+  &:nth-child(3) { animation-delay: 0.15s; }
+  &:nth-child(4) { animation-delay: 0.2s; }
+  &:nth-child(5) { animation-delay: 0.25s; }
+  &:nth-child(6) { animation-delay: 0.3s; }
+  &:nth-child(7) { animation-delay: 0.35s; }
+  &:nth-child(8) { animation-delay: 0.4s; }
+  &:nth-child(9) { animation-delay: 0.45s; }
+  &:nth-child(10) { animation-delay: 0.5s; }
+  &:nth-child(11) { animation-delay: 0.55s; }
+  &:nth-child(12) { animation-delay: 0.6s; }
+  &:nth-child(13) { animation-delay: 0.65s; }
+  &:nth-child(14) { animation-delay: 0.7s; }
+  &:nth-child(15) { animation-delay: 0.75s; }
+  &:nth-child(16) { animation-delay: 0.8s; }
+`;
+
 export const questionContent = css`
+  flex: 1;
   display: flex;
   gap: 10px;
   align-items: center;
-  justify-content: center;
-  flex: 1;
+  justify-content: flex-start;
+  min-width: 0;
 `;
 
 export const questionText = css`
+  flex: 1;
   font-family: 'Pretendard', sans-serif;
   font-size: 20px;
   font-weight: 400;
   color: #1a1515;
-  flex: 1;
+  line-height: normal;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -290,17 +321,43 @@ export const questionDetail = css`
   font-size: 20px;
   font-weight: 400;
   color: #868686;
+  line-height: normal;
+  flex-shrink: 0;
 `;
 
-export const questionCompany = css`
-  width: 100px;
+export const detailColumn = css`
+  &.company {
+    width: 150px;
+  }
+
+  &.field {
+    width: 100px;
+  }
+
+  &.year {
+    width: 48px;
+    text-align: right;
+  }
 `;
 
-export const questionField = css`
-  width: 70px;
+export const loadingContainer = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #868686;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
 `;
 
-export const questionYear = css`
-  width: 48px;
-  text-align: right;
+export const emptyContainer = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #868686;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
 `;

@@ -74,6 +74,13 @@ export const content = css`
   align-items: center;
   justify-content: flex-start;
   overflow-y: auto;
+  position: relative;
+`;
+
+export const backButtonContainer = css`
+  position: absolute;
+  top: 32px;
+  right: 250px;
 `;
 
 export const answerSection = css`

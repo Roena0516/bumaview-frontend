@@ -7,6 +7,7 @@ interface AddQuestionModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAdd: (data: AddQuestionData) => void;
+  onExcelUpload?: () => void;
 }
 
 export interface AddQuestionData {
@@ -218,7 +219,7 @@ const categoryOptions = ['전부', '백엔드', '프론트엔드', 'AI', '데브
 const currentYear = new Date().getFullYear();
 const yearOptions = ['전부', ...Array.from({ length: 10 }, (_, i) => (currentYear - i).toString())];
 
-export const AddQuestionModal = ({ isOpen, onClose, onAdd }: AddQuestionModalProps) => {
+export const AddQuestionModal = ({ isOpen, onClose, onAdd, onExcelUpload }: AddQuestionModalProps) => {
   const [content, setContent] = useState('');
   const [company, setCompany] = useState('');
   const [category, setCategory] = useState('');
@@ -260,8 +261,9 @@ export const AddQuestionModal = ({ isOpen, onClose, onAdd }: AddQuestionModalPro
   };
 
   const handleExcelUploadClick = () => {
-    // TODO: 엑셀 파일 업로드 기능 구현
-    console.log('엑셀 파일 업로드 클릭');
+    if (onExcelUpload) {
+      onExcelUpload();
+    }
   };
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

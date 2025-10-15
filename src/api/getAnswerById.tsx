@@ -1,11 +1,10 @@
-import apiClient from './config';
+import apiClient from "./config";
 
-interface Evaluation {
+interface Score {
   id: number;
-  content: string;
   score: number;
+  content: string;
   userId: string;
-  createdAt: string;
 }
 
 interface AnswerDetail {
@@ -14,20 +13,14 @@ interface AnswerDetail {
   time: number;
   userId: string;
   questionId: number;
-  question: {
-    id: number;
-    content: string;
-    company: string;
-    category: string;
-    questionAt: string;
-  };
-  evaluations: Evaluation[];
-  averageScore: number | null;
+  scores: Score[];
 }
 
-export const getAnswerById = async (answerId: number): Promise<AnswerDetail> => {
+export const getAnswerById = async (
+  answerId: number
+): Promise<AnswerDetail> => {
   const response = await apiClient.get<AnswerDetail>(`/answers/${answerId}`);
   return response.data;
 };
 
-export type { AnswerDetail, Evaluation };
+export type { AnswerDetail, Score };

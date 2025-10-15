@@ -8,5 +8,6 @@ export { AddQuestionModal } from './AddQuestionModal';
 export { BackIcon } from './BackIcon';
 export { Toast } from './Toast';
 export { ConfirmModal } from './ConfirmModal';
+export { FileUploadModal } from './FileUploadModal';
 export type { FilterData } from './FilterModal';
 export type { AddQuestionData } from './AddQuestionModal';

@@ -288,6 +288,25 @@ export const answerScore = css`
   text-align: right;
 `;
 
+export const deleteButton = css`
+  background: #ff6b6b;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 16px;
+  flex-shrink: 0;
+
+  &:hover {
+    background: #ff5252;
+  }
+`;
+
 // 점수별 색상 정의
 export const getScoreColor = (score: number): string => {
   if (score >= 0 && score < 1) return '#f7a8a8'; // 0점대

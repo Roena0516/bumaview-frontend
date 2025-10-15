@@ -1,5 +1,12 @@
+import { useState, useEffect } from 'react';
 import { useNavigation } from '../../shared/context/NavigationContext';
 import { useAuth } from '../../shared/context/AuthContext';
+import { useToast } from '../../shared/context/ToastContext';
+import { getMyInfo } from '../../api/getMyInfo';
+import { getMyAnswers } from '../../api/getMyAnswers';
+import { deleteAnswer } from '../../api/deleteAnswer';
+import type { MyInfo } from '../../api/getMyInfo';
+import type { MyAnswer } from '../../api/getMyAnswers';
 import * as styles from './style';
 import type { MyPageProps, UserAnswer } from './types';
 
@@ -39,8 +46,43 @@ const mockUserAnswers: UserAnswer[] = [
 export const MyPage = ({
   userAnswers = mockUserAnswers,
 }: MyPageProps) => {
-  const { navigateToPage } = useNavigation();
+  const { navigateToPage, setSelectedQuestionId } = useNavigation();
   const { user, logout } = useAuth();
+  const { showToast } = useToast();
+  const [myInfo, setMyInfo] = useState<MyInfo | null>(null);
+  const [myAnswers, setMyAnswers] = useState<MyAnswer[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // 내 정보 및 답변 조회
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const [info, answers] = await Promise.all([
+          getMyInfo(),
+          getMyAnswers()
+        ]);
+        console.log('내 정보 조회 API 응답:', info);
+        console.log('내 답변 조회 API 응답:', answers);
+        setMyInfo(info);
+        setMyAnswers(answers);
+      } catch (error) {
+        console.error('데이터 조회 실패:', error);
+        let errorMessage = '정보를 불러오는 중 오류가 발생했습니다.';
+        if (error && typeof error === 'object' && 'response' in error) {
+          const response = (error as { response?: { data?: { message?: string } } }).response;
+          if (response?.data?.message) {
+            errorMessage = response.data.message;
+          }
+        }
+        showToast(errorMessage, 'error');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleLogoClick = () => {
     navigateToPage('main');
@@ -51,12 +93,55 @@ export const MyPage = ({
     navigateToPage('main');
   };
 
-  const handleAnswerClick = (answer: UserAnswer) => {
-    navigateToPage('answer-detail');
+  const handleAnswerClick = (questionId: number) => {
+    setSelectedQuestionId(questionId);
+    navigateToPage('question-answers');
   };
 
-  if (!user) {
-    return null;
+  const formatTime = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
+  const handleDeleteAnswer = async (e: React.MouseEvent, answerId: number) => {
+    e.stopPropagation(); // 부모의 클릭 이벤트 방지
+
+    if (!window.confirm('정말 이 답변을 삭제하시겠습니까?')) {
+      return;
+    }
+
+    try {
+      await deleteAnswer(answerId);
+      showToast('답변이 삭제되었습니다.', 'success');
+
+      // 답변 목록 다시 가져오기
+      const updatedAnswers = await getMyAnswers();
+      setMyAnswers(updatedAnswers);
+
+      // 내 정보도 업데이트 (답변 수 변경)
+      const updatedInfo = await getMyInfo();
+      setMyInfo(updatedInfo);
+    } catch (error) {
+      let errorMessage = '답변 삭제 중 오류가 발생했습니다.';
+      if (error && typeof error === 'object' && 'response' in error) {
+        const response = (error as { response?: { data?: { message?: string } } }).response;
+        if (response?.data?.message) {
+          errorMessage = response.data.message;
+        }
+      }
+      showToast(errorMessage, 'error');
+    }
+  };
+
+  if (isLoading || !myInfo) {
+    return (
+      <div className={styles.myPageContainer}>
+        <div style={{ padding: '40px', textAlign: 'center', fontFamily: 'Pretendard, sans-serif', fontSize: '18px', color: '#868686' }}>
+          {isLoading ? '로딩 중...' : '정보를 불러올 수 없습니다.'}
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -71,7 +156,7 @@ export const MyPage = ({
         </div>
         <div className={styles.authSection}>
           <div className={styles.nickname}>
-            {user.nickname}
+            {myInfo.id}
           </div>
         </div>
       </div>
@@ -96,11 +181,11 @@ export const MyPage = ({
           <div className={styles.infoCard}>
             <div className={styles.infoRow}>
               <div className={styles.infoLabel}>아이디</div>
-              <div className={styles.infoValue}>{user.id}</div>
+              <div className={styles.infoValue}>{myInfo.id}</div>
             </div>
             <div className={styles.infoRow}>
               <div className={styles.infoLabel}>닉네임</div>
-              <div className={styles.infoValue}>{user.nickname}</div>
+              <div className={styles.infoValue}>{myInfo.nickname}</div>
             </div>
           </div>
         </div>
@@ -110,15 +195,15 @@ export const MyPage = ({
           <div className={styles.infoCard}>
             <div className={styles.infoRow}>
               <div className={styles.infoLabel}>답변 수</div>
-              <div className={styles.infoValue}>{user.answerCount}회</div>
+              <div className={styles.infoValue}>{myInfo.answerCount}회</div>
             </div>
             <div className={styles.infoRow}>
               <div className={styles.infoLabel}>평균 점수</div>
-              <div className={styles.infoValue}>{user.averageScore}점</div>
+              <div className={styles.infoValue}>{(myInfo.averageScore / 2).toFixed(1)}점</div>
             </div>
             <div className={styles.infoRow}>
               <div className={styles.infoLabel}>평가한 답변 수</div>
-              <div className={styles.infoValue}>{user.evaluationCount}회</div>
+              <div className={styles.infoValue}>{myInfo.evaluatedCount}회</div>
             </div>
           </div>
         </div>
@@ -136,20 +221,37 @@ export const MyPage = ({
               </div>
             </div>
 
-            {userAnswers.map((answer) => (
-              <div
-                key={answer.id}
-                className={styles.answerItem}
-                style={{ backgroundColor: styles.getScoreColor(answer.score) }}
-                onClick={() => handleAnswerClick(answer)}
-              >
-                <div className={styles.answerContent}>{answer.content}</div>
-                <div className={styles.answerDetails}>
-                  <div className={styles.answerTime}>{answer.time}</div>
-                  <div className={styles.answerScore}>{answer.score}</div>
-                </div>
+            {myAnswers.length === 0 ? (
+              <div style={{ padding: '40px', textAlign: 'center', fontFamily: 'Pretendard, sans-serif', fontSize: '18px', color: '#868686' }}>
+                작성한 답변이 없습니다.
               </div>
-            ))}
+            ) : (
+              myAnswers.map((answer) => {
+                // 1~10 정수를 0.5~5.0 범위로 변환
+                const displayScore = answer.averageScore / 2;
+
+                return (
+                  <div
+                    key={answer.id}
+                    className={styles.answerItem}
+                    style={{ backgroundColor: styles.getScoreColor(displayScore) }}
+                    onClick={() => handleAnswerClick(answer.questionId)}
+                  >
+                    <button
+                      className={styles.deleteButton}
+                      onClick={(e) => handleDeleteAnswer(e, answer.id)}
+                    >
+                      삭제
+                    </button>
+                    <div className={styles.answerContent}>{answer.content}</div>
+                    <div className={styles.answerDetails}>
+                      <div className={styles.answerTime}>{formatTime(answer.time)}</div>
+                      <div className={styles.answerScore}>{displayScore.toFixed(1)}</div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
       </div>

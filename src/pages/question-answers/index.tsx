@@ -80,18 +80,11 @@ export const QuestionAnswersPage = () => {
     navigateToPage("mypage");
   };
 
-  if (isLoading) {
+  if (isLoading || !questionData) {
     return (
       <div className={styles.questionAnswersContainer}>
-        <div style={{ padding: '40px', textAlign: 'center', fontFamily: 'Pretendard, sans-serif', fontSize: '18px', color: '#868686' }}>
-          로딩 중...
-        </div>
       </div>
     );
-  }
-
-  if (!questionData) {
-    return null;
   }
 
   return (
@@ -166,8 +159,10 @@ export const QuestionAnswersPage = () => {
               </div>
             ) : (
               questionData.answers.map((answer) => {
-                const backgroundColor = answer.averageScore !== null
-                  ? styles.getScoreColor(answer.averageScore)
+                // 1~10 정수를 0.5~5.0 범위로 변환
+                const displayScore = answer.averageScore !== null ? answer.averageScore / 2 : null;
+                const backgroundColor = displayScore !== null
+                  ? styles.getScoreColor(displayScore)
                   : '#ffffff';
 
                 const formatTime = (seconds: number): string => {
@@ -188,7 +183,7 @@ export const QuestionAnswersPage = () => {
                       <div className={styles.answerName}>{answer.userId}</div>
                       <div className={styles.answerTime}>{formatTime(answer.time)}</div>
                       <div className={styles.answerScore}>
-                        {answer.averageScore !== null ? answer.averageScore.toFixed(2) : '-'}
+                        {displayScore !== null ? displayScore.toFixed(1) : '-'}
                       </div>
                     </div>
                   </div>

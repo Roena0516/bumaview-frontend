@@ -327,7 +327,7 @@ export const questionDetail = css`
 
 export const detailColumn = css`
   &.company {
-    width: 100px;
+    width: 150px;
   }
 
   &.field {
