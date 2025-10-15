@@ -5,6 +5,7 @@ import type { AddQuestionData } from '../../shared/components';
 import { getQuestions } from '../../api/questions';
 import { createQuestion } from '../../api/createQuestion';
 import { uploadQuestions } from '../../api/uploadQuestions';
+import { deleteQuestion } from '../../api/deleteQuestion';
 import type { Question } from '../../api/questions';
 import * as styles from './style';
 
@@ -15,6 +16,7 @@ export const AdminPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isFileUploadModalOpen, setIsFileUploadModalOpen] = useState(false);
+  const [flippedQuestionId, setFlippedQuestionId] = useState<number | null>(null);
 
   // 질문 목록 불러오기
   const fetchQuestions = async (query?: string) => {
@@ -113,8 +115,39 @@ export const AdminPage = () => {
   };
 
   const handleQuestionClick = (questionId: number) => {
-    // TODO: Navigate to edit question page or open modal
-    console.log('Question clicked:', questionId);
+    setFlippedQuestionId(flippedQuestionId === questionId ? null : questionId);
+  };
+
+  const handleContainerClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      setFlippedQuestionId(null);
+    }
+  };
+
+  const handleDeleteQuestion = async (e: React.MouseEvent, questionId: number) => {
+    e.stopPropagation();
+
+    if (!window.confirm('정말 이 질문을 삭제하시겠습니까?')) {
+      return;
+    }
+
+    try {
+      await deleteQuestion(questionId);
+      showToast('질문이 삭제되었습니다.', 'success');
+
+      // 질문 목록 새로고침
+      fetchQuestions(searchQuery);
+      setFlippedQuestionId(null);
+    } catch (error) {
+      let errorMessage = '질문 삭제 중 오류가 발생했습니다.';
+      if (error && typeof error === 'object' && 'response' in error) {
+        const response = (error as { response?: { data?: { message?: string } } }).response;
+        if (response?.data?.message) {
+          errorMessage = response.data.message;
+        }
+      }
+      showToast(errorMessage, 'error');
+    }
   };
 
   const handleSearchChange = (value: string) => {
@@ -198,7 +231,7 @@ export const AdminPage = () => {
             </div>
 
             {/* Questions Container */}
-            <div className={styles.questionsContainer}>
+            <div className={styles.questionsContainer} onClick={handleContainerClick}>
               {/* Questions Header */}
               <div className={styles.questionsHeader}>
                 <div className={styles.questionsHeaderContent}>
@@ -227,30 +260,46 @@ export const AdminPage = () => {
                   질문이 없습니다.
                 </div>
               ) : (
-                questions.map((question) => (
-                  <div
-                    key={question.id}
-                    className={styles.questionItem}
-                    onClick={() => handleQuestionClick(question.id)}
-                  >
-                    <div className={styles.questionContent}>
-                      <div className={styles.questionText}>
-                        {question.content}
+                questions.map((question) => {
+                  const isFlipped = flippedQuestionId === question.id;
+                  return (
+                    <div
+                      key={question.id}
+                      className={styles.questionItem}
+                      onClick={() => handleQuestionClick(question.id)}
+                    >
+                      <div className={isFlipped ? styles.cardInnerFlipped : styles.cardInner}>
+                        {/* 앞면 */}
+                        <div className={styles.cardFront}>
+                          <div className={styles.questionContent}>
+                            <div className={styles.questionText}>
+                              {question.content}
+                            </div>
+                          </div>
+                          <div className={styles.questionDetail}>
+                            <div className={`${styles.detailColumn} company`}>
+                              {question.company}
+                            </div>
+                            <div className={`${styles.detailColumn} field`}>
+                              {question.category}
+                            </div>
+                            <div className={`${styles.detailColumn} year`}>
+                              {question.questionAt}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* 뒷면 */}
+                        <div
+                          className={styles.cardBack}
+                          onClick={(e) => handleDeleteQuestion(e, question.id)}
+                        >
+                          삭제
+                        </div>
                       </div>
                     </div>
-                    <div className={styles.questionDetail}>
-                      <div className={`${styles.detailColumn} company`}>
-                        {question.company}
-                      </div>
-                      <div className={`${styles.detailColumn} field`}>
-                        {question.category}
-                      </div>
-                      <div className={`${styles.detailColumn} year`}>
-                        {question.questionAt}
-                      </div>
-                    </div>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
           </div>

@@ -254,25 +254,12 @@ const fadeInUp = keyframes`
 `;
 
 export const questionItem = css`
-  background: white;
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 24px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
   width: 100%;
-  box-sizing: border-box;
+  height: 72px;
+  perspective: 1000px;
   cursor: pointer;
   opacity: 0;
   animation: ${fadeInUp} 0.5s ease-out forwards;
-
-  &:hover {
-    background: #f8f8f8;
-    transform: translateY(-1px);
-    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15);
-  }
 
   &:nth-child(2) { animation-delay: 0.1s; }
   &:nth-child(3) { animation-delay: 0.15s; }
@@ -289,6 +276,74 @@ export const questionItem = css`
   &:nth-child(14) { animation-delay: 0.7s; }
   &:nth-child(15) { animation-delay: 0.75s; }
   &:nth-child(16) { animation-delay: 0.8s; }
+`;
+
+export const cardInner = css`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+`;
+
+export const cardInnerFlipped = css`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  transform: rotateX(180deg);
+`;
+
+export const cardFront = css`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: white;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+
+  ${questionItem}:hover & {
+    background: #f8f8f8;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15);
+  }
+`;
+
+export const cardBack = css`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: #ff6b6b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  transform: rotateX(180deg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
+
+  &:hover {
+    background: #ff5252;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: rotateX(180deg) scale(0.98);
+  }
 `;
 
 export const questionContent = css`
@@ -361,3 +416,4 @@ export const emptyContainer = css`
   font-size: 18px;
   font-weight: 400;
 `;
+

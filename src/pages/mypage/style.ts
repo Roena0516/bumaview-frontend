@@ -238,20 +238,104 @@ export const scoreHeader = css`
 
 export const answerItem = css`
   width: 100%;
-  padding: 16px 24px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  height: 72px;
+  perspective: 1000px;
+  cursor: pointer;
+`;
+
+export const cardInner = css`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+`;
+
+export const cardInnerFlipped = css`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  transform: rotateX(180deg);
+`;
+
+export const cardFront = css`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
   display: flex;
   gap: 16px;
   align-items: center;
   justify-content: space-between;
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
+  transition: all 0.2s ease;
+
+  ${answerItem}:hover & {
+    transform: translateY(-1px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+  }
+`;
+
+export const cardBack = css`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  box-sizing: border-box;
+  transform: rotateX(180deg);
+  overflow: hidden;
+`;
+
+export const detailButton = css`
+  flex: 1;
+  height: 100%;
+  background: #4a90e2;
+  border: none;
+  border-radius: 0;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    background: #357abd;
+  }
+
+  &:active {
+    background: #2d6399;
+  }
+`;
+
+export const deleteAnswerButton = css`
+  flex: 1;
+  height: 100%;
+  background: #ff6b6b;
+  border: none;
+  border-radius: 0;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #ff5252;
+  }
+
+  &:active {
+    background: #e63939;
   }
 `;
 
@@ -286,24 +370,6 @@ export const answerScore = css`
   text-align: right;
 `;
 
-export const deleteButton = css`
-  background: #ff6b6b;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
-  font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: white;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-right: 16px;
-  flex-shrink: 0;
-
-  &:hover {
-    background: #ff5252;
-  }
-`;
 
 // 점수별 색상 정의
 export const getScoreColor = (score: number): string => {

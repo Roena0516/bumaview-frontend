@@ -52,6 +52,7 @@ export const MyPage = ({
   const [myInfo, setMyInfo] = useState<MyInfo | null>(null);
   const [myAnswers, setMyAnswers] = useState<MyAnswer[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [flippedAnswerId, setFlippedAnswerId] = useState<number | null>(null);
 
   // 내 정보 및 답변 조회
   useEffect(() => {
@@ -93,9 +94,19 @@ export const MyPage = ({
     navigateToPage('main');
   };
 
-  const handleAnswerClick = (questionId: number) => {
+  const handleAnswerClick = (answerId: number) => {
+    setFlippedAnswerId(flippedAnswerId === answerId ? null : answerId);
+  };
+
+  const handleAnswerNavigation = (questionId: number) => {
     setSelectedQuestionId(questionId);
     navigateToPage('question-answers');
+  };
+
+  const handleContainerClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      setFlippedAnswerId(null);
+    }
   };
 
   const formatTime = (seconds: number): string => {
@@ -122,6 +133,9 @@ export const MyPage = ({
       // 내 정보도 업데이트 (답변 수 변경)
       const updatedInfo = await getMyInfo();
       setMyInfo(updatedInfo);
+
+      // 뒤집힌 카드 초기화
+      setFlippedAnswerId(null);
     } catch (error) {
       let errorMessage = '답변 삭제 중 오류가 발생했습니다.';
       if (error && typeof error === 'object' && 'response' in error) {
@@ -212,7 +226,7 @@ export const MyPage = ({
         <div className={styles.sectionTitle}>내 답변</div>
 
         <div className={styles.answersSection}>
-          <div className={styles.answersContainer}>
+          <div className={styles.answersContainer} onClick={handleContainerClick}>
             <div className={styles.answersHeader}>
               <div className={styles.contentHeader}>내용</div>
               <div className={styles.detailsHeader}>
@@ -229,24 +243,45 @@ export const MyPage = ({
               myAnswers.map((answer) => {
                 // 1~10 정수를 0.5~5.0 범위로 변환
                 const displayScore = answer.averageScore / 2;
+                const isFlipped = flippedAnswerId === answer.id;
 
                 return (
                   <div
                     key={answer.id}
                     className={styles.answerItem}
-                    style={{ backgroundColor: styles.getScoreColor(displayScore) }}
-                    onClick={() => handleAnswerClick(answer.questionId)}
+                    onClick={() => handleAnswerClick(answer.id)}
                   >
-                    <button
-                      className={styles.deleteButton}
-                      onClick={(e) => handleDeleteAnswer(e, answer.id)}
-                    >
-                      삭제
-                    </button>
-                    <div className={styles.answerContent}>{answer.content}</div>
-                    <div className={styles.answerDetails}>
-                      <div className={styles.answerTime}>{formatTime(answer.time)}</div>
-                      <div className={styles.answerScore}>{displayScore.toFixed(1)}</div>
+                    <div className={isFlipped ? styles.cardInnerFlipped : styles.cardInner}>
+                      {/* 앞면 */}
+                      <div
+                        className={styles.cardFront}
+                        style={{ backgroundColor: styles.getScoreColor(displayScore) }}
+                      >
+                        <div className={styles.answerContent}>{answer.content}</div>
+                        <div className={styles.answerDetails}>
+                          <div className={styles.answerTime}>{formatTime(answer.time)}</div>
+                          <div className={styles.answerScore}>{displayScore.toFixed(1)}</div>
+                        </div>
+                      </div>
+
+                      {/* 뒷면 */}
+                      <div className={styles.cardBack}>
+                        <button
+                          className={styles.detailButton}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleAnswerNavigation(answer.questionId);
+                          }}
+                        >
+                          자세히 보기
+                        </button>
+                        <button
+                          className={styles.deleteAnswerButton}
+                          onClick={(e) => handleDeleteAnswer(e, answer.id)}
+                        >
+                          삭제
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );

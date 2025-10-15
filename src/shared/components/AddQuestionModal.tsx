@@ -346,7 +346,7 @@ export const AddQuestionModal = ({ isOpen, onClose, onAdd, onExcelUpload, questi
                 <Dropdown
                   value={questionAt}
                   placeholder="전부"
-                  options={yearOptions}
+                  options={questionAtOptions}
                   onChange={handleQuestionAtChange}
                 />
               </div>
