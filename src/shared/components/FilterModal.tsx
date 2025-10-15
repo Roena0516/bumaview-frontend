@@ -1,8 +1,6 @@
 import { useState, useMemo } from 'react';
 import { css, keyframes } from '@emotion/css';
-import { Input } from './Input';
 import { Dropdown } from './Dropdown';
-import { Button } from './Button';
 
 interface Question {
   id: number;

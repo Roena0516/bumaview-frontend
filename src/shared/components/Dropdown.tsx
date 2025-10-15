@@ -157,7 +157,7 @@ export const Dropdown = ({
 
       {isOpen && (
         <div className={dropdownListStyle}>
-          {options.map((option, index) => {
+          {options.map((option) => {
             const optionLabel = typeof option === 'string' ? option : option.label;
             const optionKey = typeof option === 'string' ? option : option.value;
 

@@ -4,16 +4,8 @@ import { useAuth } from "../../shared/context/AuthContext";
 import { useToast } from "../../shared/context/ToastContext";
 import { Button } from "../../shared/components";
 import { getQuestionById } from "../../api/getQuestionById";
-import type { QuestionDetail, Answer as ApiAnswer } from "../../api/getQuestionById";
+import type { QuestionDetail } from "../../api/getQuestionById";
 import * as styles from "./style";
-
-interface Answer {
-  id: number;
-  content: string;
-  userName: string;
-  time: string;
-  score: number;
-}
 
 export const QuestionAnswersPage = () => {
   const { navigateToPage, selectedQuestionId, setSelectedAnswerId } = useNavigation();

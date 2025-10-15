@@ -9,9 +9,6 @@ import { Button } from '../../shared/components';
 import type { AnswerDetail } from '../../api/getAnswerById';
 import type { QuestionDetail } from '../../api/getQuestionById';
 import * as styles from './style';
-import type { AnswerDetailPageProps, AnswerEvaluation } from './types';
-
-const imgStars = "http://localhost:3845/assets/31fa271100de921ae7c60118d038319415893c26.svg";
 
 export const AnswerDetailPage = () => {
   const { navigateToPage, selectedAnswerId } = useNavigation();

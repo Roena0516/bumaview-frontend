@@ -1,8 +1,8 @@
-import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import { getCookie, deleteAllAuthCookies, setCookie } from '../shared/utils/cookies';
 
-// API 베이스 URL 설정
-const API_BASE_URL = 'https://bumaview-production.up.railway.app';
+// API 베이스 URL 설정 (환경 변수에서 가져오기)
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://bumaview-production.up.railway.app';
 
 // axios 인스턴스 생성
 const apiClient = axios.create({

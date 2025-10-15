@@ -8,46 +8,10 @@ import { deleteAnswer } from '../../api/deleteAnswer';
 import type { MyInfo } from '../../api/getMyInfo';
 import type { MyAnswer } from '../../api/getMyAnswers';
 import * as styles from './style';
-import type { MyPageProps, UserAnswer } from './types';
 
-const mockUserAnswers: UserAnswer[] = [
-  {
-    id: 1,
-    content: "저는 대단한 개발자입니다. 저를 뽑지 않으면 큰 후회를 하게 될 것입니다.",
-    time: "1:23",
-    score: 0.21,
-  },
-  {
-    id: 2,
-    content: "넹",
-    time: "0:03",
-    score: 1.23,
-  },
-  {
-    id: 3,
-    content: "저는 프론트를 중심적으로 공부하고 개발하는 개발자입니다. 저를 뽑아주신다면 정말 열심히 하겠",
-    time: "1:54",
-    score: 2.43,
-  },
-  {
-    id: 4,
-    content: "저는 백엔드를 중심으로 개발하지만, 다양한 분야를 커버할 수 있습니다. 알지 못하는 분야라도 열",
-    time: "5:45",
-    score: 3.85,
-  },
-  {
-    id: 5,
-    content: "저는 백엔드를 좋아하는 개발자입니다. 하지만 백엔드 외에도 프론트엔드, 디자인과 같이 다른 분야도",
-    time: "2:43",
-    score: 4.54,
-  },
-];
-
-export const MyPage = ({
-  userAnswers = mockUserAnswers,
-}: MyPageProps) => {
+export const MyPage = () => {
   const { navigateToPage, setSelectedQuestionId } = useNavigation();
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const { showToast } = useToast();
   const [myInfo, setMyInfo] = useState<MyInfo | null>(null);
   const [myAnswers, setMyAnswers] = useState<MyAnswer[]>([]);

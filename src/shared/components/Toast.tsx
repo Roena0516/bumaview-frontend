@@ -65,7 +65,6 @@ export const Toast = ({
   onClose,
   duration = 3000,
   isClosing = false,
-  stackIndex = 0
 }: ToastProps) => {
   useEffect(() => {
     if (isClosing) return;
