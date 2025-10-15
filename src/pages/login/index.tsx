@@ -5,6 +5,7 @@ import { useNavigation } from '../../shared/context/NavigationContext';
 import { useAuth } from '../../shared/context/AuthContext';
 import { useToast } from '../../shared/context/ToastContext';
 import { login as loginAPI } from '../../api/login';
+import { setCookie } from '../../shared/utils/cookies';
 import * as styles from './style';
 
 export const LoginPage = () => {
@@ -47,9 +48,17 @@ export const LoginPage = () => {
         password
       });
 
-      // 토큰 저장
-      localStorage.setItem('accessToken', response.accessToken);
-      localStorage.setItem('refreshToken', response.refreshToken);
+      // 토큰 저장 (쿠키 사용)
+      setCookie('accessToken', response.accessToken, {
+        days: 1, // 1일 유효
+        secure: true,
+        sameSite: 'Strict'
+      });
+      setCookie('refreshToken', response.refreshToken, {
+        days: 7, // 7일 유효
+        secure: true,
+        sameSite: 'Strict'
+      });
 
       // TODO: 사용자 정보를 별도 API로 가져와야 할 수도 있음
       // 현재는 로그인 응답에 사용자 정보가 없으므로 임시로 설정

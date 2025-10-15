@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
+import { deleteAllAuthCookies } from '../utils/cookies';
 
 interface User {
   id: string;
@@ -39,6 +40,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
+    // 쿠키에서 토큰 삭제
+    deleteAllAuthCookies();
+
+    // 상태 초기화
     setUser(null);
     setIsLoggedIn(false);
   };

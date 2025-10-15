@@ -1,24 +1,16 @@
-import { BackIcon } from '../../shared/components/BackIcon';
-import { useNavigation } from '../../shared/context/NavigationContext';
-import * as styles from './style';
+import { BackIcon } from "../../shared/components/BackIcon";
+import { useNavigation } from "../../shared/context/NavigationContext";
+import * as styles from "./style";
 
-interface InterviewCompletePageProps {
-  totalQuestions?: number;
-  finalTime?: string;
-}
-
-export const InterviewCompletePage = ({
-  totalQuestions = 20,
-  finalTime = "30:23"
-}: InterviewCompletePageProps) => {
-  const { navigateToPage } = useNavigation();
+export const InterviewCompletePage = () => {
+  const { navigateToPage, interviewResult } = useNavigation();
 
   const handleBackClick = () => {
-    navigateToPage('main');
+    navigateToPage("main");
   };
 
   const handleCompleteClick = () => {
-    navigateToPage('main');
+    navigateToPage("main");
   };
 
   return (
@@ -29,7 +21,7 @@ export const InterviewCompletePage = ({
           <BackIcon />
           <span className={styles.backText}>면접 종료</span>
         </div>
-        <div className={styles.timer}>{finalTime}</div>
+        <div className={styles.timer}>{interviewResult?.finalTime || '0:00'}</div>
         <div className={styles.spacer}></div>
       </div>
 
@@ -38,17 +30,18 @@ export const InterviewCompletePage = ({
         <div className={styles.completionCard}>
           {/* 질문 완료 수 */}
           <div className={styles.questionCount}>
-            {totalQuestions} / {totalQuestions} 질문
+            {interviewResult?.answeredCount || 0} / {interviewResult?.totalCount || 0} 질문
           </div>
 
           {/* 완료 타이틀 */}
-          <div className={styles.completionTitle}>
-            면접 끝!
-          </div>
+          <div className={styles.completionTitle}>면접 끝!</div>
 
           {/* 완료 버튼 */}
           <div className={styles.footer}>
-            <button className={styles.completeButton} onClick={handleCompleteClick}>
+            <button
+              className={styles.completeButton}
+              onClick={handleCompleteClick}
+            >
               <span className={styles.completeButtonText}>완료</span>
             </button>
           </div>

@@ -9,6 +9,12 @@ interface InterviewSettings {
   amount: number;
 }
 
+interface InterviewResult {
+  answeredCount: number;
+  totalCount: number;
+  finalTime: string;
+}
+
 interface NavigationContextType {
   currentPage: Page;
   isTransitioning: boolean;
@@ -16,10 +22,12 @@ interface NavigationContextType {
   selectedQuestionId: number | null;
   selectedAnswerId: number | null;
   interviewSettings: InterviewSettings | null;
+  interviewResult: InterviewResult | null;
   navigateToPage: (page: Page) => void;
   setSelectedQuestionId: (id: number | null) => void;
   setSelectedAnswerId: (id: number | null) => void;
   setInterviewSettings: (settings: InterviewSettings) => void;
+  setInterviewResult: (result: InterviewResult) => void;
 }
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
@@ -43,6 +51,7 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
   const [selectedQuestionId, setSelectedQuestionId] = useState<number | null>(null);
   const [selectedAnswerId, setSelectedAnswerId] = useState<number | null>(null);
   const [interviewSettings, setInterviewSettings] = useState<InterviewSettings | null>(null);
+  const [interviewResult, setInterviewResult] = useState<InterviewResult | null>(null);
 
   const navigateToPage = (page: Page) => {
     if (page === currentPage) return;
@@ -76,10 +85,10 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
   };
 
   return (
-    <NavigationContext.Provider value={{ currentPage, isTransitioning, isPartialTransition, selectedQuestionId, selectedAnswerId, interviewSettings, navigateToPage, setSelectedQuestionId, setSelectedAnswerId, setInterviewSettings }}>
+    <NavigationContext.Provider value={{ currentPage, isTransitioning, isPartialTransition, selectedQuestionId, selectedAnswerId, interviewSettings, interviewResult, navigateToPage, setSelectedQuestionId, setSelectedAnswerId, setInterviewSettings, setInterviewResult }}>
       {children}
     </NavigationContext.Provider>
   );
 };
 
-export type { InterviewSettings };
+export type { InterviewSettings, InterviewResult };

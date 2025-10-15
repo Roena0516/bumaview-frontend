@@ -4,6 +4,7 @@ import { BackIcon } from '../../shared/components/BackIcon';
 import { useNavigation } from '../../shared/context/NavigationContext';
 import { useToast } from '../../shared/context/ToastContext';
 import { signup } from '../../api/signup';
+import { setCookie } from '../../shared/utils/cookies';
 import * as styles from './style';
 
 export const SignupPage = () => {
@@ -69,9 +70,17 @@ export const SignupPage = () => {
       // 회원가입 성공
       showToast('회원가입이 완료되었습니다!', 'success');
 
-      // 토큰 저장 (선택적)
-      localStorage.setItem('accessToken', response.accessToken);
-      localStorage.setItem('refreshToken', response.refreshToken);
+      // 토큰 저장 (쿠키 사용)
+      setCookie('accessToken', response.accessToken, {
+        days: 1, // 1일 유효
+        secure: true,
+        sameSite: 'Strict'
+      });
+      setCookie('refreshToken', response.refreshToken, {
+        days: 7, // 7일 유효
+        secure: true,
+        sameSite: 'Strict'
+      });
 
       // 로그인 페이지로 이동
       navigateToPage('login');

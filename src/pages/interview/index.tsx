@@ -9,7 +9,7 @@ import type { RandomQuestion } from '../../api/getRandomQuestions';
 import * as styles from './style';
 
 export const InterviewPage = () => {
-  const { navigateToPage, interviewSettings } = useNavigation();
+  const { navigateToPage, interviewSettings, setInterviewResult } = useNavigation();
   const { showToast } = useToast();
   const [questions, setQuestions] = useState<RandomQuestion[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -142,6 +142,13 @@ export const InterviewPage = () => {
           setPrevQuestionIndex(-1);
         }, 300);
       } else {
+        // 답변한 질문 수 계산 (빈 답변 제외)
+        const answeredCount = newAnswers.filter(ans => ans.trim() !== '').length;
+        setInterviewResult({
+          answeredCount,
+          totalCount: totalQuestions,
+          finalTime: formatTime(timeElapsed)
+        });
         navigateToPage('interview-complete');
       }
     }, 1000);
@@ -201,6 +208,13 @@ export const InterviewPage = () => {
           setPrevQuestionIndex(-1);
         }, 300);
       } else {
+        // 답변한 질문 수 계산 (빈 답변 제외)
+        const answeredCount = newAnswers.filter(ans => ans.trim() !== '').length;
+        setInterviewResult({
+          answeredCount,
+          totalCount: totalQuestions,
+          finalTime: formatTime(timeElapsed)
+        });
         navigateToPage('interview-complete');
       }
     }, 1000);
