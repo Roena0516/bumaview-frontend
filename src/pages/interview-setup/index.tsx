@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Input, Dropdown } from '../../shared/components';
 import { BackIcon } from '../../shared/components/BackIcon';
 import { useNavigation } from '../../shared/context/NavigationContext';
 import { useToast } from '../../shared/context/ToastContext';
-import { getUniqueCompanies, getUniqueFields, getUniqueYears } from '../../shared/data/mockQuestions';
+import { getQuestions, type Question } from '../../api/questions';
 import * as styles from './style';
 
 export const InterviewSetupPage = () => {
@@ -13,11 +13,36 @@ export const InterviewSetupPage = () => {
   const [companyName, setCompanyName] = useState('');
   const [field, setField] = useState('');
   const [year, setYear] = useState('');
+  const [questions, setQuestions] = useState<Question[]>([]);
+
+  // 질문 목록 가져오기
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await getQuestions();
+        setQuestions(response);
+      } catch (error) {
+        console.error('Failed to fetch questions:', error);
+      }
+    };
+    fetchQuestions();
+  }, []);
 
   // 동적으로 옵션 생성
-  const companyOptions = ['전부', ...getUniqueCompanies()];
-  const fieldOptions = ['전부', ...getUniqueFields()];
-  const yearOptions = ['전부', ...getUniqueYears().map(y => y.toString())];
+  const companyOptions = useMemo(() => {
+    const unique = Array.from(new Set(questions.map(q => q.company).filter(c => c && c.trim() !== '')));
+    return ['전부', ...unique.sort()];
+  }, [questions]);
+
+  const fieldOptions = useMemo(() => {
+    const unique = Array.from(new Set(questions.map(q => q.category).filter(c => c && c.trim() !== '')));
+    return ['전부', ...unique.sort()];
+  }, [questions]);
+
+  const yearOptions = useMemo(() => {
+    const unique = Array.from(new Set(questions.map(q => q.questionAt).filter(y => y && y.trim() !== '')));
+    return ['전부', ...unique.sort((a, b) => b.localeCompare(a))]; // 최신순
+  }, [questions]);
 
   const handleBackClick = () => {
     navigateToPage('main');

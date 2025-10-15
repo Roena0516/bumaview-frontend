@@ -3,7 +3,7 @@ import { css } from '@emotion/css';
 export const myPageContainer = css`
   background: white;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
@@ -112,14 +112,12 @@ export const logoutButton = css`
 `;
 
 export const content = css`
-  flex: 1;
   width: 100%;
   padding: 48px 72px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  overflow-y: auto;
 `;
 
 export const infoSection = css`

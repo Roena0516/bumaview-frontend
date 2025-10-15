@@ -1,13 +1,22 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { css, keyframes } from '@emotion/css';
 import { Input } from './Input';
 import { Dropdown } from './Dropdown';
+
+interface Question {
+  id: number;
+  content: string;
+  company: string;
+  category: string;
+  questionAt: string;
+}
 
 interface AddQuestionModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAdd: (data: AddQuestionData) => void;
   onExcelUpload?: () => void;
+  questions?: Question[];
 }
 
 export interface AddQuestionData {
@@ -214,16 +223,22 @@ const addButtonStyle = css`
   }
 `;
 
-// 드롭다운 옵션들
-const categoryOptions = ['전부', '백엔드', '프론트엔드', 'AI', '데브옵스', '기타'];
-const currentYear = new Date().getFullYear();
-const yearOptions = ['전부', ...Array.from({ length: 10 }, (_, i) => (currentYear - i).toString())];
-
-export const AddQuestionModal = ({ isOpen, onClose, onAdd, onExcelUpload }: AddQuestionModalProps) => {
+export const AddQuestionModal = ({ isOpen, onClose, onAdd, onExcelUpload, questions = [] }: AddQuestionModalProps) => {
   const [content, setContent] = useState('');
   const [company, setCompany] = useState('');
   const [category, setCategory] = useState('');
   const [questionAt, setQuestionAt] = useState('');
+
+  // 질문 목록에서 고유한 값들 추출
+  const categoryOptions = useMemo(() => {
+    const unique = Array.from(new Set(questions.map(q => q.category).filter(c => c && c.trim() !== '')));
+    return ['전부', ...unique.sort()];
+  }, [questions]);
+
+  const questionAtOptions = useMemo(() => {
+    const unique = Array.from(new Set(questions.map(q => q.questionAt).filter(y => y && y.trim() !== '')));
+    return ['전부', ...unique.sort((a, b) => b.localeCompare(a))]; // 최신순
+  }, [questions]);
 
   if (!isOpen) return null;
 

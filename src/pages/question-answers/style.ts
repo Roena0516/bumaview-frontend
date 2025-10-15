@@ -1,5 +1,14 @@
 import { css, keyframes } from '@emotion/css';
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
 export const questionAnswersContainer = css`
   background: white;
   width: 100vw;
@@ -7,6 +16,7 @@ export const questionAnswersContainer = css`
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
+  animation: ${fadeIn} 0.2s ease-out;
 `;
 
 export const header = css`

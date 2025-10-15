@@ -263,6 +263,7 @@ export const AdminPage = () => {
         onClose={handleAddModalClose}
         onAdd={handleAddQuestion}
         onExcelUpload={handleExcelUploadClick}
+        questions={questions}
       />
 
       {/* 파일 업로드 모달 */}

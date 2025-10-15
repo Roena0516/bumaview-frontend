@@ -253,6 +253,7 @@ export const MainPage = () => {
         isOpen={isFilterModalOpen}
         onClose={handleFilterModalClose}
         onApply={handleFilterApply}
+        questions={questions}
       />
     </div>
   );

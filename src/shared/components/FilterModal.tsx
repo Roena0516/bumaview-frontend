@@ -1,14 +1,22 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { css, keyframes } from '@emotion/css';
 import { Input } from './Input';
 import { Dropdown } from './Dropdown';
 import { Button } from './Button';
-import { getUniqueCompanies, getUniqueFields, getUniqueYears } from '../data/mockQuestions';
+
+interface Question {
+  id: number;
+  content: string;
+  company: string;
+  category: string;
+  questionAt: string;
+}
 
 interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
   onApply: (filters: FilterData) => void;
+  questions?: Question[];
 }
 
 export interface FilterData {
@@ -165,17 +173,28 @@ const applyButtonStyle = css`
   }
 `;
 
-export const FilterModal = ({ isOpen, onClose, onApply }: FilterModalProps) => {
+export const FilterModal = ({ isOpen, onClose, onApply, questions = [] }: FilterModalProps) => {
   const [company, setCompany] = useState('');
   const [category, setCategory] = useState('');
   const [question_at, setQuestionAt] = useState('');
 
-  if (!isOpen) return null;
+  // 질문 목록에서 고유한 값들 추출
+  const companyOptions = useMemo(() => {
+    const unique = Array.from(new Set(questions.map(q => q.company).filter(c => c && c.trim() !== '')));
+    return ['전부', ...unique.sort()];
+  }, [questions]);
 
-  // 동적으로 옵션 생성
-  const companyOptions = ['전부', ...getUniqueCompanies()];
-  const categoryOptions = ['전부', ...getUniqueFields()];
-  const questionAtOptions = ['전부', ...getUniqueYears().map(y => y.toString())];
+  const categoryOptions = useMemo(() => {
+    const unique = Array.from(new Set(questions.map(q => q.category).filter(c => c && c.trim() !== '')));
+    return ['전부', ...unique.sort()];
+  }, [questions]);
+
+  const questionAtOptions = useMemo(() => {
+    const unique = Array.from(new Set(questions.map(q => q.questionAt).filter(y => y && y.trim() !== '')));
+    return ['전부', ...unique.sort((a, b) => b.localeCompare(a))]; // 최신순
+  }, [questions]);
+
+  if (!isOpen) return null;
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
