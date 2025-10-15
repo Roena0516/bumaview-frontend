@@ -1,4 +1,5 @@
 import { css } from '@emotion/css';
+import { pxToRem } from '../../shared/utils/pxToRem';
 
 export const interviewSetupContainer = css`
   background: white;
@@ -10,18 +11,18 @@ export const interviewSetupContainer = css`
 export const header = css`
   background: rgba(255, 203, 207, 0.8);
   width: 100%;
-  height: 75px;
+  height: ${pxToRem(75)};
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 32px;
+  padding: ${pxToRem(10)} ${pxToRem(32)};
   box-sizing: border-box;
 `;
 
 export const backSection = css`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: ${pxToRem(8)};
   cursor: pointer;
   color: #1a1515;
   flex: 1;
@@ -34,14 +35,14 @@ export const backSection = css`
 
 export const backText = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   line-height: normal;
 `;
 
 export const timer = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 24px;
+  font-size: ${pxToRem(24)};
   font-weight: 500;
   color: #1a1515;
   line-height: normal;
@@ -54,38 +55,38 @@ export const mainContent = css`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: calc(100vh - 75px);
-  padding: 32px 250px;
+  height: calc(100vh - ${pxToRem(75)});
+  padding: ${pxToRem(32)} ${pxToRem(250)};
   box-sizing: border-box;
 `;
 
 export const modal = css`
   background: white;
-  border-radius: 16px;
-  width: 780px;
+  border-radius: ${pxToRem(16)};
+  width: ${pxToRem(780)};
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: ${pxToRem(30)};
 `;
 
 export const formFields = css`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: ${pxToRem(20)};
 `;
 
 export const fieldGroup = css`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 8px 16px;
-  width: 780px;
+  gap: ${pxToRem(10)};
+  padding: ${pxToRem(8)} ${pxToRem(16)};
+  width: ${pxToRem(780)};
   box-sizing: border-box;
 `;
 
 export const fieldLabel = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #1a1515;
   line-height: normal;
@@ -93,28 +94,28 @@ export const fieldLabel = css`
 
 export const fieldInput = css`
   width: 100%;
-  height: 45px;
+  height: ${pxToRem(45)};
 `;
 
 export const buttonSection = css`
   display: flex;
-  gap: 12px;
+  gap: ${pxToRem(12)};
   justify-content: flex-end;
-  padding: 8px 16px;
+  padding: ${pxToRem(8)} ${pxToRem(16)};
   width: 100%;
   box-sizing: border-box;
 `;
 
 export const cancelButton = css`
   background: rgba(197, 197, 197, 0.8);
-  border-radius: 8px;
-  width: 120px;
-  height: 45px;
+  border-radius: ${pxToRem(8)};
+  width: ${pxToRem(120)};
+  height: ${pxToRem(45)};
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 10px;
+  padding: ${pxToRem(10)};
   box-sizing: border-box;
 
   &:hover {
@@ -124,7 +125,7 @@ export const cancelButton = css`
 
 export const cancelButtonText = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 500;
   color: #1a1515;
   line-height: normal;
@@ -134,14 +135,14 @@ export const cancelButtonText = css`
 
 export const startButton = css`
   background: rgba(255, 203, 207, 0.8);
-  border-radius: 8px;
-  width: 120px;
-  height: 45px;
+  border-radius: ${pxToRem(8)};
+  width: ${pxToRem(120)};
+  height: ${pxToRem(45)};
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 10px;
+  padding: ${pxToRem(10)};
   box-sizing: border-box;
 
   &:hover {
@@ -151,7 +152,7 @@ export const startButton = css`
 
 export const startButtonText = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 500;
   color: #1a1515;
   line-height: normal;
@@ -161,16 +162,16 @@ export const startButtonText = css`
 
 export const fieldRow = css`
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   width: 100%;
 `;
 
 export const halfFieldGroup = css`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 8px 16px;
-  width: 385px;
+  gap: ${pxToRem(10)};
+  padding: ${pxToRem(8)} ${pxToRem(16)};
+  width: ${pxToRem(385)};
   box-sizing: border-box;
 `;
 

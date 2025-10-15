@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { css } from '@emotion/css';
+import { pxToRem } from '../utils/pxToRem';
 
 interface FileUploadModalProps {
   isOpen: boolean;
@@ -105,18 +106,18 @@ const overlay = css`
 
 const modal = css`
   background: white;
-  width: 600px;
-  border-radius: 16px;
-  padding: 40px;
+  width: ${pxToRem(600)};
+  border-radius: ${pxToRem(16)};
+  padding: ${pxToRem(40)};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: ${pxToRem(20)};
 `;
 
 const modalTitle = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 24px;
+  font-size: ${pxToRem(24)};
   font-weight: 600;
   color: #1a1515;
   line-height: normal;
@@ -128,13 +129,13 @@ const inputContainer = css`
 
 const fileInput = css`
   width: 100%;
-  height: 50px;
-  border: 1px solid #c47e7e;
-  border-radius: 8px;
-  padding: 10px 20px;
+  height: ${pxToRem(50)};
+  border: ${pxToRem(1)} solid #c47e7e;
+  border-radius: ${pxToRem(8)};
+  padding: ${pxToRem(10)} ${pxToRem(20)};
   box-sizing: border-box;
   font-family: 'Pretendard', sans-serif;
-  font-size: 16px;
+  font-size: ${pxToRem(16)};
   font-weight: 400;
   color: #1a1515;
   background: white;
@@ -152,13 +153,13 @@ const fileInput = css`
 const uploadButton = css`
   background: rgba(255, 203, 207, 0.8);
   width: 100%;
-  height: 50px;
+  height: ${pxToRem(50)};
   border: none;
-  border-radius: 8px;
-  padding: 10px;
+  border-radius: ${pxToRem(8)};
+  padding: ${pxToRem(10)};
   box-sizing: border-box;
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   font-weight: 500;
   color: #1a1515;
   cursor: pointer;
@@ -173,7 +174,7 @@ const uploadButton = css`
 
 const linkText = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
+  font-size: ${pxToRem(14)};
   font-weight: 400;
   color: #868686;
   cursor: pointer;
@@ -186,22 +187,22 @@ const linkText = css`
 
 const buttonContainer = css`
   display: flex;
-  gap: 12px;
+  gap: ${pxToRem(12)};
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: ${pxToRem(10)};
 `;
 
 const cancelButton = css`
   background: rgba(134, 134, 134, 0.2);
-  width: 120px;
-  height: 50px;
+  width: ${pxToRem(120)};
+  height: ${pxToRem(50)};
   border: none;
-  border-radius: 8px;
-  padding: 10px;
+  border-radius: ${pxToRem(8)};
+  padding: ${pxToRem(10)};
   box-sizing: border-box;
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   font-weight: 500;
   color: #1a1515;
   cursor: pointer;
@@ -213,14 +214,14 @@ const cancelButton = css`
 
 const confirmButton = css`
   background: rgba(255, 203, 207, 0.8);
-  width: 120px;
-  height: 50px;
+  width: ${pxToRem(120)};
+  height: ${pxToRem(50)};
   border: none;
-  border-radius: 8px;
-  padding: 10px;
+  border-radius: ${pxToRem(8)};
+  padding: ${pxToRem(10)};
   box-sizing: border-box;
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   font-weight: 500;
   color: #1a1515;
   cursor: pointer;

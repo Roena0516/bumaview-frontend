@@ -1,5 +1,6 @@
 import { css } from '@emotion/css';
 import { SearchIcon } from './SearchIcon';
+import { pxToRem } from '../utils/pxToRem';
 
 interface InputProps {
   placeholder?: string;
@@ -13,17 +14,17 @@ interface InputProps {
 const searchContainerStyle = css`
   background: white;
   position: relative;
-  border-radius: 8px;
+  border-radius: ${pxToRem(8)};
   width: 100%;
   height: 100%;
-  border: 1px solid #c47e7e;
+  border: ${pxToRem(1)} solid #c47e7e;
 `;
 
 const searchContentStyle = css`
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 20px;
+  gap: ${pxToRem(10)};
+  padding: ${pxToRem(10)} ${pxToRem(20)};
   height: 100%;
 `;
 
@@ -31,12 +32,12 @@ const searchInputContainerStyle = css`
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: ${pxToRem(10)};
 `;
 
 const searchInputStyle = css`
   flex: 1;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   color: #1a1515;
   background: transparent;
   border: none;
@@ -50,15 +51,15 @@ const searchInputStyle = css`
 `;
 
 const iconContainerStyle = css`
-  width: 20px;
-  height: 20px;
+  width: ${pxToRem(20)};
+  height: ${pxToRem(20)};
   color: #666;
 `;
 
 const defaultContainerStyle = css`
   background: white;
   position: relative;
-  border-radius: 8px;
+  border-radius: ${pxToRem(8)};
   width: 100%;
   height: 100%;
 `;
@@ -66,12 +67,12 @@ const defaultContainerStyle = css`
 const defaultInputStyle = css`
   width: 100%;
   height: 100%;
-  padding: 10px 20px;
-  font-size: 18px;
+  padding: ${pxToRem(10)} ${pxToRem(20)};
+  font-size: ${pxToRem(18)};
   color: #1a1515;
   background: transparent;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border: ${pxToRem(1)} solid #ccc;
+  border-radius: ${pxToRem(8)};
   outline: none;
   font-weight: 400;
   font-family: 'Pretendard', sans-serif;

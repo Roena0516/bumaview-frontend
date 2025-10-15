@@ -1,4 +1,5 @@
 import { css, keyframes } from '@emotion/css';
+import { pxToRem } from '../../shared/utils/pxToRem';
 
 const fadeIn = keyframes`
   from {
@@ -30,8 +31,8 @@ export const header = css`
   background: white;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 20px 40px;
+  gap: ${pxToRem(10)};
+  padding: ${pxToRem(20)} ${pxToRem(40)};
   width: 100%;
   box-sizing: border-box;
 `;
@@ -45,7 +46,7 @@ export const headerContent = css`
 
 export const logo = css`
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -57,7 +58,7 @@ export const logo = css`
 
 export const logoText = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 30px;
+  font-size: ${pxToRem(30)};
   color: #1a1515;
   line-height: normal;
 
@@ -73,10 +74,10 @@ export const logoText = css`
 
 export const navigation = css`
   display: flex;
-  gap: 35px;
+  gap: ${pxToRem(35)};
   align-items: center;
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   color: #1a1515;
   font-weight: 400;
   cursor: pointer;
@@ -89,9 +90,9 @@ export const navigation = css`
 export const heroSection = css`
   background: rgba(255, 203, 207, 0.8);
   display: flex;
-  gap: 10px;
-  height: 190px;
-  padding: 14px 120px;
+  gap: ${pxToRem(10)};
+  height: ${pxToRem(190)};
+  padding: ${pxToRem(14)} ${pxToRem(120)};
   width: 100%;
   align-items: flex-start;
   justify-content: flex-start;
@@ -102,7 +103,7 @@ export const heroTitle = css`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   height: 100%;
   align-items: flex-start;
   justify-content: center;
@@ -111,21 +112,21 @@ export const heroTitle = css`
 
 export const heroMainTitle = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 40px;
+  font-size: ${pxToRem(40)};
   font-weight: 500;
   line-height: normal;
 `;
 
 export const heroSubTitle = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 32px;
+  font-size: ${pxToRem(32)};
   font-weight: 400;
   line-height: normal;
 `;
 
 export const heroButton = css`
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   height: 100%;
   align-items: center;
   justify-content: flex-end;
@@ -135,8 +136,8 @@ export const contentSection = css`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 30px 72px;
+  gap: ${pxToRem(16)};
+  padding: ${pxToRem(30)} ${pxToRem(72)};
   width: 100%;
   align-items: center;
   justify-content: flex-start;
@@ -147,13 +148,13 @@ export const contentTitle = css`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 4px 0;
+  padding: ${pxToRem(4)} 0;
   width: 100%;
 `;
 
 export const contentTitleText = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 40px;
+  font-size: ${pxToRem(40)};
   font-weight: 500;
   color: #1a1515;
   line-height: normal;
@@ -162,7 +163,7 @@ export const contentTitleText = css`
 export const searchArea = css`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: ${pxToRem(15)};
   align-items: center;
   justify-content: flex-start;
   width: 100%;
@@ -170,7 +171,7 @@ export const searchArea = css`
 
 export const searchTop = css`
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: center;
   justify-content: flex-start;
   width: 100%;
@@ -180,20 +181,20 @@ export const searchInputContainer = css`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 8px 0;
+  gap: ${pxToRem(6)};
+  padding: ${pxToRem(8)} 0;
   min-width: 0;
 `;
 
 export const searchInput = css`
   background: white;
-  border-radius: 8px;
+  border-radius: ${pxToRem(8)};
   width: 100%;
-  height: 45px;
+  height: ${pxToRem(45)};
 `;
 
 export const filterButton = css`
-  width: 120px;
+  width: ${pxToRem(120)};
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -203,9 +204,9 @@ export const questionsContainer = css`
   background: rgba(255, 203, 207, 0.8);
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 18px 30px 24px;
-  border-radius: 8px;
+  gap: ${pxToRem(12)};
+  padding: ${pxToRem(18)} ${pxToRem(30)} ${pxToRem(24)};
+  border-radius: ${pxToRem(8)};
   align-items: center;
   justify-content: flex-start;
   width: 100%;
@@ -216,14 +217,14 @@ export const questionsHeader = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  padding: 0 ${pxToRem(24)};
   width: 100%;
 `;
 
 export const questionsHeaderContent = css`
   flex: 1;
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #868686;
   text-align: center;
@@ -232,11 +233,11 @@ export const questionsHeaderContent = css`
 
 export const questionsHeaderDetail = css`
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: center;
   justify-content: flex-end;
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #868686;
   line-height: normal;
@@ -245,7 +246,7 @@ export const questionsHeaderDetail = css`
 const fadeInUp = keyframes`
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(${pxToRem(20)});
   }
   to {
     opacity: 1;
@@ -256,12 +257,12 @@ const fadeInUp = keyframes`
 export const questionItem = css`
   background: white;
   display: flex;
-  gap: 16px;
+  gap: ${pxToRem(16)};
   align-items: center;
   justify-content: center;
-  padding: 16px 24px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+  padding: ${pxToRem(16)} ${pxToRem(24)};
+  border-radius: ${pxToRem(8)};
+  box-shadow: ${pxToRem(0)} ${pxToRem(2)} ${pxToRem(4)} ${pxToRem(0)} rgba(0, 0, 0, 0.1);
   width: 100%;
   box-sizing: border-box;
   cursor: pointer;
@@ -270,8 +271,8 @@ export const questionItem = css`
 
   &:hover {
     background: #f8f8f8;
-    transform: translateY(-1px);
-    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15);
+    transform: translateY(${pxToRem(-1)});
+    box-shadow: ${pxToRem(0)} ${pxToRem(4)} ${pxToRem(8)} ${pxToRem(0)} rgba(0, 0, 0, 0.15);
   }
 
   &:nth-child(2) { animation-delay: 0.1s; }
@@ -294,7 +295,7 @@ export const questionItem = css`
 export const questionContent = css`
   flex: 1;
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: center;
   justify-content: flex-start;
   min-width: 0;
@@ -303,7 +304,7 @@ export const questionContent = css`
 export const questionText = css`
   flex: 1;
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #1a1515;
   line-height: normal;
@@ -314,11 +315,11 @@ export const questionText = css`
 
 export const questionDetail = css`
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: center;
   justify-content: flex-end;
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #868686;
   line-height: normal;
@@ -327,15 +328,15 @@ export const questionDetail = css`
 
 export const detailColumn = css`
   &.company {
-    width: 150px;
+    width: ${pxToRem(150)};
   }
 
   &.field {
-    width: 100px;
+    width: ${pxToRem(100)};
   }
 
   &.year {
-    width: 48px;
+    width: ${pxToRem(48)};
     text-align: right;
   }
 `;
@@ -344,10 +345,10 @@ export const loadingContainer = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  padding: ${pxToRem(40)} ${pxToRem(20)};
   color: #868686;
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   font-weight: 400;
 `;
 
@@ -355,9 +356,9 @@ export const emptyContainer = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  padding: ${pxToRem(40)} ${pxToRem(20)};
   color: #868686;
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   font-weight: 400;
 `;

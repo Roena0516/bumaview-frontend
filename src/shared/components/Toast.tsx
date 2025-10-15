@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { css, keyframes } from '@emotion/css';
+import { pxToRem } from '../utils/pxToRem';
 
 interface ToastProps {
   message: string;
@@ -32,14 +33,14 @@ const fadeOut = keyframes`
 
 const toastStyle = css`
   background: white;
-  border-radius: 8px;
-  padding: 16px 20px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: ${pxToRem(8)};
+  padding: ${pxToRem(16)} ${pxToRem(20)};
+  box-shadow: ${pxToRem(0)} ${pxToRem(4)} ${pxToRem(12)} rgba(0, 0, 0, 0.15);
   font-family: 'Pretendard', sans-serif;
-  font-size: 16px;
+  font-size: ${pxToRem(16)};
   font-weight: 400;
   color: #1a1515;
-  max-width: 350px;
+  max-width: ${pxToRem(350)};
   animation: ${slideUp} 0.3s ease-out;
 
   &.closing {
@@ -48,15 +49,15 @@ const toastStyle = css`
 `;
 
 const errorStyle = css`
-  border-left: 4px solid #ff4444;
+  border-left: ${pxToRem(4)} solid #ff4444;
 `;
 
 const successStyle = css`
-  border-left: 4px solid #44ff44;
+  border-left: ${pxToRem(4)} solid #44ff44;
 `;
 
 const infoStyle = css`
-  border-left: 4px solid rgba(255, 203, 207, 0.8);
+  border-left: ${pxToRem(4)} solid rgba(255, 203, 207, 0.8);
 `;
 
 export const Toast = ({

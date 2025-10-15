@@ -1,4 +1,5 @@
 import { css, keyframes } from '@emotion/css';
+import { pxToRem } from '../../shared/utils/pxToRem';
 
 const fadeIn = keyframes`
   from {
@@ -22,7 +23,7 @@ export const questionAnswersContainer = css`
 export const header = css`
   background: white;
   width: 100%;
-  padding: 20px 40px;
+  padding: ${pxToRem(20)} ${pxToRem(40)};
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -42,7 +43,7 @@ export const logo = css`
 
 export const logoText = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 30px;
+  font-size: ${pxToRem(30)};
   color: #1a1515;
   line-height: normal;
 
@@ -58,10 +59,10 @@ export const logoText = css`
 
 export const authSection = css`
   display: flex;
-  gap: 35px;
+  gap: ${pxToRem(35)};
   align-items: center;
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #1a1515;
 `;
@@ -76,8 +77,8 @@ export const authLink = css`
 export const questionSection = css`
   background: rgba(255, 203, 207, 0.8);
   width: 100%;
-  height: 190px;
-  padding: 14px 120px;
+  height: ${pxToRem(190)};
+  padding: ${pxToRem(14)} ${pxToRem(120)};
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -86,17 +87,17 @@ export const questionSection = css`
 
 export const pageTitleSection = css`
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  padding: 4px 0;
+  padding: ${pxToRem(4)} 0;
 `;
 
 // 뒤로가기 버튼 컨테이너 (메인 페이지 heroButton과 동일한 스타일)
 export const backButtonContainer = css`
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: center;
   justify-content: center;
 `;
@@ -104,20 +105,20 @@ export const backButtonContainer = css`
 export const questionInfo = css`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   color: #1a1515;
 `;
 
 export const questionTitle = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 40px;
+  font-size: ${pxToRem(40)};
   font-weight: 500;
   line-height: normal;
 `;
 
 export const questionDetail = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 32px;
+  font-size: ${pxToRem(32)};
   font-weight: 400;
   line-height: normal;
 `;
@@ -125,47 +126,47 @@ export const questionDetail = css`
 export const mainContent = css`
   flex: 1;
   width: 100%;
-  padding: 30px 72px;
+  padding: ${pxToRem(30)} ${pxToRem(72)};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: ${pxToRem(16)};
 `;
 
 export const pageTitle = css`
   flex: 1;
   font-family: 'Pretendard', sans-serif;
-  font-size: 40px;
+  font-size: ${pxToRem(40)};
   font-weight: 500;
   color: #1a1515;
   line-height: normal;
-  padding: 4px 0;
+  padding: ${pxToRem(4)} 0;
 `;
 
 export const answersContainer = css`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: ${pxToRem(15)};
 `;
 
 export const answersSection = css`
   background: rgba(255, 203, 207, 0.8);
-  border-radius: 8px;
-  padding: 18px 30px 24px 30px;
+  border-radius: ${pxToRem(8)};
+  padding: ${pxToRem(18)} ${pxToRem(30)} ${pxToRem(24)} ${pxToRem(30)};
   box-sizing: border-box;
-  min-height: 300px;
+  min-height: ${pxToRem(300)};
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: ${pxToRem(12)};
 `;
 
 export const answersHeader = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  padding: 0 ${pxToRem(24)};
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #868686;
 `;
@@ -177,27 +178,27 @@ export const contentHeader = css`
 
 export const detailsHeader = css`
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: center;
 `;
 
 export const nameHeader = css`
-  width: 100px;
+  width: ${pxToRem(100)};
 `;
 
 export const timeHeader = css`
-  width: 70px;
+  width: ${pxToRem(70)};
 `;
 
 export const scoreHeader = css`
-  width: 48px;
+  width: ${pxToRem(48)};
   text-align: right;
 `;
 
 const fadeInUp = keyframes`
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(${pxToRem(20)});
   }
   to {
     opacity: 1;
@@ -207,11 +208,11 @@ const fadeInUp = keyframes`
 
 export const answerItem = css`
   width: 100%;
-  padding: 16px 24px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: ${pxToRem(16)} ${pxToRem(24)};
+  border-radius: ${pxToRem(8)};
+  box-shadow: ${pxToRem(0)} ${pxToRem(2)} ${pxToRem(4)} rgba(0, 0, 0, 0.1);
   display: flex;
-  gap: 16px;
+  gap: ${pxToRem(16)};
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
@@ -221,8 +222,8 @@ export const answerItem = css`
   animation: ${fadeInUp} 0.5s ease-out forwards;
 
   &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(${pxToRem(-1)});
+    box-shadow: ${pxToRem(0)} ${pxToRem(4)} ${pxToRem(8)} rgba(0, 0, 0, 0.15);
   }
 
   &:nth-child(2) { animation-delay: 0.1s; }
@@ -245,7 +246,7 @@ export const answerItem = css`
 export const answerContent = css`
   flex: 1;
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #1a1515;
   line-height: normal;
@@ -256,24 +257,24 @@ export const answerContent = css`
 
 export const answerDetails = css`
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: center;
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #868686;
 `;
 
 export const answerName = css`
-  width: 100px;
+  width: ${pxToRem(100)};
 `;
 
 export const answerTime = css`
-  width: 70px;
+  width: ${pxToRem(70)};
 `;
 
 export const answerScore = css`
-  width: 48px;
+  width: ${pxToRem(48)};
   text-align: right;
 `;
 

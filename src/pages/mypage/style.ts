@@ -1,4 +1,5 @@
 import { css } from '@emotion/css';
+import { pxToRem } from '../../shared/utils/pxToRem';
 
 export const myPageContainer = css`
   background: white;
@@ -12,7 +13,7 @@ export const myPageContainer = css`
 export const header = css`
   background: white;
   width: 100%;
-  padding: 20px 40px;
+  padding: ${pxToRem(20)} ${pxToRem(40)};
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -32,7 +33,7 @@ export const logo = css`
 
 export const logoText = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 30px;
+  font-size: ${pxToRem(30)};
   color: #1a1515;
   line-height: normal;
 
@@ -48,10 +49,10 @@ export const logoText = css`
 
 export const authSection = css`
   display: flex;
-  gap: 35px;
+  gap: ${pxToRem(35)};
   align-items: center;
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #1a1515;
 `;
@@ -66,8 +67,8 @@ export const nickname = css`
 export const heroSection = css`
   background: rgba(255, 203, 207, 0.8);
   width: 100%;
-  height: 190px;
-  padding: 14px 120px;
+  height: ${pxToRem(190)};
+  padding: ${pxToRem(14)} ${pxToRem(120)};
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -78,7 +79,7 @@ export const heroTitle = css`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: flex-start;
   justify-content: center;
   color: #1a1515;
@@ -86,25 +87,25 @@ export const heroTitle = css`
 
 export const heroMainTitle = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 48px;
+  font-size: ${pxToRem(48)};
   font-weight: 500;
   line-height: normal;
 `;
 
 export const logoutButton = css`
   background: white;
-  width: 180px;
-  height: 70px;
+  width: ${pxToRem(180)};
+  height: ${pxToRem(70)};
   border: none;
-  border-radius: 8px;
-  padding: 10px;
+  border-radius: ${pxToRem(8)};
+  padding: ${pxToRem(10)};
   box-sizing: border-box;
   font-family: 'Pretendard', sans-serif;
-  font-size: 26px;
+  font-size: ${pxToRem(26)};
   font-weight: 500;
   color: #1a1515;
   cursor: pointer;
-  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: ${pxToRem(2)} ${pxToRem(4)} ${pxToRem(8)} rgba(0, 0, 0, 0.25);
 
   &:hover {
     opacity: 0.9;
@@ -113,47 +114,47 @@ export const logoutButton = css`
 
 export const content = css`
   width: 100%;
-  padding: 48px 72px;
+  padding: ${pxToRem(48)} ${pxToRem(72)};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: ${pxToRem(24)};
 `;
 
 export const infoSection = css`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: ${pxToRem(15)};
   align-items: center;
 `;
 
 export const infoCard = css`
   background: #ffe8e8;
-  border-radius: 8px;
-  padding: 18px 30px 24px 30px;
+  border-radius: ${pxToRem(8)};
+  padding: ${pxToRem(18)} ${pxToRem(30)} ${pxToRem(24)} ${pxToRem(30)};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: ${pxToRem(12)};
   align-items: center;
 `;
 
 export const infoRow = css`
-  width: 620px;
-  padding: 8px 16px;
+  width: ${pxToRem(620)};
+  padding: ${pxToRem(8)} ${pxToRem(16)};
   box-sizing: border-box;
-  border-radius: 8px;
+  border-radius: ${pxToRem(8)};
   display: flex;
-  gap: 28px;
+  gap: ${pxToRem(28)};
   align-items: center;
   justify-content: flex-start;
 `;
 
 export const infoLabel = css`
-  width: 120px;
+  width: ${pxToRem(120)};
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #1a1515;
   line-height: normal;
@@ -165,7 +166,7 @@ export const infoLabel = css`
 export const infoValue = css`
   flex: 1;
   font-family: 'Pretendard', sans-serif;
-  font-size: 22px;
+  font-size: ${pxToRem(22)};
   font-weight: 600;
   color: #1a1515;
   line-height: normal;
@@ -174,10 +175,10 @@ export const infoValue = css`
 
 export const sectionTitle = css`
   width: 100%;
-  padding: 4px 0;
+  padding: ${pxToRem(4)} 0;
   box-sizing: border-box;
   font-family: 'Pretendard', sans-serif;
-  font-size: 40px;
+  font-size: ${pxToRem(40)};
   font-weight: 500;
   color: #1a1515;
   line-height: normal;
@@ -187,20 +188,20 @@ export const answersSection = css`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: ${pxToRem(15)};
   align-items: center;
 `;
 
 export const answersContainer = css`
   background: #ffe8e8;
   width: 100%;
-  min-height: 300px;
-  border-radius: 8px;
-  padding: 18px 30px 24px 30px;
+  min-height: ${pxToRem(300)};
+  border-radius: ${pxToRem(8)};
+  padding: ${pxToRem(18)} ${pxToRem(30)} ${pxToRem(24)} ${pxToRem(30)};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: ${pxToRem(12)};
 `;
 
 export const answersHeader = css`
@@ -208,10 +209,10 @@ export const answersHeader = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  padding: 0 ${pxToRem(24)};
   box-sizing: border-box;
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #868686;
 `;
@@ -223,23 +224,23 @@ export const contentHeader = css`
 
 export const detailsHeader = css`
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: center;
 `;
 
 export const timeHeader = css`
-  width: 70px;
+  width: ${pxToRem(70)};
 `;
 
 export const scoreHeader = css`
-  width: 48px;
+  width: ${pxToRem(48)};
   text-align: right;
 `;
 
 export const answerItem = css`
   width: 100%;
-  height: 72px;
-  perspective: 1000px;
+  height: ${pxToRem(72)};
+  perspective: ${pxToRem(1000)};
   cursor: pointer;
 `;
 
@@ -266,18 +267,18 @@ export const cardFront = css`
   height: 100%;
   backface-visibility: hidden;
   display: flex;
-  gap: 16px;
+  gap: ${pxToRem(16)};
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: ${pxToRem(16)} ${pxToRem(24)};
+  border-radius: ${pxToRem(8)};
+  box-shadow: ${pxToRem(0)} ${pxToRem(2)} ${pxToRem(4)} rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   transition: all 0.2s ease;
 
   ${answerItem}:hover & {
-    transform: translateY(-1px);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(${pxToRem(-1)});
+    box-shadow: ${pxToRem(0)} ${pxToRem(4)} ${pxToRem(8)} rgba(0, 0, 0, 0.15);
   }
 `;
 
@@ -289,7 +290,7 @@ export const cardBack = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: ${pxToRem(8)};
   box-sizing: border-box;
   transform: rotateX(180deg);
   overflow: hidden;
@@ -302,7 +303,7 @@ export const detailButton = css`
   border: none;
   border-radius: 0;
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   font-weight: 500;
   color: white;
   cursor: pointer;
@@ -324,7 +325,7 @@ export const deleteAnswerButton = css`
   border: none;
   border-radius: 0;
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   font-weight: 500;
   color: white;
   cursor: pointer;
@@ -342,7 +343,7 @@ export const deleteAnswerButton = css`
 export const answerContent = css`
   flex: 1;
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #1a1515;
   line-height: normal;
@@ -353,20 +354,20 @@ export const answerContent = css`
 
 export const answerDetails = css`
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: center;
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #868686;
 `;
 
 export const answerTime = css`
-  width: 70px;
+  width: ${pxToRem(70)};
 `;
 
 export const answerScore = css`
-  width: 48px;
+  width: ${pxToRem(48)};
   text-align: right;
 `;
 

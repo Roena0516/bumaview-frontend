@@ -1,4 +1,5 @@
 import { css } from '@emotion/css';
+import { pxToRem } from '../../shared/utils/pxToRem';
 
 export const loadingContainer = css`
   background: white;
@@ -12,11 +13,11 @@ export const loadingContainer = css`
 export const topBar = css`
   background: rgba(255, 203, 207, 0.8);
   width: 100%;
-  height: 75px;
-  padding: 10px 32px;
+  height: ${pxToRem(75)};
+  padding: ${pxToRem(10)} ${pxToRem(32)};
   box-sizing: border-box;
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: center;
   justify-content: flex-start;
   overflow: hidden;
@@ -25,12 +26,12 @@ export const topBar = css`
 export const exitButton = css`
   flex: 1;
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: center;
   justify-content: flex-start;
   cursor: pointer;
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #1a1515;
   line-height: normal;
@@ -42,7 +43,7 @@ export const exitButton = css`
 
 export const timer = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 24px;
+  font-size: ${pxToRem(24)};
   font-weight: 500;
   color: #1a1515;
   line-height: normal;
@@ -50,17 +51,17 @@ export const timer = css`
 
 export const spacer = css`
   flex: 1;
-  height: 24px;
+  height: ${pxToRem(24)};
 `;
 
 export const content = css`
   flex: 1;
   width: 100%;
-  padding: 32px 250px;
+  padding: ${pxToRem(32)} ${pxToRem(250)};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: ${pxToRem(6)};
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -68,13 +69,13 @@ export const content = css`
 
 export const loadingCard = css`
   background: white;
-  width: 800px;
-  padding: 16px 10px;
+  width: ${pxToRem(800)};
+  padding: ${pxToRem(16)} ${pxToRem(10)};
   box-sizing: border-box;
-  border-radius: 16px;
+  border-radius: ${pxToRem(16)};
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: ${pxToRem(30)};
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -82,7 +83,7 @@ export const loadingCard = css`
 
 export const loadingText = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 32px;
+  font-size: ${pxToRem(32)};
   font-weight: 500;
   color: #1a1515;
   line-height: normal;

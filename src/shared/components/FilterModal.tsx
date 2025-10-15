@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { css, keyframes } from '@emotion/css';
 import { Dropdown } from './Dropdown';
+import { pxToRem } from '../utils/pxToRem';
 
 interface Question {
   id: number;
@@ -59,13 +60,13 @@ const overlayStyle = css`
 
 const modalStyle = css`
   background: white;
-  border-radius: 16px;
-  width: 800px;
+  border-radius: ${pxToRem(16)};
+  width: ${pxToRem(800)};
   max-width: 90vw;
-  padding: 16px 10px 10px;
+  padding: ${pxToRem(16)} ${pxToRem(10)} ${pxToRem(10)};
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: ${pxToRem(30)};
   box-sizing: border-box;
   overflow: visible;
   position: relative;
@@ -75,22 +76,22 @@ const modalStyle = css`
 const contentsStyle = css`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   overflow: visible;
 `;
 
 const fieldGroupStyle = css`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 8px 16px;
-  width: 780px;
+  gap: ${pxToRem(10)};
+  padding: ${pxToRem(8)} ${pxToRem(16)};
+  width: ${pxToRem(780)};
   box-sizing: border-box;
 `;
 
 const fieldLabelStyle = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   color: #1a1515;
   font-weight: 400;
   line-height: normal;
@@ -98,35 +99,35 @@ const fieldLabelStyle = css`
 
 const twoColumnStyle = css`
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   overflow: visible;
 `;
 
 const columnStyle = css`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 8px 16px;
-  width: 385px;
+  gap: ${pxToRem(10)};
+  padding: ${pxToRem(8)} ${pxToRem(16)};
+  width: ${pxToRem(385)};
   box-sizing: border-box;
 `;
 
 const inputStyle = css`
   width: 100%;
-  height: 45px;
+  height: ${pxToRem(45)};
 `;
 
 const dropdownStyle = css`
-  width: 353px;
-  height: 45px;
+  width: ${pxToRem(353)};
+  height: ${pxToRem(45)};
 `;
 
 const buttonsStyle = css`
   display: flex;
-  gap: 12px;
+  gap: ${pxToRem(12)};
   align-items: center;
   justify-content: flex-end;
-  padding: 8px 16px;
+  padding: ${pxToRem(8)} ${pxToRem(16)};
   width: 100%;
   box-sizing: border-box;
 `;
@@ -135,11 +136,11 @@ const cancelButtonStyle = css`
   background: rgba(197, 197, 197, 0.8);
   color: #1a1515;
   border: none;
-  border-radius: 8px;
-  height: 42px;
-  width: 110px;
+  border-radius: ${pxToRem(8)};
+  height: ${pxToRem(42)};
+  width: ${pxToRem(110)};
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   font-weight: 500;
   cursor: pointer;
   display: flex;
@@ -155,11 +156,11 @@ const applyButtonStyle = css`
   background: rgba(255, 203, 207, 0.8);
   color: #1a1515;
   border: none;
-  border-radius: 8px;
-  height: 42px;
-  width: 110px;
+  border-radius: ${pxToRem(8)};
+  height: ${pxToRem(42)};
+  width: ${pxToRem(110)};
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   font-weight: 500;
   cursor: pointer;
   display: flex;

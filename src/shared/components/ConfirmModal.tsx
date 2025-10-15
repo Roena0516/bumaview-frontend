@@ -1,4 +1,5 @@
 import { css, keyframes } from '@emotion/css';
+import { pxToRem } from '../utils/pxToRem';
 
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -46,20 +47,20 @@ const overlayStyle = css`
 
 const modalStyle = css`
   background: white;
-  border-radius: 16px;
-  width: 400px;
+  border-radius: ${pxToRem(16)};
+  width: ${pxToRem(400)};
   max-width: 90vw;
-  padding: 30px 20px 20px;
+  padding: ${pxToRem(30)} ${pxToRem(20)} ${pxToRem(20)};
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: ${pxToRem(20)};
   box-sizing: border-box;
   animation: ${slideUp} 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 `;
 
 const titleStyle = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 500;
   color: #1a1515;
   text-align: center;
@@ -68,7 +69,7 @@ const titleStyle = css`
 
 const messageStyle = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 16px;
+  font-size: ${pxToRem(16)};
   font-weight: 400;
   color: #666;
   text-align: center;
@@ -77,19 +78,19 @@ const messageStyle = css`
 
 const buttonsStyle = css`
   display: flex;
-  gap: 12px;
+  gap: ${pxToRem(12)};
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: ${pxToRem(10)};
 `;
 
 const buttonBaseStyle = css`
   border: none;
-  border-radius: 8px;
-  height: 42px;
-  width: 100px;
+  border-radius: ${pxToRem(8)};
+  height: ${pxToRem(42)};
+  width: ${pxToRem(100)};
   font-family: 'Pretendard', sans-serif;
-  font-size: 16px;
+  font-size: ${pxToRem(16)};
   font-weight: 500;
   cursor: pointer;
   display: flex;

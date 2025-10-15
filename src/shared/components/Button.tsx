@@ -1,4 +1,5 @@
 import { css } from '@emotion/css';
+import { pxToRem } from '../utils/pxToRem';
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -13,7 +14,7 @@ const getButtonStyle = (variant: string, size: string, disabled: boolean = false
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: ${pxToRem(8)};
     border: none;
     font-family: 'Pretendard', sans-serif;
     font-weight: 500;
@@ -31,7 +32,7 @@ const getButtonStyle = (variant: string, size: string, disabled: boolean = false
     ${variant === "primary" && `
       background: white;
       color: #1a1515;
-      box-shadow: 2px 4px 8px 0px rgba(0, 0, 0, 0.25);
+      box-shadow: ${pxToRem(2)} ${pxToRem(4)} ${pxToRem(8)} ${pxToRem(0)} rgba(0, 0, 0, 0.25);
     `}
     ${variant === "filter" && `
       background: rgba(255, 203, 207, 0.8);
@@ -41,15 +42,15 @@ const getButtonStyle = (variant: string, size: string, disabled: boolean = false
 
   const sizeStyle = css`
     ${size === "large" && `
-      height: 70px;
-      font-size: 26px;
-      padding: 10px;
-      width: 162px;
+      height: ${pxToRem(70)};
+      font-size: ${pxToRem(26)};
+      padding: ${pxToRem(10)};
+      width: ${pxToRem(162)};
     `}
     ${size === "medium" && `
-      height: 45px;
-      font-size: 20px;
-      padding: 10px;
+      height: ${pxToRem(45)};
+      font-size: ${pxToRem(20)};
+      padding: ${pxToRem(10)};
       width: 100%;
     `}
   `;

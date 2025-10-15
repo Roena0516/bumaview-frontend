@@ -1,4 +1,5 @@
 import { css, keyframes } from '@emotion/css';
+import { pxToRem } from '../../shared/utils/pxToRem';
 
 export const interviewContainer = css`
   background: white;
@@ -10,18 +11,18 @@ export const interviewContainer = css`
 export const header = css`
   background: rgba(255, 203, 207, 0.8);
   width: 100%;
-  height: 75px;
+  height: ${pxToRem(75)};
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 32px;
+  padding: ${pxToRem(10)} ${pxToRem(32)};
   box-sizing: border-box;
 `;
 
 export const backSection = css`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: ${pxToRem(8)};
   cursor: pointer;
   color: #1a1515;
   flex: 1;
@@ -34,14 +35,14 @@ export const backSection = css`
 
 export const backText = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   line-height: normal;
 `;
 
 export const timer = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 24px;
+  font-size: ${pxToRem(24)};
   font-weight: 500;
   color: #1a1515;
   line-height: normal;
@@ -57,24 +58,24 @@ export const mainContent = css`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100vh - 75px);
-  padding: 32px 250px;
+  height: calc(100vh - ${pxToRem(75)});
+  padding: ${pxToRem(32)} ${pxToRem(250)};
   box-sizing: border-box;
-  gap: 6px;
+  gap: ${pxToRem(6)};
 `;
 
 export const questionHeader = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 343px;
+  padding: 0 ${pxToRem(343)};
   width: 100%;
   box-sizing: border-box;
 `;
 
 export const questionCount = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 400;
   color: #868686;
   line-height: normal;
@@ -105,8 +106,8 @@ const slideInRight = keyframes`
 export const questionSection = css`
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 10px;
+  gap: ${pxToRem(12)};
+  padding: ${pxToRem(10)};
   flex: 1;
   width: 100%;
   box-sizing: border-box;
@@ -120,7 +121,7 @@ export const questionContentWrapper = css`
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: ${pxToRem(12)};
 `;
 
 export const questionAnswerContainer = css`
@@ -131,7 +132,7 @@ export const questionAnswerContainer = css`
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: ${pxToRem(12)};
 
   &.sliding-out {
     animation: ${slideOutLeft} 0.3s ease-in-out;
@@ -147,13 +148,13 @@ export const questionArea = css`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: ${pxToRem(4)};
   width: 100%;
 `;
 
 export const questionText = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 36px;
+  font-size: ${pxToRem(36)};
   font-weight: 500;
   color: #1a1515;
   line-height: normal;
@@ -164,9 +165,9 @@ export const questionDetail = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: ${pxToRem(16)};
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   font-weight: 400;
   color: #868686;
   line-height: normal;
@@ -174,14 +175,14 @@ export const questionDetail = css`
 
 export const answerArea = css`
   background: white;
-  border: 1px solid #c47e7e;
-  border-radius: 8px;
+  border: ${pxToRem(1)} solid #c47e7e;
+  border-radius: ${pxToRem(8)};
   flex: 1;
   width: 100%;
-  padding: 16px 20px;
+  padding: ${pxToRem(16)} ${pxToRem(20)};
   box-sizing: border-box;
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   color: #1a1515;
   resize: none;
   outline: none;
@@ -195,20 +196,20 @@ export const footer = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   width: 100%;
 `;
 
 export const skipButton = css`
   background: rgba(197, 197, 197, 0.8);
-  border-radius: 8px;
-  width: 120px;
-  height: 45px;
+  border-radius: ${pxToRem(8)};
+  width: ${pxToRem(120)};
+  height: ${pxToRem(45)};
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 10px;
+  padding: ${pxToRem(10)};
   box-sizing: border-box;
   border: none;
 
@@ -219,14 +220,14 @@ export const skipButton = css`
 
 export const confirmButton = css`
   background: rgba(255, 203, 207, 0.8);
-  border-radius: 8px;
-  width: 120px;
-  height: 45px;
+  border-radius: ${pxToRem(8)};
+  width: ${pxToRem(120)};
+  height: ${pxToRem(45)};
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 10px;
+  padding: ${pxToRem(10)};
   box-sizing: border-box;
   border: none;
 
@@ -237,7 +238,7 @@ export const confirmButton = css`
 
 export const skipButtonText = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 500;
   color: #1a1515;
   line-height: normal;
@@ -246,7 +247,7 @@ export const skipButtonText = css`
 
 export const confirmButtonText = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   font-weight: 500;
   color: #1a1515;
   line-height: normal;
@@ -268,13 +269,13 @@ export const successOverlay = css`
 
 export const successCheck = css`
   background: #8fff69;
-  width: 100px;
-  height: 100px;
+  width: ${pxToRem(100)};
+  height: ${pxToRem(100)};
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 72px;
+  font-size: ${pxToRem(72)};
   color: white;
   font-weight: 500;
   font-family: 'Pretendard', sans-serif;
@@ -298,13 +299,13 @@ export const successCheck = css`
 
 export const skipMark = css`
   background: #ff6969;
-  width: 100px;
-  height: 100px;
+  width: ${pxToRem(100)};
+  height: ${pxToRem(100)};
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 60px;
+  font-size: ${pxToRem(60)};
   color: white;
   font-weight: 500;
   font-family: 'Pretendard', sans-serif;

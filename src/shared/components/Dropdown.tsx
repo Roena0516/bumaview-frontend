@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { css, keyframes } from '@emotion/css';
 import { DropdownIcon } from './DropdownIcon';
+import { pxToRem } from '../utils/pxToRem';
 
 interface DropdownOption {
   label: string;
@@ -17,10 +18,10 @@ interface DropdownProps {
 const dropdownContainerStyle = css`
   background: white;
   position: relative;
-  border-radius: 8px;
+  border-radius: ${pxToRem(8)};
   width: 100%;
   height: 100%;
-  border: 1px solid #c47e7e;
+  border: ${pxToRem(1)} solid #c47e7e;
   z-index: auto;
 `;
 
@@ -28,13 +29,13 @@ const dropdownButtonStyle = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: ${pxToRem(10)} ${pxToRem(20)};
   width: 100%;
   height: 100%;
   background: transparent;
   border: none;
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   color: #1a1515;
   cursor: pointer;
   outline: none;
@@ -45,8 +46,8 @@ const placeholderStyle = css`
 `;
 
 const iconContainerStyle = css`
-  width: 18px;
-  height: 18px;
+  width: ${pxToRem(18)};
+  height: ${pxToRem(18)};
   color: #666;
   transition: transform 0.2s ease-out;
 
@@ -58,13 +59,13 @@ const iconContainerStyle = css`
 const slideDown = keyframes`
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(${pxToRem(-10)});
     max-height: 0;
   }
   to {
     opacity: 1;
     transform: translateY(0);
-    max-height: 200px;
+    max-height: ${pxToRem(200)};
   }
 `;
 
@@ -74,24 +75,24 @@ const dropdownListStyle = css`
   left: 0;
   right: 0;
   background: white;
-  border: 1px solid #c47e7e;
+  border: ${pxToRem(1)} solid #c47e7e;
   border-top: none;
-  border-radius: 0 0 8px 8px;
+  border-radius: 0 0 ${pxToRem(8)} ${pxToRem(8)};
   z-index: 10000;
-  max-height: 200px;
+  max-height: ${pxToRem(200)};
   overflow-y: auto;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: ${pxToRem(0)} ${pxToRem(4)} ${pxToRem(8)} rgba(0, 0, 0, 0.1);
   animation: ${slideDown} 0.2s ease-out;
   transform-origin: top;
 `;
 
 const dropdownItemStyle = css`
-  padding: 10px 20px;
+  padding: ${pxToRem(10)} ${pxToRem(20)};
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   color: #1a1515;
   cursor: pointer;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: ${pxToRem(1)} solid #f0f0f0;
 
   &:hover {
     background-color: #f8f8f8;

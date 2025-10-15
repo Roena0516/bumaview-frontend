@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { css, keyframes } from '@emotion/css';
 import { Input } from './Input';
 import { Dropdown } from './Dropdown';
+import { pxToRem } from '../utils/pxToRem';
 
 interface Question {
   id: number;
@@ -62,13 +63,13 @@ const overlayStyle = css`
 
 const modalStyle = css`
   background: white;
-  border-radius: 16px;
-  width: 800px;
+  border-radius: ${pxToRem(16)};
+  width: ${pxToRem(800)};
   max-width: 90vw;
-  padding: 16px 26px;
+  padding: ${pxToRem(16)} ${pxToRem(26)};
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: ${pxToRem(30)};
   box-sizing: border-box;
   overflow: visible;
   position: relative;
@@ -78,22 +79,22 @@ const modalStyle = css`
 const contentsStyle = css`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   overflow: visible;
 `;
 
 const fieldGroupStyle = css`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 8px 0;
+  gap: ${pxToRem(10)};
+  padding: ${pxToRem(8)} 0;
   width: 100%;
   box-sizing: border-box;
 `;
 
 const fieldLabelStyle = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: ${pxToRem(20)};
   color: #1a1515;
   font-weight: 400;
   line-height: normal;
@@ -101,13 +102,13 @@ const fieldLabelStyle = css`
 
 const textareaStyle = css`
   width: 100%;
-  height: 77px;
-  padding: 10px 20px;
-  font-size: 18px;
+  height: ${pxToRem(77)};
+  padding: ${pxToRem(10)} ${pxToRem(20)};
+  font-size: ${pxToRem(18)};
   color: #1a1515;
   background: white;
-  border: 1px solid #c47e7e;
-  border-radius: 8px;
+  border: ${pxToRem(1)} solid #c47e7e;
+  border-radius: ${pxToRem(8)};
   outline: none;
   font-weight: 400;
   font-family: 'Pretendard', sans-serif;
@@ -125,32 +126,32 @@ const textareaStyle = css`
 
 const inputWrapperStyle = css`
   width: 100%;
-  height: 45px;
+  height: ${pxToRem(45)};
 `;
 
 const twoColumnStyle = css`
   display: flex;
-  gap: 42px;
+  gap: ${pxToRem(42)};
   overflow: visible;
 `;
 
 const columnStyle = css`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 8px 0;
+  gap: ${pxToRem(10)};
+  padding: ${pxToRem(8)} 0;
   flex: 1;
   box-sizing: border-box;
 `;
 
 const dropdownWrapperStyle = css`
   width: 100%;
-  height: 45px;
+  height: ${pxToRem(45)};
 `;
 
 const bottomSectionStyle = css`
   display: flex;
-  height: 58px;
+  height: ${pxToRem(58)};
   align-items: center;
   justify-content: space-between;
   width: 100%;
@@ -158,7 +159,7 @@ const bottomSectionStyle = css`
 
 const excelLinkStyle = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   font-weight: 500;
   color: black;
   text-align: center;
@@ -172,7 +173,7 @@ const excelLinkStyle = css`
 
 const buttonsStyle = css`
   display: flex;
-  gap: 12px;
+  gap: ${pxToRem(12)};
   align-items: center;
   justify-content: flex-end;
   box-sizing: border-box;
@@ -182,11 +183,11 @@ const cancelButtonStyle = css`
   background: rgba(197, 197, 197, 0.8);
   color: #1a1515;
   border: none;
-  border-radius: 8px;
-  height: 42px;
-  width: 110px;
+  border-radius: ${pxToRem(8)};
+  height: ${pxToRem(42)};
+  width: ${pxToRem(110)};
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   font-weight: 500;
   cursor: pointer;
   display: flex;
@@ -202,11 +203,11 @@ const addButtonStyle = css`
   background: rgba(255, 203, 207, 0.8);
   color: #1a1515;
   border: none;
-  border-radius: 8px;
-  height: 42px;
-  width: 110px;
+  border-radius: ${pxToRem(8)};
+  height: ${pxToRem(42)};
+  width: ${pxToRem(110)};
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   font-weight: 500;
   cursor: pointer;
   display: flex;

@@ -1,4 +1,5 @@
 import { css } from '@emotion/css';
+import { pxToRem } from '../../shared/utils/pxToRem';
 
 export const signupContainer = css`
   background: white;
@@ -10,9 +11,9 @@ export const signupContainer = css`
 export const mainContent = css`
   display: flex;
   flex-direction: column;
-  height: 832px;
+  height: ${pxToRem(832)};
   width: 100%;
-  max-width: 1280px;
+  max-width: ${pxToRem(1280)};
   margin: 0 auto;
   align-items: center;
   justify-content: space-between;
@@ -23,14 +24,14 @@ export const header = css`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 20px;
+  padding: ${pxToRem(20)};
   width: 100%;
   box-sizing: border-box;
 `;
 
 export const backButton = css`
-  width: 44px;
-  height: 44px;
+  width: ${pxToRem(44)};
+  height: ${pxToRem(44)};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,7 +47,7 @@ export const logo = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 78px;
+  width: ${pxToRem(78)};
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -54,7 +55,7 @@ export const logo = css`
 
 export const logoText = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 30px;
+  font-size: ${pxToRem(30)};
   color: #1a1515;
   line-height: normal;
 
@@ -69,31 +70,31 @@ export const logoText = css`
 `;
 
 export const spacer = css`
-  width: 44px;
-  height: 44px;
+  width: ${pxToRem(44)};
+  height: ${pxToRem(44)};
 `;
 
 export const formContainer = css`
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: ${pxToRem(50)};
   align-items: center;
   justify-content: center;
-  width: 456px;
+  width: ${pxToRem(456)};
   overflow: hidden;
 `;
 
 export const titleSection = css`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: center;
   justify-content: flex-start;
 `;
 
 export const title = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 42px;
+  font-size: ${pxToRem(42)};
   font-weight: 400;
   color: #1a1515;
   line-height: normal;
@@ -102,7 +103,7 @@ export const title = css`
 export const formFields = css`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: ${pxToRem(20)};
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
@@ -111,15 +112,15 @@ export const formFields = css`
 export const fieldGroup = css`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: ${pxToRem(5)};
   align-items: flex-start;
   justify-content: flex-start;
-  width: 456px;
+  width: ${pxToRem(456)};
 `;
 
 export const fieldLabel = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   font-weight: 400;
   color: #1a1515;
   line-height: normal;
@@ -128,15 +129,15 @@ export const fieldLabel = css`
 
 export const fieldInput = css`
   background: white;
-  border-radius: 8px;
+  border-radius: ${pxToRem(8)};
   width: 100%;
-  height: 45px;
+  height: ${pxToRem(45)};
 `;
 
 export const passwordFields = css`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
@@ -144,36 +145,36 @@ export const passwordFields = css`
 
 export const passwordInput = css`
   background: white;
-  border-radius: 8px;
-  width: 456px;
-  height: 41px;
+  border-radius: ${pxToRem(8)};
+  width: ${pxToRem(456)};
+  height: ${pxToRem(41)};
 `;
 
 export const signupButton = css`
   background: rgba(255, 203, 207, 0.8);
-  border-radius: 8px;
-  height: 45px;
+  border-radius: ${pxToRem(8)};
+  height: ${pxToRem(45)};
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 10px;
+  padding: ${pxToRem(10)};
   box-sizing: border-box;
 `;
 
 export const loginSection = css`
   display: flex;
-  gap: 10px;
+  gap: ${pxToRem(10)};
   align-items: center;
   justify-content: center;
-  padding: 50px 0;
+  padding: ${pxToRem(50)} 0;
   box-sizing: border-box;
 `;
 
 export const loginLink = css`
   font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
+  font-size: ${pxToRem(18)};
   font-weight: 400;
   color: #868686;
   line-height: normal;
