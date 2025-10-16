@@ -17,7 +17,8 @@ export const InterviewPage = () => {
   const [answer, setAnswer] = useState('');
   const [answers, setAnswers] = useState<string[]>([]);
   const [questionStartTimes, setQuestionStartTimes] = useState<number[]>([]);
-  const [timeElapsed, setTimeElapsed] = useState(0);
+  const [currentQuestionTime, setCurrentQuestionTime] = useState(0);
+  const [totalInterviewTime, setTotalInterviewTime] = useState(0);
   const [showSuccessCheck, setShowSuccessCheck] = useState(false);
   const [showSkipMark, setShowSkipMark] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -77,10 +78,23 @@ export const InterviewPage = () => {
     fetchQuestions();
   }, []);
 
-  // 타이머
+  // 현재 질문에 대한 타이머
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeElapsed(prev => prev + 1);
+      const startTime = questionStartTimes[currentQuestionIndex];
+      if (startTime) {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        setCurrentQuestionTime(elapsed);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [currentQuestionIndex, questionStartTimes]);
+
+  // 전체 면접 시간 타이머
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTotalInterviewTime(prev => prev + 1);
     }, 1000);
 
     return () => clearInterval(timer);
@@ -147,7 +161,7 @@ export const InterviewPage = () => {
         setInterviewResult({
           answeredCount,
           totalCount: totalQuestions,
-          finalTime: formatTime(timeElapsed)
+          finalTime: formatTime(totalInterviewTime)
         });
         navigateToPage('interview-complete');
       }
@@ -213,7 +227,7 @@ export const InterviewPage = () => {
         setInterviewResult({
           answeredCount,
           totalCount: totalQuestions,
-          finalTime: formatTime(timeElapsed)
+          finalTime: formatTime(totalInterviewTime)
         });
         navigateToPage('interview-complete');
       }
@@ -238,7 +252,7 @@ export const InterviewPage = () => {
           <BackIcon />
           <span className={styles.backText}>면접 종료</span>
         </div>
-        <div className={styles.timer}>{formatTime(timeElapsed)}</div>
+        <div className={styles.timer}>{formatTime(currentQuestionTime)}</div>
         <div className={styles.spacer}></div>
       </div>
 
