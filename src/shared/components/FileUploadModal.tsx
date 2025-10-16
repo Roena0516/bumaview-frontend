@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { css } from '@emotion/css';
-import { pxToRem } from '../utils/pxToRem';
+import { useState } from "react";
+import { css } from "@emotion/css";
+import { pxToRem } from "../utils/pxToRem";
 
 interface FileUploadModalProps {
   isOpen: boolean;
@@ -9,7 +9,12 @@ interface FileUploadModalProps {
   onManualAdd?: () => void;
 }
 
-export const FileUploadModal = ({ isOpen, onClose, onUpload, onManualAdd }: FileUploadModalProps) => {
+export const FileUploadModal = ({
+  isOpen,
+  onClose,
+  onUpload,
+  onManualAdd,
+}: FileUploadModalProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -30,7 +35,7 @@ export const FileUploadModal = ({ isOpen, onClose, onUpload, onManualAdd }: File
       setSelectedFile(null);
       onClose();
     } catch (error) {
-      console.error('Upload failed:', error);
+      console.error("Upload failed:", error);
     } finally {
       setIsUploading(false);
     }
@@ -50,13 +55,13 @@ export const FileUploadModal = ({ isOpen, onClose, onUpload, onManualAdd }: File
   return (
     <div className={overlay} onClick={handleCancelClick}>
       <div className={modal} onClick={(e) => e.stopPropagation()}>
-        <div className={modalTitle}>엑셀 업로드</div>
+        <div className={modalTitle}>CSV 업로드</div>
 
         <div className={inputContainer}>
           <input
             type="text"
             className={fileInput}
-            value={selectedFile?.name || ''}
+            value={selectedFile?.name || ""}
             placeholder="파일을 선택해주세요"
             readOnly
           />
@@ -67,12 +72,14 @@ export const FileUploadModal = ({ isOpen, onClose, onUpload, onManualAdd }: File
             type="file"
             accept=".csv,.xlsx,.xls"
             onChange={handleFileChange}
-            style={{ display: 'none' }}
+            style={{ display: "none" }}
           />
           업로드하기
         </label>
 
-        <div className={linkText} onClick={handleManualAddClick}>면접 질문 작성하기 &gt;</div>
+        <div className={linkText} onClick={handleManualAddClick}>
+          면접 질문 작성하기 &gt;
+        </div>
 
         <div className={buttonContainer}>
           <button className={cancelButton} onClick={handleCancelClick}>
@@ -83,7 +90,7 @@ export const FileUploadModal = ({ isOpen, onClose, onUpload, onManualAdd }: File
             onClick={handleUploadClick}
             disabled={!selectedFile || isUploading}
           >
-            {isUploading ? '업로드 중...' : '완료'}
+            {isUploading ? "업로드 중..." : "완료"}
           </button>
         </div>
       </div>
@@ -116,7 +123,7 @@ const modal = css`
 `;
 
 const modalTitle = css`
-  font-family: 'Pretendard', sans-serif;
+  font-family: "Pretendard", sans-serif;
   font-size: ${pxToRem(24)};
   font-weight: 600;
   color: #1a1515;
@@ -134,7 +141,7 @@ const fileInput = css`
   border-radius: ${pxToRem(8)};
   padding: ${pxToRem(10)} ${pxToRem(20)};
   box-sizing: border-box;
-  font-family: 'Pretendard', sans-serif;
+  font-family: "Pretendard", sans-serif;
   font-size: ${pxToRem(16)};
   font-weight: 400;
   color: #1a1515;
@@ -158,7 +165,7 @@ const uploadButton = css`
   border-radius: ${pxToRem(8)};
   padding: ${pxToRem(10)};
   box-sizing: border-box;
-  font-family: 'Pretendard', sans-serif;
+  font-family: "Pretendard", sans-serif;
   font-size: ${pxToRem(18)};
   font-weight: 500;
   color: #1a1515;
@@ -173,7 +180,7 @@ const uploadButton = css`
 `;
 
 const linkText = css`
-  font-family: 'Pretendard', sans-serif;
+  font-family: "Pretendard", sans-serif;
   font-size: ${pxToRem(14)};
   font-weight: 400;
   color: #868686;
@@ -201,7 +208,7 @@ const cancelButton = css`
   border-radius: ${pxToRem(8)};
   padding: ${pxToRem(10)};
   box-sizing: border-box;
-  font-family: 'Pretendard', sans-serif;
+  font-family: "Pretendard", sans-serif;
   font-size: ${pxToRem(18)};
   font-weight: 500;
   color: #1a1515;
@@ -220,7 +227,7 @@ const confirmButton = css`
   border-radius: ${pxToRem(8)};
   padding: ${pxToRem(10)};
   box-sizing: border-box;
-  font-family: 'Pretendard', sans-serif;
+  font-family: "Pretendard", sans-serif;
   font-size: ${pxToRem(18)};
   font-weight: 500;
   color: #1a1515;

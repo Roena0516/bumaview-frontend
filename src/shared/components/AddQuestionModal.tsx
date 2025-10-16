@@ -1,8 +1,8 @@
-import { useState, useMemo } from 'react';
-import { css, keyframes } from '@emotion/css';
-import { Input } from './Input';
-import { Dropdown } from './Dropdown';
-import { pxToRem } from '../utils/pxToRem';
+import { useState, useMemo } from "react";
+import { css, keyframes } from "@emotion/css";
+import { Input } from "./Input";
+import { Dropdown } from "./Dropdown";
+import { pxToRem } from "../utils/pxToRem";
 
 interface Question {
   id: number;
@@ -93,7 +93,7 @@ const fieldGroupStyle = css`
 `;
 
 const fieldLabelStyle = css`
-  font-family: 'Pretendard', sans-serif;
+  font-family: "Pretendard", sans-serif;
   font-size: ${pxToRem(20)};
   color: #1a1515;
   font-weight: 400;
@@ -111,7 +111,7 @@ const textareaStyle = css`
   border-radius: ${pxToRem(8)};
   outline: none;
   font-weight: 400;
-  font-family: 'Pretendard', sans-serif;
+  font-family: "Pretendard", sans-serif;
   resize: none;
   box-sizing: border-box;
 
@@ -158,7 +158,7 @@ const bottomSectionStyle = css`
 `;
 
 const excelLinkStyle = css`
-  font-family: 'Pretendard', sans-serif;
+  font-family: "Pretendard", sans-serif;
   font-size: ${pxToRem(18)};
   font-weight: 500;
   color: black;
@@ -186,7 +186,7 @@ const cancelButtonStyle = css`
   border-radius: ${pxToRem(8)};
   height: ${pxToRem(42)};
   width: ${pxToRem(110)};
-  font-family: 'Pretendard', sans-serif;
+  font-family: "Pretendard", sans-serif;
   font-size: ${pxToRem(18)};
   font-weight: 500;
   cursor: pointer;
@@ -206,7 +206,7 @@ const addButtonStyle = css`
   border-radius: ${pxToRem(8)};
   height: ${pxToRem(42)};
   width: ${pxToRem(110)};
-  font-family: 'Pretendard', sans-serif;
+  font-family: "Pretendard", sans-serif;
   font-size: ${pxToRem(18)};
   font-weight: 500;
   cursor: pointer;
@@ -224,21 +224,35 @@ const addButtonStyle = css`
   }
 `;
 
-export const AddQuestionModal = ({ isOpen, onClose, onAdd, onExcelUpload, questions = [] }: AddQuestionModalProps) => {
-  const [content, setContent] = useState('');
-  const [company, setCompany] = useState('');
-  const [category, setCategory] = useState('');
-  const [questionAt, setQuestionAt] = useState('');
+export const AddQuestionModal = ({
+  isOpen,
+  onClose,
+  onAdd,
+  onExcelUpload,
+  questions = [],
+}: AddQuestionModalProps) => {
+  const [content, setContent] = useState("");
+  const [company, setCompany] = useState("");
+  const [category, setCategory] = useState("");
+  const [questionAt, setQuestionAt] = useState("");
 
   // 질문 목록에서 고유한 값들 추출
   const categoryOptions = useMemo(() => {
-    const unique = Array.from(new Set(questions.map(q => q.category).filter(c => c && c.trim() !== '')));
-    return ['전부', ...unique.sort()];
+    const unique = Array.from(
+      new Set(
+        questions.map((q) => q.category).filter((c) => c && c.trim() !== "")
+      )
+    );
+    return ["전부", ...unique.sort()];
   }, [questions]);
 
   const questionAtOptions = useMemo(() => {
-    const unique = Array.from(new Set(questions.map(q => q.questionAt).filter(y => y && y.trim() !== '')));
-    return ['전부', ...unique.sort((a, b) => b.localeCompare(a))]; // 최신순
+    const unique = Array.from(
+      new Set(
+        questions.map((q) => q.questionAt).filter((y) => y && y.trim() !== "")
+      )
+    );
+    return ["전부", ...unique.sort((a, b) => b.localeCompare(a))]; // 최신순
   }, [questions]);
 
   if (!isOpen) return null;
@@ -250,10 +264,10 @@ export const AddQuestionModal = ({ isOpen, onClose, onAdd, onExcelUpload, questi
   };
 
   const handleCancel = () => {
-    setContent('');
-    setCompany('');
-    setCategory('');
-    setQuestionAt('');
+    setContent("");
+    setCompany("");
+    setCategory("");
+    setQuestionAt("");
     onClose();
   };
 
@@ -264,16 +278,16 @@ export const AddQuestionModal = ({ isOpen, onClose, onAdd, onExcelUpload, questi
 
     onAdd({
       content: content.trim(),
-      company: company || '',
-      category: category === '전부' ? '' : category,
-      question_at: questionAt === '전부' ? '' : questionAt
+      company: company || "",
+      category: category === "전부" ? "" : category,
+      question_at: questionAt === "전부" ? "" : questionAt,
     });
 
     // 폼 초기화
-    setContent('');
-    setCompany('');
-    setCategory('');
-    setQuestionAt('');
+    setContent("");
+    setCompany("");
+    setCategory("");
+    setQuestionAt("");
   };
 
   const handleExcelUploadClick = () => {
@@ -358,7 +372,7 @@ export const AddQuestionModal = ({ isOpen, onClose, onAdd, onExcelUpload, questi
         {/* 하단 섹션: 엑셀 업로드 링크와 버튼들 */}
         <div className={bottomSectionStyle}>
           <div className={excelLinkStyle} onClick={handleExcelUploadClick}>
-            엑셀 파일 업로드하기 &gt;
+            CSV 파일 업로드하기 &gt;
           </div>
           <div className={buttonsStyle}>
             <button className={cancelButtonStyle} onClick={handleCancel}>
